@@ -1,5 +1,6 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
-import { travels, fmtDate, stats } from "@/data/activity";
+import { travels, stats } from "@/data/activity";
+import { ItemCard } from "@/components/ItemCard";
 
 export const Route = createFileRoute("/viagens")({
   component: Page,
@@ -26,18 +27,8 @@ function Page() {
           <p className="text-muted-foreground mt-3 max-w-2xl text-sm md:text-base">Expedições e exploração de cidades pelo mundo.</p>
         </header>
 
-        <div className="divide-y divide-border border-y border-border">
-          {sorted.map((t) => (
-            <article key={t.id} className="py-6 grid grid-cols-12 gap-4 items-start">
-              <span className="col-span-12 sm:col-span-2 font-mono text-[10px] text-muted-foreground tracking-widest pt-1">{fmtDate(t.date)}</span>
-              <div className="col-span-12 sm:col-span-7">
-                <h2 className="text-xl font-bold">{t.title}</h2>
-                {t.subtitle && <p className="text-sm text-muted-foreground mt-1">{t.subtitle}</p>}
-                {t.meta && <p className="text-xs text-muted-foreground mt-2 font-mono">{t.meta}</p>}
-              </div>
-              <span className="col-span-12 sm:col-span-3 sm:text-right font-mono text-[10px] text-primary">+{t.xp} XP</span>
-            </article>
-          ))}
+        <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
+          {sorted.map((t) => <ItemCard key={t.id} {...t} />)}
         </div>
       </div>
     </div>
