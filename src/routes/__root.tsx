@@ -81,6 +81,10 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary" },
       { name: "twitter:site", content: "@Lovable" },
+      { name: "twitter:title", content: "Ricardo Santos — HUD Pessoal" },
+      { name: "twitter:description", content: "Dashboard gamificado com livros, artigos, eventos, projetos, viagens e provas de running." },
+      { property: "og:image", content: "https://pub-bb2e103a32db4e198524a2e9ed8f35b4.r2.dev/4bbc9bdb-1f56-4c85-95c6-34e3b2dade65/id-preview-41f82216--4e0d78d3-e3b8-4350-9029-8ca54bab881d.lovable.app-1778609568044.png" },
+      { name: "twitter:image", content: "https://pub-bb2e103a32db4e198524a2e9ed8f35b4.r2.dev/4bbc9bdb-1f56-4c85-95c6-34e3b2dade65/id-preview-41f82216--4e0d78d3-e3b8-4350-9029-8ca54bab881d.lovable.app-1778609568044.png" },
     ],
     links: [
       { rel: "stylesheet", href: appCss },
