@@ -130,10 +130,10 @@ function Page() {
           <table className="w-full text-sm">
             <thead className="bg-white/[0.03] font-mono text-[10px] uppercase tracking-widest text-muted-foreground">
               <tr>
-                <th className="text-left px-4 py-3 w-28">Data</th>
-                <th className="text-left px-4 py-3">Prova</th>
+                <th className="text-left px-4 py-3 w-28">Date</th>
+                <th className="text-left px-4 py-3">Race</th>
                 <th className="text-center px-3 py-3 w-16">Dist.</th>
-                <th className="text-right px-4 py-3 w-24">Tempo</th>
+                <th className="text-right px-4 py-3 w-24">Time</th>
                 <th className="text-right px-4 py-3 w-20">Link</th>
               </tr>
             </thead>
