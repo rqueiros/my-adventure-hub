@@ -41,18 +41,18 @@ function Page() {
       <div className="max-w-6xl mx-auto animate-fade-up">
         <Link to="/" className="font-mono text-[10px] tracking-[0.3em] text-muted-foreground hover:text-primary uppercase">← Dashboard</Link>
         <header className="mt-6 border-b border-border pb-8 mb-8">
-          <span className="font-mono text-[10px] text-muted-foreground tracking-[0.3em]">06 // FACETA</span>
+          <span className="font-mono text-[10px] text-muted-foreground tracking-[0.3em]">06 // FACET</span>
           <div className="flex flex-wrap items-end justify-between gap-6 mt-3">
-            <h1 className="text-4xl md:text-6xl font-extrabold tracking-tight uppercase">Corridas</h1>
+            <h1 className="text-4xl md:text-6xl font-extrabold tracking-tight uppercase">Running</h1>
             <div className="font-mono text-xs text-muted-foreground">
-              <span className="text-primary font-bold">{stats.running.count}</span> provas
+              <span className="text-primary font-bold">{stats.running.count}</span> races
             </div>
           </div>
         </header>
 
         <p className="text-muted-foreground max-w-3xl mb-10 text-sm md:text-base leading-relaxed">
-          Histórico de provas oficiais de 10K, meia maratona (21K) e maratona (42K). Correr como disciplina
-          paralela à escrita: foco, ritmo e progressão medíveis ano após ano.
+          Official 10K, half marathon (21K) and full marathon (42K) race history since 2016. Running as a
+          discipline parallel to writing: focus, pace and measurable progression year over year.
         </p>
 
         <section className="grid grid-cols-3 gap-4 mb-10">
