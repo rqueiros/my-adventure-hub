@@ -6,8 +6,8 @@ import { running, stats, fmtDate, type Distance } from "@/data/activity";
 export const Route = createFileRoute("/corridas")({
   component: Page,
   head: () => ({ meta: [
-    { title: "Corridas — Ricardo Queirós" },
-    { name: "description", content: "Provas de running 10K, 21K e 42K." },
+    { title: "Running — Ricardo Queirós" },
+    { name: "description", content: "10K, 21K and 42K race results." },
   ]}),
 });
 
