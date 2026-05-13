@@ -1,12 +1,26 @@
+import {
+  BookOpen, FileText, Mic, Boxes, Plane, Footprints,
+  type LucideIcon,
+} from "lucide-react";
+
 export type Facet = "books" | "articles" | "events" | "projects" | "travels" | "running";
 
-export const facetMeta: Record<Facet, { code: string; label: string; path: string; unit: string }> = {
-  books:    { code: "01", label: "LIVROS",    path: "/livros",    unit: "Publicados" },
-  articles: { code: "02", label: "ARTIGOS",   path: "/artigos",   unit: "Publicados" },
-  events:   { code: "03", label: "EVENTOS",   path: "/eventos",   unit: "Realizados" },
-  projects: { code: "04", label: "PROJETOS",  path: "/projetos",  unit: "Ativos" },
-  travels:  { code: "05", label: "VIAGENS",   path: "/viagens",   unit: "Países" },
-  running:  { code: "06", label: "CORRIDAS",  path: "/corridas",  unit: "Provas" },
+export const facetMeta: Record<Facet, {
+  code: string; label: string; path: string; unit: string;
+  icon: LucideIcon; color: string; bg: string; border: string;
+}> = {
+  books:    { code: "01", label: "BOOKS",    path: "/livros",   unit: "Published",
+              icon: BookOpen,   color: "text-amber-400",  bg: "bg-amber-400/10",  border: "border-amber-400/40" },
+  articles: { code: "02", label: "ARTICLES", path: "/artigos",  unit: "Published",
+              icon: FileText,   color: "text-cyan-400",   bg: "bg-cyan-400/10",   border: "border-cyan-400/40" },
+  events:   { code: "03", label: "EVENTS",   path: "/eventos",  unit: "Delivered",
+              icon: Mic,        color: "text-fuchsia-400",bg: "bg-fuchsia-400/10",border: "border-fuchsia-400/40" },
+  projects: { code: "04", label: "PROJECTS", path: "/projetos", unit: "Active",
+              icon: Boxes,      color: "text-emerald-400",bg: "bg-emerald-400/10",border: "border-emerald-400/40" },
+  travels:  { code: "05", label: "TRAVELS",  path: "/viagens",  unit: "Countries",
+              icon: Plane,      color: "text-sky-400",    bg: "bg-sky-400/10",    border: "border-sky-400/40" },
+  running:  { code: "06", label: "RUNNING",  path: "/corridas", unit: "Races",
+              icon: Footprints, color: "text-primary",    bg: "bg-primary/10",    border: "border-primary/40" },
 };
 
 export type Item = {
@@ -21,21 +35,26 @@ export type Item = {
 
 const img = (id: string) => `https://images.unsplash.com/${id}?auto=format&fit=crop&w=1200&q=80`;
 
-export const books: Item[] = [
-  { id: "b3", title: "Sistemas que Aprendem", subtitle: "Editorial Presença", date: "2025-09-12", meta: "Ensaio · 280 pág.",
+export type Book = Item & { publisher: string };
+
+export const books: Book[] = [
+  { id: "b3", title: "Systems That Learn", publisher: "Presença", date: "2025-09-12",
+    subtitle: "Essay · 280 pp.", meta: "Essay · 280 pp.",
     image: img("photo-1544947950-fa07a98d237f"), url: "https://www.presenca.pt/" },
-  { id: "b2", title: "O Algoritmo Humano", subtitle: "LeYa", date: "2023-04-20", meta: "Não-ficção · 240 pág.",
+  { id: "b2", title: "The Human Algorithm", publisher: "LeYa", date: "2023-04-20",
+    subtitle: "Non-fiction · 240 pp.", meta: "Non-fiction · 240 pp.",
     image: img("photo-1512820790803-83ca734da794"), url: "https://www.leya.com/" },
-  { id: "b1", title: "Cidades em Código", subtitle: "Tinta-da-China", date: "2021-10-05", meta: "Ensaio · 312 pág.",
+  { id: "b1", title: "Cities in Code", publisher: "Tinta-da-China", date: "2021-10-05",
+    subtitle: "Essay · 312 pp.", meta: "Essay · 312 pp.",
     image: img("photo-1519681393784-d120267933ba"), url: "https://www.tintadachina.pt/" },
 ];
 
 export type ArticleKind = "conference" | "journal" | "bookchapter" | "thesis";
 export const articleKindLabel: Record<ArticleKind, string> = {
-  conference: "Conferências",
-  journal: "Revistas",
-  bookchapter: "Capítulos de Livro",
-  thesis: "Teses",
+  conference: "Conferences",
+  journal: "Journals",
+  bookchapter: "Book Chapters",
+  thesis: "Theses",
 };
 
 export type Article = Item & { kind: ArticleKind; venue: string };
@@ -59,11 +78,11 @@ export const articles: Article[] = [
   { id: "a6", kind: "bookchapter", venue: "IGI Global", title: "Designing Authoring Tools for Educators",
     subtitle: "IGI Global", date: "2022-09-12", image: img("photo-1524995997946-a1c2e315a42f"),
     url: "https://www.igi-global.com/" },
-  { id: "a7", kind: "thesis", venue: "Universidade do Porto", title: "PhD — Innovative Pedagogical Approaches for Programming",
+  { id: "a7", kind: "thesis", venue: "University of Porto", title: "PhD — Innovative Pedagogical Approaches for Programming",
     subtitle: "FCUP", date: "2016-12-15", image: img("photo-1523050854058-8df90110c9f1"),
     url: "https://repositorio-aberto.up.pt/" },
-  { id: "a8", kind: "thesis", venue: "Universidade do Minho", title: "MSc — XML Languages for Educational Content",
-    subtitle: "Universidade do Minho", date: "2007-07-10", image: img("photo-1532012197267-da84d127e765"),
+  { id: "a8", kind: "thesis", venue: "University of Minho", title: "MSc — XML Languages for Educational Content",
+    subtitle: "University of Minho", date: "2007-07-10", image: img("photo-1532012197267-da84d127e765"),
     url: "https://repositorium.sdum.uminho.pt/" },
 ];
 
@@ -72,91 +91,107 @@ export type EventKind =
 
 export const eventKindLabel: Record<EventKind, string> = {
   talk: "Talks",
-  seminar: "Seminários",
+  seminar: "Seminars",
   workshop: "Workshops",
-  conference: "Conferências",
+  conference: "Conferences",
   podcast: "Podcasts",
-  arguencia: "Arguências",
-  hackathon: "Concursos / Hackatons",
+  arguencia: "Thesis Juries",
+  hackathon: "Contests / Hackathons",
 };
 
 export type Event = Item & { kind: EventKind };
 
 export const events: Event[] = [
-  { id: "e1", kind: "talk", title: "Programar para todos", subtitle: "TEDx Porto", date: "2025-04-22",
+  { id: "e1", kind: "talk", title: "Programming for Everyone", subtitle: "TEDx Porto", date: "2025-04-22",
     meta: "30 min", image: img("photo-1505373877841-8d25f7d46678"), url: "https://www.ted.com/" },
-  { id: "e2", kind: "seminar", title: "Educação Digital — caminhos possíveis", subtitle: "ESE-IPP", date: "2024-11-10",
+  { id: "e2", kind: "seminar", title: "Digital Education — possible paths", subtitle: "ESE-IPP", date: "2024-11-10",
     meta: "1h30", image: img("photo-1591115765373-5207764f72e7"), url: "https://www.ese.ipp.pt/" },
-  { id: "e3", kind: "workshop", title: "UX Gamificado para Educadores", subtitle: "Lisboa, FIL", date: "2026-05-22",
+  { id: "e3", kind: "workshop", title: "Gamified UX for Educators", subtitle: "Lisbon, FIL", date: "2026-05-22",
     meta: "4h", image: img("photo-1540575467063-178a50c2df87"), url: "https://www.fil.pt/" },
   { id: "e4", kind: "conference", title: "Keynote — SLATE", subtitle: "Symposium on Languages, Apps & Tech", date: "2024-06-21",
     meta: "45 min", image: img("photo-1540304453527-62f979142a17"), url: "https://slate.dcc.fc.up.pt/" },
-  { id: "e5", kind: "podcast", title: "45g — convidado", subtitle: "Spotify", date: "2026-03-09",
+  { id: "e5", kind: "podcast", title: "45g — guest", subtitle: "Spotify", date: "2026-03-09",
     meta: "1h12", image: img("photo-1478737270239-2f02b77fc618"), url: "https://open.spotify.com/" },
-  { id: "e6", kind: "arguencia", title: "Arguência de Doutoramento — UAlg", subtitle: "Univ. do Algarve", date: "2025-02-18",
+  { id: "e6", kind: "arguencia", title: "PhD Jury — UAlg", subtitle: "Univ. of Algarve", date: "2025-02-18",
     image: img("photo-1523050854058-8df90110c9f1"), url: "https://www.ualg.pt/" },
-  { id: "e7", kind: "arguencia", title: "Arguência de Mestrado — IPP", subtitle: "Politécnico do Porto", date: "2024-09-06",
+  { id: "e7", kind: "arguencia", title: "MSc Jury — IPP", subtitle: "Polytechnic of Porto", date: "2024-09-06",
     image: img("photo-1532012197267-da84d127e765"), url: "https://www.ipp.pt/" },
-  { id: "e8", kind: "hackathon", title: "Júri — Poliempreende", subtitle: "Politécnico do Porto", date: "2025-05-30",
+  { id: "e8", kind: "hackathon", title: "Jury — Poliempreende", subtitle: "Polytechnic of Porto", date: "2025-05-30",
     image: img("photo-1556761175-5973dc0f32e7"), url: "https://www.poliempreende.com/" },
-  { id: "e9", kind: "workshop", title: "Workshop de Markdown Educativo", subtitle: "INFORUM", date: "2023-09-12",
+  { id: "e9", kind: "workshop", title: "Educational Markdown Workshop", subtitle: "INFORUM", date: "2023-09-12",
     meta: "3h", image: img("photo-1517048676732-d65bc937f952"), url: "https://inforum.org.pt/" },
 ];
 
 export const projects: Item[] = [
-  { id: "p3", title: "Atlas — visualizador urbano", subtitle: "Open source", date: "2026-04-01", meta: "Em desenvolvimento",
+  { id: "p3", title: "Atlas — Urban Visualizer", subtitle: "Open source", date: "2026-04-01", meta: "In development",
     image: img("photo-1487958449943-2429e8be8625"), url: "https://github.com/" },
-  { id: "p2", title: "Calado — leitor de longas leituras", subtitle: "iOS", date: "2025-08-15", meta: "Lançado",
+  { id: "p2", title: "Calado — Long-form Reader", subtitle: "iOS", date: "2025-08-15", meta: "Released",
     image: img("photo-1512820790803-83ca734da794"), url: "https://apps.apple.com/" },
-  { id: "p1", title: "Notas Frias", subtitle: "Web app", date: "2024-06-10", meta: "Mantido",
+  { id: "p1", title: "Cold Notes", subtitle: "Web app", date: "2024-06-10", meta: "Maintained",
     image: img("photo-1499951360447-b19be8fe80f5"), url: "https://github.com/" },
 ];
 
-export type Continent = "Europa" | "Ásia" | "África" | "América do Norte" | "América do Sul" | "Oceânia";
+export type Continent = "Europe" | "Asia" | "Africa" | "North America" | "South America" | "Oceania";
 export type Travel = Item & { continent: Continent; country: string };
 
 export const travels: Travel[] = [
-  { id: "t1", continent: "Ásia", country: "Japão", title: "Tóquio", subtitle: "Exploração urbana", date: "2026-03-21", meta: "12 dias",
+  { id: "t1", continent: "Asia", country: "Japan", title: "Tokyo", subtitle: "Urban exploration", date: "2026-03-21", meta: "12 days",
     image: img("photo-1540959733332-eab4deabeeaf"), url: "https://www.gotokyo.org/" },
-  { id: "t2", continent: "África", country: "Marrocos", title: "Atlas e deserto", date: "2025-10-08", meta: "9 dias",
+  { id: "t2", continent: "Africa", country: "Morocco", title: "Atlas & Desert", date: "2025-10-08", meta: "9 days",
     image: img("photo-1489493512598-d08130f49bea"), url: "https://www.visitmorocco.com/" },
-  { id: "t3", continent: "Europa", country: "Islândia", title: "Ring Road", date: "2025-06-02", meta: "14 dias",
+  { id: "t3", continent: "Europe", country: "Iceland", title: "Ring Road", date: "2025-06-02", meta: "14 days",
     image: img("photo-1500382017468-9049fed747ef"), url: "https://www.visiticeland.com/" },
-  { id: "t4", continent: "Europa", country: "Itália", title: "Sicília", date: "2024-09-10", meta: "10 dias",
+  { id: "t4", continent: "Europe", country: "Italy", title: "Sicily", date: "2024-09-10", meta: "10 days",
     image: img("photo-1533104816931-20fa691ff6ca"), url: "https://www.italia.it/" },
-  { id: "t5", continent: "América do Norte", country: "EUA", title: "Costa Oeste — SF a LA", date: "2024-05-12", meta: "16 dias",
+  { id: "t5", continent: "North America", country: "USA", title: "West Coast — SF to LA", date: "2024-05-12", meta: "16 days",
     image: img("photo-1501594907352-04cda38ebc29"), url: "https://www.visittheusa.com/" },
-  { id: "t6", continent: "América do Sul", country: "Peru", title: "Cusco e Machu Picchu", date: "2023-07-21", meta: "12 dias",
+  { id: "t6", continent: "South America", country: "Peru", title: "Cusco & Machu Picchu", date: "2023-07-21", meta: "12 days",
     image: img("photo-1526392060635-9d6019884377"), url: "https://www.peru.travel/" },
-  { id: "t7", continent: "Oceânia", country: "Austrália", title: "Sydney e Grande Barreira", date: "2022-11-05", meta: "18 dias",
+  { id: "t7", continent: "Oceania", country: "Australia", title: "Sydney & Great Barrier Reef", date: "2022-11-05", meta: "18 days",
     image: img("photo-1506973035872-a4ec16b8e8d9"), url: "https://www.australia.com/" },
 ];
 
 export type Distance = "10K" | "21K" | "42K";
 export type Race = Item & { distance: Distance; year: number; time: string; raceName: string };
 
+const race = (id: string, raceName: string, distance: Distance, year: number, month: string, time: string, url: string, imageId: string): Race => ({
+  id, raceName, distance, year, time,
+  title: raceName, subtitle: `${distance} · ${time}`,
+  date: `${year}-${month}-15`, meta: distance,
+  image: img(imageId), url,
+});
+
 export const running: Race[] = [
-  { id: "r1", raceName: "Meia Maratona de Lisboa", distance: "21K", year: 2026, time: "1:38:42",
-    title: "Meia Maratona de Lisboa", subtitle: "21K · 1:38:42", date: "2026-03-15", meta: "21K",
-    image: img("photo-1552674605-db6ffd4facb5"), url: "https://www.maratonaclubedeportugal.com/" },
-  { id: "r2", raceName: "Maratona do Porto", distance: "42K", year: 2025, time: "3:42:11",
-    title: "Maratona do Porto", subtitle: "42K · 3:42:11", date: "2025-11-02", meta: "42K",
-    image: img("photo-1571008887538-b36bb32f4571"), url: "https://www.maratonadoporto.com/" },
-  { id: "r3", raceName: "Corrida do Tejo", distance: "10K", year: 2025, time: "44:20",
-    title: "Corrida do Tejo", subtitle: "10K · 44:20", date: "2025-09-20", meta: "10K",
-    image: img("photo-1486218119243-13883505764c"), url: "https://www.runportugal.com/" },
-  { id: "r4", raceName: "Meia Maratona de Lisboa", distance: "21K", year: 2025, time: "1:41:05",
-    title: "Meia Maratona de Lisboa", subtitle: "21K · 1:41:05", date: "2025-03-16", meta: "21K",
-    image: img("photo-1552674605-db6ffd4facb5"), url: "https://www.maratonaclubedeportugal.com/" },
-  { id: "r5", raceName: "Corrida do Tejo", distance: "10K", year: 2024, time: "45:50",
-    title: "Corrida do Tejo", subtitle: "10K · 45:50", date: "2024-09-21", meta: "10K",
-    image: img("photo-1486218119243-13883505764c"), url: "https://www.runportugal.com/" },
-  { id: "r6", raceName: "Maratona do Porto", distance: "42K", year: 2023, time: "3:55:00",
-    title: "Maratona do Porto", subtitle: "42K · 3:55:00", date: "2023-11-05", meta: "42K",
-    image: img("photo-1571008887538-b36bb32f4571"), url: "https://www.maratonadoporto.com/" },
-  { id: "r7", raceName: "Meia Maratona do Porto", distance: "21K", year: 2024, time: "1:43:22",
-    title: "Meia Maratona do Porto", subtitle: "21K · 1:43:22", date: "2024-09-08", meta: "21K",
-    image: img("photo-1486218119243-13883505764c"), url: "https://www.maratonadoporto.com/" },
+  // 2026
+  race("r1",  "Lisbon Half Marathon",     "21K", 2026, "03", "1:38:42", "https://www.maratonaclubedeportugal.com/", "photo-1552674605-db6ffd4facb5"),
+  // 2025
+  race("r2",  "Porto Marathon",            "42K", 2025, "11", "3:42:11", "https://www.maratonadoporto.com/",         "photo-1571008887538-b36bb32f4571"),
+  race("r3",  "Tagus Run",                 "10K", 2025, "09", "44:20",   "https://www.runportugal.com/",             "photo-1486218119243-13883505764c"),
+  race("r4",  "Lisbon Half Marathon",     "21K", 2025, "03", "1:41:05", "https://www.maratonaclubedeportugal.com/", "photo-1552674605-db6ffd4facb5"),
+  // 2024
+  race("r5",  "Tagus Run",                 "10K", 2024, "09", "45:50",   "https://www.runportugal.com/",             "photo-1486218119243-13883505764c"),
+  race("r7",  "Porto Half Marathon",       "21K", 2024, "09", "1:43:22", "https://www.maratonadoporto.com/",         "photo-1486218119243-13883505764c"),
+  // 2023
+  race("r6",  "Porto Marathon",            "42K", 2023, "11", "3:55:00", "https://www.maratonadoporto.com/",         "photo-1571008887538-b36bb32f4571"),
+  race("r8",  "Lisbon Half Marathon",     "21K", 2023, "03", "1:45:30", "https://www.maratonaclubedeportugal.com/", "photo-1552674605-db6ffd4facb5"),
+  // 2022
+  race("r9",  "Tagus Run",                 "10K", 2022, "09", "46:40",   "https://www.runportugal.com/",             "photo-1486218119243-13883505764c"),
+  race("r10", "Porto Half Marathon",       "21K", 2022, "09", "1:47:10", "https://www.maratonadoporto.com/",         "photo-1486218119243-13883505764c"),
+  // 2021
+  race("r11", "Lisbon Half Marathon",     "21K", 2021, "10", "1:49:55", "https://www.maratonaclubedeportugal.com/", "photo-1552674605-db6ffd4facb5"),
+  // 2020
+  race("r12", "Tagus Run",                 "10K", 2020, "10", "47:30",   "https://www.runportugal.com/",             "photo-1486218119243-13883505764c"),
+  // 2019
+  race("r13", "Porto Marathon",            "42K", 2019, "11", "4:05:20", "https://www.maratonadoporto.com/",         "photo-1571008887538-b36bb32f4571"),
+  race("r14", "Lisbon Half Marathon",     "21K", 2019, "03", "1:51:00", "https://www.maratonaclubedeportugal.com/", "photo-1552674605-db6ffd4facb5"),
+  // 2018
+  race("r15", "Porto Half Marathon",       "21K", 2018, "09", "1:53:40", "https://www.maratonadoporto.com/",         "photo-1486218119243-13883505764c"),
+  race("r16", "Tagus Run",                 "10K", 2018, "09", "48:55",   "https://www.runportugal.com/",             "photo-1486218119243-13883505764c"),
+  // 2017
+  race("r17", "Lisbon Half Marathon",     "21K", 2017, "03", "1:55:15", "https://www.maratonaclubedeportugal.com/", "photo-1552674605-db6ffd4facb5"),
+  // 2016
+  race("r18", "Porto Marathon",            "42K", 2016, "11", "4:18:42", "https://www.maratonadoporto.com/",         "photo-1571008887538-b36bb32f4571"),
+  race("r19", "Tagus Run",                 "10K", 2016, "09", "50:10",   "https://www.runportugal.com/",             "photo-1486218119243-13883505764c"),
 ];
 
 export type UpcomingItem = {
@@ -171,17 +206,17 @@ export type UpcomingItem = {
 };
 
 export const upcoming: UpcomingItem[] = [
-  { id: "u1", facet: "events",  title: "Workshop: UX Gamificado",      date: "2026-05-22", meta: "Lisboa",
+  { id: "u1", facet: "events",  title: "Workshop: Gamified UX",         date: "2026-05-22", meta: "Lisbon",
     image: img("photo-1591115765373-5207764f72e7"), url: "https://www.fil.pt/" },
-  { id: "u2", facet: "running", title: "Maratona de Valência (42K)",   date: "2026-12-07", meta: "Sub 3:30",
+  { id: "u2", facet: "running", title: "Valencia Marathon (42K)",       date: "2026-12-07", meta: "Sub 3:30",
     image: img("photo-1530137073521-28cb334a37b2"), url: "https://www.valenciaciudaddelrunning.com/" },
-  { id: "u3", facet: "books",   title: "Lançamento — Sistemas que Aprendem", date: "2026-06-04", meta: "FNAC Chiado",
+  { id: "u3", facet: "books",   title: "Launch — Systems That Learn",   date: "2026-06-04", meta: "FNAC Chiado",
     image: img("photo-1524995997946-a1c2e315a42f"), url: "https://www.fnac.pt/" },
-  { id: "u4", facet: "travels", title: "Patagónia, Argentina",          date: "2026-11-10", meta: "21 dias",
+  { id: "u4", facet: "travels", title: "Patagonia, Argentina",          date: "2026-11-10", meta: "21 days",
     image: img("photo-1531168556467-80aace0d0144"), url: "https://www.argentina.travel/" },
-  { id: "u5", facet: "projects",title: "Atlas v1.0",                    date: "2026-09-01", meta: "Release público",
+  { id: "u5", facet: "projects",title: "Atlas v1.0",                    date: "2026-09-01", meta: "Public release",
     image: img("photo-1518770660439-4636190af475"), url: "https://github.com/" },
-  { id: "u6", facet: "articles",title: "Ensaio — A geometria do foco", date: "2026-06-30", meta: "Granta PT",
+  { id: "u6", facet: "articles",title: "Essay — The Geometry of Focus", date: "2026-06-30", meta: "Granta PT",
     image: img("photo-1455390582262-044cdead277a"), url: "https://granta.com/" },
 ];
 
@@ -205,5 +240,5 @@ export const profile = {
 
 export function fmtDate(iso: string) {
   const d = new Date(iso);
-  return d.toLocaleDateString("pt-PT", { day: "2-digit", month: "short", year: "numeric" });
+  return d.toLocaleDateString("en-GB", { day: "2-digit", month: "short", year: "numeric" });
 }
