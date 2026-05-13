@@ -67,7 +67,7 @@ function Page() {
         {/* Aggregated matrix */}
         <section className="mb-12">
           <h2 className="text-xl font-bold uppercase tracking-widest border-l-2 border-primary pl-3 mb-5">
-            Tempos por prova / ano
+            Times by race / year
           </h2>
           <div className="border border-border rounded-xl overflow-x-auto">
             <table className="w-full text-sm">
