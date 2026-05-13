@@ -2,12 +2,12 @@ import { Link, useRouterState } from "@tanstack/react-router";
 
 const items = [
   { to: "/",         label: "DASHBOARD" },
-  { to: "/livros",   label: "LIVROS" },
-  { to: "/artigos",  label: "ARTIGOS" },
-  { to: "/eventos",  label: "EVENTOS" },
-  { to: "/projetos", label: "PROJETOS" },
-  { to: "/viagens",  label: "VIAGENS" },
-  { to: "/corridas", label: "CORRIDAS" },
+  { to: "/livros",   label: "BOOKS" },
+  { to: "/artigos",  label: "ARTICLES" },
+  { to: "/eventos",  label: "EVENTS" },
+  { to: "/projetos", label: "PROJECTS" },
+  { to: "/viagens",  label: "TRAVELS" },
+  { to: "/corridas", label: "RUNNING" },
 ] as const;
 
 export function HudNav() {
