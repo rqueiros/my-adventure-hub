@@ -160,7 +160,7 @@ function Page() {
           </table>
         </div>
         {filtered.length === 0 && (
-          <p className="text-center text-muted-foreground font-mono text-xs mt-8">Nenhuma prova nesta distância.</p>
+          <p className="text-center text-muted-foreground font-mono text-xs mt-8">No races at this distance.</p>
         )}
       </div>
     </div>
