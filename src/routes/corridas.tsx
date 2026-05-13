@@ -119,7 +119,7 @@ function Page() {
                     : "border-border text-muted-foreground hover:text-primary hover:border-primary/40"
                 }`}
               >
-                {f === "ALL" ? "Todas" : f}
+                {f === "ALL" ? "All" : f}
               </button>
             );
           })}
