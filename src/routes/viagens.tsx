@@ -1,27 +1,34 @@
 import { useState } from "react";
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { ExternalLink } from "lucide-react";
-import { travels, stats, fmtDate, type Continent } from "@/data/activity";
+import { travels, stats, fmtDate } from "@/data/activity";
 
 export const Route = createFileRoute("/viagens")({
   component: Page,
   head: () => ({ meta: [
     { title: "Travels — Ricardo Queirós" },
-    { name: "description", content: "Travels filterable by year and continent." },
+    { name: "description", content: "Travels filterable by year, with a world map of visited countries." },
   ]}),
+});
+
+// Equirectangular projection helper
+const MAP_W = 1000;
+const MAP_H = 500;
+const project = (lat: number, lng: number) => ({
+  x: ((lng + 180) / 360) * MAP_W,
+  y: ((90 - lat) / 180) * MAP_H,
 });
 
 function Page() {
   const years = Array.from(new Set(travels.map((t) => new Date(t.date).getFullYear()))).sort((a, b) => b - a);
-  const continents = Array.from(new Set(travels.map((t) => t.continent))) as Continent[];
-
   const [year, setYear] = useState<number | "ALL">("ALL");
-  const [continent, setContinent] = useState<Continent | "ALL">("ALL");
 
   const filtered = travels
-    .filter((t) => (year === "ALL" || new Date(t.date).getFullYear() === year))
-    .filter((t) => (continent === "ALL" || t.continent === continent))
+    .filter((t) => year === "ALL" || new Date(t.date).getFullYear() === year)
     .sort((a, b) => b.date.localeCompare(a.date));
+
+  // Map shows all visited countries (unique), highlighting the filtered year
+  const filteredIds = new Set(filtered.map((t) => t.id));
 
   return (
     <div className="min-h-screen bg-background text-foreground p-6 md:p-12 pb-32">
@@ -38,43 +45,66 @@ function Page() {
         </header>
 
         <p className="text-muted-foreground max-w-3xl mb-8 text-sm md:text-base leading-relaxed">
-          Each trip is a chapter. Filter by year and continent — a record of urban exploration,
-          extreme nature and encounters with different cultures.
+          Each trip is a chapter — a record of urban exploration, extreme nature and encounters
+          with different cultures. Filter by year to focus a season.
         </p>
 
-        {/* Filters */}
-        <div className="flex flex-wrap gap-6 mb-6 font-mono text-[10px] uppercase tracking-widest">
-          <div>
-            <span className="text-muted-foreground mr-2">Year:</span>
-            <div className="inline-flex flex-wrap gap-1.5">
-              {(["ALL", ...years] as (number | "ALL")[]).map((y) => {
-                const active = year === y;
+        {/* World map */}
+        <section className="mb-10">
+          <div className="relative border border-border rounded-xl overflow-hidden bg-[radial-gradient(ellipse_at_center,_var(--tw-gradient-stops))] from-sky-400/[0.04] to-transparent">
+            <svg viewBox={`0 0 ${MAP_W} ${MAP_H}`} className="w-full h-auto block">
+              {/* Latitude / longitude grid */}
+              <defs>
+                <pattern id="grid" width="50" height="50" patternUnits="userSpaceOnUse">
+                  <path d="M 50 0 L 0 0 0 50" fill="none" stroke="currentColor" strokeWidth="0.3" className="text-border" />
+                </pattern>
+              </defs>
+              <rect width={MAP_W} height={MAP_H} fill="url(#grid)" opacity="0.5" />
+              {/* Equator + Greenwich */}
+              <line x1={0} y1={MAP_H / 2} x2={MAP_W} y2={MAP_H / 2} className="stroke-border" strokeDasharray="3 4" />
+              <line x1={MAP_W / 2} y1={0} x2={MAP_W / 2} y2={MAP_H} className="stroke-border" strokeDasharray="3 4" />
+
+              {/* Country dots */}
+              {travels.map((t) => {
+                const { x, y } = project(t.lat, t.lng);
+                const active = filteredIds.has(t.id);
                 return (
-                  <button key={String(y)} onClick={() => setYear(y)}
-                    className={`px-2.5 py-1 rounded border transition-colors ${
-                      active ? "bg-primary text-primary-foreground border-primary"
-                             : "border-border text-muted-foreground hover:text-primary hover:border-primary/40"}`}>
-                    {y === "ALL" ? "All" : y}
-                  </button>
+                  <g key={t.id} className={active ? "" : "opacity-30"}>
+                    <circle cx={x} cy={y} r={active ? 9 : 5} className="fill-sky-400/20" />
+                    <circle cx={x} cy={y} r={active ? 4 : 3} className="fill-sky-400" />
+                    <text
+                      x={x + 8}
+                      y={y - 8}
+                      className="fill-sky-200 font-mono"
+                      style={{ fontSize: "11px" }}
+                    >
+                      {t.country}
+                    </text>
+                  </g>
                 );
               })}
+            </svg>
+            <div className="absolute bottom-3 right-4 font-mono text-[10px] uppercase tracking-widest text-muted-foreground">
+              {filtered.length}/{travels.length} highlighted
             </div>
           </div>
-          <div>
-            <span className="text-muted-foreground mr-2">Continent:</span>
-            <div className="inline-flex flex-wrap gap-1.5">
-              {(["ALL", ...continents] as (Continent | "ALL")[]).map((c) => {
-                const active = continent === c;
-                return (
-                  <button key={c} onClick={() => setContinent(c)}
-                    className={`px-2.5 py-1 rounded border transition-colors ${
-                      active ? "bg-primary text-primary-foreground border-primary"
-                             : "border-border text-muted-foreground hover:text-primary hover:border-primary/40"}`}>
-                    {c === "ALL" ? "All" : c}
-                  </button>
-                );
-              })}
-            </div>
+        </section>
+
+        {/* Year filter */}
+        <div className="flex flex-wrap items-center gap-3 mb-6">
+          <span className="font-mono text-[10px] uppercase tracking-widest text-muted-foreground">Year:</span>
+          <div className="flex flex-wrap gap-1.5 font-mono text-[10px] uppercase tracking-widest">
+            {(["ALL", ...years] as (number | "ALL")[]).map((y) => {
+              const active = year === y;
+              return (
+                <button key={String(y)} onClick={() => setYear(y)}
+                  className={`px-2.5 py-1 rounded border transition-colors ${
+                    active ? "bg-primary text-primary-foreground border-primary"
+                           : "border-border text-muted-foreground hover:text-primary hover:border-primary/40"}`}>
+                  {y === "ALL" ? "All" : y}
+                </button>
+              );
+            })}
           </div>
         </div>
 
@@ -118,7 +148,7 @@ function Page() {
           </table>
         </div>
         {filtered.length === 0 && (
-          <p className="text-center text-muted-foreground font-mono text-xs mt-8">No travels match the filters.</p>
+          <p className="text-center text-muted-foreground font-mono text-xs mt-8">No travels this year.</p>
         )}
       </div>
     </div>

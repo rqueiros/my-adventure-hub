@@ -11,6 +11,8 @@
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as ViagensRouteImport } from './routes/viagens'
 import { Route as ProjetosRouteImport } from './routes/projetos'
+import { Route as OutrosRouteImport } from './routes/outros'
+import { Route as OpiniaoRouteImport } from './routes/opiniao'
 import { Route as LivrosRouteImport } from './routes/livros'
 import { Route as EventosRouteImport } from './routes/eventos'
 import { Route as CorridasRouteImport } from './routes/corridas'
@@ -25,6 +27,16 @@ const ViagensRoute = ViagensRouteImport.update({
 const ProjetosRoute = ProjetosRouteImport.update({
   id: '/projetos',
   path: '/projetos',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const OutrosRoute = OutrosRouteImport.update({
+  id: '/outros',
+  path: '/outros',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const OpiniaoRoute = OpiniaoRouteImport.update({
+  id: '/opiniao',
+  path: '/opiniao',
   getParentRoute: () => rootRouteImport,
 } as any)
 const LivrosRoute = LivrosRouteImport.update({
@@ -59,6 +71,8 @@ export interface FileRoutesByFullPath {
   '/corridas': typeof CorridasRoute
   '/eventos': typeof EventosRoute
   '/livros': typeof LivrosRoute
+  '/opiniao': typeof OpiniaoRoute
+  '/outros': typeof OutrosRoute
   '/projetos': typeof ProjetosRoute
   '/viagens': typeof ViagensRoute
 }
@@ -68,6 +82,8 @@ export interface FileRoutesByTo {
   '/corridas': typeof CorridasRoute
   '/eventos': typeof EventosRoute
   '/livros': typeof LivrosRoute
+  '/opiniao': typeof OpiniaoRoute
+  '/outros': typeof OutrosRoute
   '/projetos': typeof ProjetosRoute
   '/viagens': typeof ViagensRoute
 }
@@ -78,6 +94,8 @@ export interface FileRoutesById {
   '/corridas': typeof CorridasRoute
   '/eventos': typeof EventosRoute
   '/livros': typeof LivrosRoute
+  '/opiniao': typeof OpiniaoRoute
+  '/outros': typeof OutrosRoute
   '/projetos': typeof ProjetosRoute
   '/viagens': typeof ViagensRoute
 }
@@ -89,6 +107,8 @@ export interface FileRouteTypes {
     | '/corridas'
     | '/eventos'
     | '/livros'
+    | '/opiniao'
+    | '/outros'
     | '/projetos'
     | '/viagens'
   fileRoutesByTo: FileRoutesByTo
@@ -98,6 +118,8 @@ export interface FileRouteTypes {
     | '/corridas'
     | '/eventos'
     | '/livros'
+    | '/opiniao'
+    | '/outros'
     | '/projetos'
     | '/viagens'
   id:
@@ -107,6 +129,8 @@ export interface FileRouteTypes {
     | '/corridas'
     | '/eventos'
     | '/livros'
+    | '/opiniao'
+    | '/outros'
     | '/projetos'
     | '/viagens'
   fileRoutesById: FileRoutesById
@@ -117,6 +141,8 @@ export interface RootRouteChildren {
   CorridasRoute: typeof CorridasRoute
   EventosRoute: typeof EventosRoute
   LivrosRoute: typeof LivrosRoute
+  OpiniaoRoute: typeof OpiniaoRoute
+  OutrosRoute: typeof OutrosRoute
   ProjetosRoute: typeof ProjetosRoute
   ViagensRoute: typeof ViagensRoute
 }
@@ -135,6 +161,20 @@ declare module '@tanstack/react-router' {
       path: '/projetos'
       fullPath: '/projetos'
       preLoaderRoute: typeof ProjetosRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/outros': {
+      id: '/outros'
+      path: '/outros'
+      fullPath: '/outros'
+      preLoaderRoute: typeof OutrosRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/opiniao': {
+      id: '/opiniao'
+      path: '/opiniao'
+      fullPath: '/opiniao'
+      preLoaderRoute: typeof OpiniaoRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/livros': {
@@ -181,19 +221,11 @@ const rootRouteChildren: RootRouteChildren = {
   CorridasRoute: CorridasRoute,
   EventosRoute: EventosRoute,
   LivrosRoute: LivrosRoute,
+  OpiniaoRoute: OpiniaoRoute,
+  OutrosRoute: OutrosRoute,
   ProjetosRoute: ProjetosRoute,
   ViagensRoute: ViagensRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
   ._addFileTypes<FileRouteTypes>()
-
-import type { getRouter } from './router.tsx'
-import type { startInstance } from './start.ts'
-declare module '@tanstack/react-start' {
-  interface Register {
-    ssr: true
-    router: Awaited<ReturnType<typeof getRouter>>
-    config: Awaited<ReturnType<typeof startInstance.getOptions>>
-  }
-}
