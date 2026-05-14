@@ -4,10 +4,12 @@ const items = [
   { to: "/",         label: "DASHBOARD" },
   { to: "/livros",   label: "BOOKS" },
   { to: "/artigos",  label: "ARTICLES" },
+  { to: "/opiniao",  label: "OPINION" },
   { to: "/eventos",  label: "EVENTS" },
   { to: "/projetos", label: "PROJECTS" },
   { to: "/viagens",  label: "TRAVELS" },
   { to: "/corridas", label: "RUNNING" },
+  { to: "/outros",   label: "OTHERS" },
 ] as const;
 
 export function HudNav() {
