@@ -7,7 +7,7 @@ export const Route = createFileRoute("/corridas")({
   component: Page,
   head: () => ({ meta: [
     { title: "Running — Ricardo Queirós" },
-    { name: "description", content: "10K, 21K and 42K race results." },
+    { name: "description", content: "10K, 21K and 42K race results since 2016." },
   ]}),
 });
 
@@ -21,20 +21,23 @@ const distanceColor: Record<Distance, string> = {
 
 function Page() {
   const [filter, setFilter] = useState<Filter>("ALL");
+  const [showDetails, setShowDetails] = useState(false);
+
   const sorted = [...running].sort((a, b) => b.date.localeCompare(a.date));
-  const filtered = filter === "ALL" ? sorted : sorted.filter((r) => r.distance === filter);
+  const filteredDetail = filter === "ALL" ? sorted : sorted.filter((r) => r.distance === filter);
   const byDist = (d: Distance) => running.filter((r) => r.distance === d).length;
 
-  // Aggregated table: rows = race name, cols = year, cells = best time
-  const raceNames = Array.from(new Set(running.map((r) => r.raceName))).sort();
-  const years = Array.from(new Set(running.map((r) => r.year))).sort((a, b) => b - a);
+  // Aggregated table: rows = race name, cols = year, cells = time. Filtered by distance.
+  const matrixSource = filter === "ALL" ? running : running.filter((r) => r.distance === filter);
+  const raceNames = Array.from(new Set(matrixSource.map((r) => r.raceName))).sort();
+  const years = Array.from(new Set(matrixSource.map((r) => r.year))).sort((a, b) => b - a);
   const cell = (race: string, year: number) => {
-    const matches = running.filter((r) => r.raceName === race && r.year === year);
+    const matches = matrixSource.filter((r) => r.raceName === race && r.year === year);
     if (matches.length === 0) return null;
     return matches.map((m) => m.time).join(" · ");
   };
   const distanceForRace = (race: string): Distance =>
-    running.find((r) => r.raceName === race)!.distance;
+    matrixSource.find((r) => r.raceName === race)!.distance;
 
   return (
     <div className="min-h-screen bg-background text-foreground p-6 md:p-12 pb-32">
@@ -50,12 +53,12 @@ function Page() {
           </div>
         </header>
 
-        <p className="text-muted-foreground max-w-3xl mb-10 text-sm md:text-base leading-relaxed">
+        <p className="text-muted-foreground max-w-3xl mb-8 text-sm md:text-base leading-relaxed">
           Official 10K, half marathon (21K) and full marathon (42K) race history since 2016. Running as a
           discipline parallel to writing: focus, pace and measurable progression year over year.
         </p>
 
-        <section className="grid grid-cols-3 gap-4 mb-10">
+        <section className="grid grid-cols-3 gap-4 mb-8">
           {(["10K", "21K", "42K"] as const).map((d) => (
             <div key={d} className={`bg-card/40 border ${distanceColor[d]} rounded-xl p-6 text-center`}>
               <div className={`font-mono text-3xl font-bold ${distanceColor[d].split(" ")[0]}`}>{byDist(d)}</div>
@@ -64,8 +67,31 @@ function Page() {
           ))}
         </section>
 
-        {/* Aggregated matrix */}
-        <section className="mb-12">
+        {/* Distance filter — promoted to top, controls both tables */}
+        <div className="flex flex-wrap items-center gap-3 mb-6">
+          <span className="font-mono text-[10px] uppercase tracking-widest text-muted-foreground">Distance:</span>
+          <div className="flex flex-wrap gap-2 font-mono text-[10px] uppercase tracking-widest">
+            {(["ALL", "10K", "21K", "42K"] as Filter[]).map((f) => {
+              const active = filter === f;
+              return (
+                <button
+                  key={f}
+                  onClick={() => setFilter(f)}
+                  className={`px-3 py-1.5 rounded border transition-colors ${
+                    active
+                      ? "bg-primary text-primary-foreground border-primary"
+                      : "border-border text-muted-foreground hover:text-primary hover:border-primary/40"
+                  }`}
+                >
+                  {f === "ALL" ? "All" : f}
+                </button>
+              );
+            })}
+          </div>
+        </div>
+
+        {/* Aggregated matrix — primary view */}
+        <section className="mb-10">
           <h2 className="text-xl font-bold uppercase tracking-widest border-l-2 border-primary pl-3 mb-5">
             Times by race / year
           </h2>
@@ -105,63 +131,52 @@ function Page() {
           </div>
         </section>
 
-        {/* Filters */}
-        <div className="flex flex-wrap gap-2 mb-6 font-mono text-[10px] uppercase tracking-widest">
-          {(["ALL", "10K", "21K", "42K"] as Filter[]).map((f) => {
-            const active = filter === f;
-            return (
-              <button
-                key={f}
-                onClick={() => setFilter(f)}
-                className={`px-3 py-1.5 rounded border transition-colors ${
-                  active
-                    ? "bg-primary text-primary-foreground border-primary"
-                    : "border-border text-muted-foreground hover:text-primary hover:border-primary/40"
-                }`}
-              >
-                {f === "ALL" ? "All" : f}
-              </button>
-            );
-          })}
-        </div>
+        {/* Detailed table — collapsed by default */}
+        <section>
+          <button
+            onClick={() => setShowDetails((v) => !v)}
+            className="w-full flex items-center justify-between px-4 py-3 border border-border rounded-xl font-mono text-[11px] uppercase tracking-widest text-muted-foreground hover:text-primary hover:border-primary/40 transition-colors"
+          >
+            <span>Detailed log ({filteredDetail.length} races)</span>
+            <span>{showDetails ? "− Hide" : "+ Show"}</span>
+          </button>
 
-        {/* Detailed table */}
-        <div className="border border-border rounded-xl overflow-x-auto">
-          <table className="w-full text-sm">
-            <thead className="bg-white/[0.03] font-mono text-[10px] uppercase tracking-widest text-muted-foreground">
-              <tr>
-                <th className="text-left px-4 py-3 w-28">Date</th>
-                <th className="text-left px-4 py-3">Race</th>
-                <th className="text-center px-3 py-3 w-16">Dist.</th>
-                <th className="text-right px-4 py-3 w-24">Time</th>
-                <th className="text-right px-4 py-3 w-20">Link</th>
-              </tr>
-            </thead>
-            <tbody className="divide-y divide-border">
-              {filtered.map((r) => (
-                <tr key={r.id} className="hover:bg-white/[0.02]">
-                  <td className="px-4 py-3 font-mono text-[10px] text-muted-foreground whitespace-nowrap">{fmtDate(r.date)}</td>
-                  <td className="px-4 py-3 font-medium">{r.raceName}</td>
-                  <td className="px-3 py-3 text-center">
-                    <span className={`font-mono text-[10px] font-bold px-2 py-0.5 border rounded ${distanceColor[r.distance]}`}>
-                      {r.distance}
-                    </span>
-                  </td>
-                  <td className="px-4 py-3 text-right font-mono text-primary">{r.time}</td>
-                  <td className="px-4 py-3 text-right">
-                    <a href={r.url} target="_blank" rel="noopener noreferrer"
-                      className="inline-flex items-center gap-1 text-primary hover:underline font-mono text-[10px] uppercase tracking-widest">
-                      Open <ExternalLink className="size-3" />
-                    </a>
-                  </td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
-        </div>
-        {filtered.length === 0 && (
-          <p className="text-center text-muted-foreground font-mono text-xs mt-8">No races at this distance.</p>
-        )}
+          {showDetails && (
+            <div className="mt-4 border border-border rounded-xl overflow-x-auto">
+              <table className="w-full text-sm">
+                <thead className="bg-white/[0.03] font-mono text-[10px] uppercase tracking-widest text-muted-foreground">
+                  <tr>
+                    <th className="text-left px-4 py-3 w-28">Date</th>
+                    <th className="text-left px-4 py-3">Race</th>
+                    <th className="text-center px-3 py-3 w-16">Dist.</th>
+                    <th className="text-right px-4 py-3 w-24">Time</th>
+                    <th className="text-right px-4 py-3 w-20">Link</th>
+                  </tr>
+                </thead>
+                <tbody className="divide-y divide-border">
+                  {filteredDetail.map((r) => (
+                    <tr key={r.id} className="hover:bg-white/[0.02]">
+                      <td className="px-4 py-3 font-mono text-[10px] text-muted-foreground whitespace-nowrap">{fmtDate(r.date)}</td>
+                      <td className="px-4 py-3 font-medium">{r.raceName}</td>
+                      <td className="px-3 py-3 text-center">
+                        <span className={`font-mono text-[10px] font-bold px-2 py-0.5 border rounded ${distanceColor[r.distance]}`}>
+                          {r.distance}
+                        </span>
+                      </td>
+                      <td className="px-4 py-3 text-right font-mono text-primary">{r.time}</td>
+                      <td className="px-4 py-3 text-right">
+                        <a href={r.url} target="_blank" rel="noopener noreferrer"
+                          className="inline-flex items-center gap-1 text-primary hover:underline font-mono text-[10px] uppercase tracking-widest">
+                          Open <ExternalLink className="size-3" />
+                        </a>
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+          )}
+        </section>
       </div>
     </div>
   );
