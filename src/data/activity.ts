@@ -304,6 +304,7 @@ export const profile = {
   name: "Ricardo Queirós",
   title: "Professor, Researcher, Writer and Runner",
   bio: "Adjunct Professor at ESMAD — School of Media Arts and Design of the Polytechnic of Porto, where I teach in the Web & Mobile Development and Multimedia programmes. I'm an integrated researcher at CRACS / INESC TEC, working on programming education, gamification and language engineering. I also coordinate the Distance Learning unit at CIP (Polytechnic of Porto), and serve on program committees, editorial boards and academic juries across Portugal and abroad.",
+  orcid: "0000-0002-1985-6285",
   website: "https://www.ricardoqueiros.com",
   avatar: "https://www.ricardoqueiros.com/assets/images/profile.jpeg",
   socials: {
