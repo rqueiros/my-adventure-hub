@@ -190,24 +190,32 @@ export const running: Race[] = [
 ];
 
 // Opinion articles (op-eds, columns, magazine essays)
-export type Opinion = Item & { magazine: string };
+export type Opinion = Item & { magazine: string; body: string };
+
+const lorem = (intro: string) =>
+  `${intro}\n\nIn a world where attention is the new currency, the way we frame technology in education determines whether students become creators or consumers. The classroom can no longer be a place where information is transferred — it must become a workshop where ideas are stress-tested, remixed and shared.\n\nThis is not about replacing teachers with screens, nor about banning devices in the name of focus. It is about designing intentional friction — small obstacles that force thinking — and intentional fluency — tools that disappear when the task demands flow. Both can coexist; both must.\n\nAfter two decades teaching programming and designing learning environments, I am convinced of one thing: the schools that thrive in the next decade will be the ones that treat curiosity as infrastructure. Everything else — content, platforms, even assessment — follows.`;
 
 export const opinion: Opinion[] = [
   { id: "o1", magazine: "Público",      title: "The new digital literacy starts at school",
     subtitle: "Op-ed", date: "2026-02-18", image: img("photo-1504711434969-e33886168f5c"),
-    url: "https://www.publico.pt/" },
+    url: "https://www.publico.pt/",
+    body: lorem("Digital literacy is no longer a chapter in the curriculum — it is the spine that holds every other subject upright.") },
   { id: "o2", magazine: "Observador",   title: "AI in classrooms: from fear to fluency",
     subtitle: "Column", date: "2025-11-04", image: img("photo-1620712943543-bcc4688e7485"),
-    url: "https://observador.pt/" },
+    url: "https://observador.pt/",
+    body: lorem("Generative AI in the classroom is neither an apocalypse nor a panacea. It is a mirror that reflects back the assumptions we make about learning.") },
   { id: "o3", magazine: "Visão",        title: "Why we still need to teach reading",
     subtitle: "Essay",  date: "2025-05-22", image: img("photo-1455390582262-044cdead277a"),
-    url: "https://visao.pt/" },
+    url: "https://visao.pt/",
+    body: lorem("Long-form reading is the original immersive technology — and the one our students are losing fastest.") },
   { id: "o4", magazine: "Expresso",     title: "Polytechnics and the missing innovation engine",
     subtitle: "Op-ed",  date: "2024-09-30", image: img("photo-1499209974431-9dddcece7f88"),
-    url: "https://expresso.pt/" },
+    url: "https://expresso.pt/",
+    body: lorem("Portuguese polytechnics sit on top of an enormous underused asset: applied research that is one decision away from becoming product.") },
   { id: "o5", magazine: "Jornal de Notícias", title: "Slow code, slow thought",
     subtitle: "Column", date: "2024-04-12", image: img("photo-1532153975070-2e9ab71f1b14"),
-    url: "https://www.jn.pt/" },
+    url: "https://www.jn.pt/",
+    body: lorem("Programming taught well is a school of patience. The compiler is the most honest teacher a student will ever have.") },
 ];
 
 // Others — supervisions, program committees, editorial, scientific service
@@ -296,6 +304,7 @@ export const profile = {
   name: "Ricardo Queirós",
   title: "Professor, Researcher, Writer and Runner",
   bio: "Adjunct Professor at ESMAD — School of Media Arts and Design of the Polytechnic of Porto, where I teach in the Web & Mobile Development and Multimedia programmes. I'm an integrated researcher at CRACS / INESC TEC, working on programming education, gamification and language engineering. I also coordinate the Distance Learning unit at CIP (Polytechnic of Porto), and serve on program committees, editorial boards and academic juries across Portugal and abroad.",
+  orcid: "0000-0002-1985-6285",
   website: "https://www.ricardoqueiros.com",
   avatar: "https://www.ricardoqueiros.com/assets/images/profile.jpeg",
   socials: {

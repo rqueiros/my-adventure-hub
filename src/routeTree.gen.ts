@@ -18,6 +18,7 @@ import { Route as EventosRouteImport } from './routes/eventos'
 import { Route as CorridasRouteImport } from './routes/corridas'
 import { Route as ArtigosRouteImport } from './routes/artigos'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as OpiniaoIdRouteImport } from './routes/opiniao.$id'
 
 const ViagensRoute = ViagensRouteImport.update({
   id: '/viagens',
@@ -64,6 +65,11 @@ const IndexRoute = IndexRouteImport.update({
   path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const OpiniaoIdRoute = OpiniaoIdRouteImport.update({
+  id: '/$id',
+  path: '/$id',
+  getParentRoute: () => OpiniaoRoute,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
@@ -71,10 +77,11 @@ export interface FileRoutesByFullPath {
   '/corridas': typeof CorridasRoute
   '/eventos': typeof EventosRoute
   '/livros': typeof LivrosRoute
-  '/opiniao': typeof OpiniaoRoute
+  '/opiniao': typeof OpiniaoRouteWithChildren
   '/outros': typeof OutrosRoute
   '/projetos': typeof ProjetosRoute
   '/viagens': typeof ViagensRoute
+  '/opiniao/$id': typeof OpiniaoIdRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
@@ -82,10 +89,11 @@ export interface FileRoutesByTo {
   '/corridas': typeof CorridasRoute
   '/eventos': typeof EventosRoute
   '/livros': typeof LivrosRoute
-  '/opiniao': typeof OpiniaoRoute
+  '/opiniao': typeof OpiniaoRouteWithChildren
   '/outros': typeof OutrosRoute
   '/projetos': typeof ProjetosRoute
   '/viagens': typeof ViagensRoute
+  '/opiniao/$id': typeof OpiniaoIdRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -94,10 +102,11 @@ export interface FileRoutesById {
   '/corridas': typeof CorridasRoute
   '/eventos': typeof EventosRoute
   '/livros': typeof LivrosRoute
-  '/opiniao': typeof OpiniaoRoute
+  '/opiniao': typeof OpiniaoRouteWithChildren
   '/outros': typeof OutrosRoute
   '/projetos': typeof ProjetosRoute
   '/viagens': typeof ViagensRoute
+  '/opiniao/$id': typeof OpiniaoIdRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
@@ -111,6 +120,7 @@ export interface FileRouteTypes {
     | '/outros'
     | '/projetos'
     | '/viagens'
+    | '/opiniao/$id'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
@@ -122,6 +132,7 @@ export interface FileRouteTypes {
     | '/outros'
     | '/projetos'
     | '/viagens'
+    | '/opiniao/$id'
   id:
     | '__root__'
     | '/'
@@ -133,6 +144,7 @@ export interface FileRouteTypes {
     | '/outros'
     | '/projetos'
     | '/viagens'
+    | '/opiniao/$id'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -141,7 +153,7 @@ export interface RootRouteChildren {
   CorridasRoute: typeof CorridasRoute
   EventosRoute: typeof EventosRoute
   LivrosRoute: typeof LivrosRoute
-  OpiniaoRoute: typeof OpiniaoRoute
+  OpiniaoRoute: typeof OpiniaoRouteWithChildren
   OutrosRoute: typeof OutrosRoute
   ProjetosRoute: typeof ProjetosRoute
   ViagensRoute: typeof ViagensRoute
@@ -212,8 +224,26 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/opiniao/$id': {
+      id: '/opiniao/$id'
+      path: '/$id'
+      fullPath: '/opiniao/$id'
+      preLoaderRoute: typeof OpiniaoIdRouteImport
+      parentRoute: typeof OpiniaoRoute
+    }
   }
 }
+
+interface OpiniaoRouteChildren {
+  OpiniaoIdRoute: typeof OpiniaoIdRoute
+}
+
+const OpiniaoRouteChildren: OpiniaoRouteChildren = {
+  OpiniaoIdRoute: OpiniaoIdRoute,
+}
+
+const OpiniaoRouteWithChildren =
+  OpiniaoRoute._addFileChildren(OpiniaoRouteChildren)
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
@@ -221,7 +251,7 @@ const rootRouteChildren: RootRouteChildren = {
   CorridasRoute: CorridasRoute,
   EventosRoute: EventosRoute,
   LivrosRoute: LivrosRoute,
-  OpiniaoRoute: OpiniaoRoute,
+  OpiniaoRoute: OpiniaoRouteWithChildren,
   OutrosRoute: OutrosRoute,
   ProjetosRoute: ProjetosRoute,
   ViagensRoute: ViagensRoute,
@@ -229,13 +259,3 @@ const rootRouteChildren: RootRouteChildren = {
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
   ._addFileTypes<FileRouteTypes>()
-
-import type { getRouter } from './router.tsx'
-import type { startInstance } from './start.ts'
-declare module '@tanstack/react-start' {
-  interface Register {
-    ssr: true
-    router: Awaited<ReturnType<typeof getRouter>>
-    config: Awaited<ReturnType<typeof startInstance.getOptions>>
-  }
-}
