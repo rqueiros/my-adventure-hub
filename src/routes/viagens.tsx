@@ -51,31 +51,27 @@ function Page() {
 
         {/* World map */}
         <section className="mb-10">
-          <div className="relative border border-border rounded-xl overflow-hidden bg-[radial-gradient(ellipse_at_center,_var(--tw-gradient-stops))] from-sky-400/[0.04] to-transparent">
-            <svg viewBox={`0 0 ${MAP_W} ${MAP_H}`} className="w-full h-auto block">
-              {/* Latitude / longitude grid */}
-              <defs>
-                <pattern id="grid" width="50" height="50" patternUnits="userSpaceOnUse">
-                  <path d="M 50 0 L 0 0 0 50" fill="none" stroke="currentColor" strokeWidth="0.3" className="text-border" />
-                </pattern>
-              </defs>
-              <rect width={MAP_W} height={MAP_H} fill="url(#grid)" opacity="0.5" />
-              {/* Equator + Greenwich */}
-              <line x1={0} y1={MAP_H / 2} x2={MAP_W} y2={MAP_H / 2} className="stroke-border" strokeDasharray="3 4" />
-              <line x1={MAP_W / 2} y1={0} x2={MAP_W / 2} y2={MAP_H} className="stroke-border" strokeDasharray="3 4" />
-
+          <div className="relative border border-border rounded-xl overflow-hidden bg-slate-950">
+            {/* Background world map (equirectangular blank) */}
+            <img
+              src="https://upload.wikimedia.org/wikipedia/commons/8/83/Equirectangular_projection_SW.jpg"
+              alt=""
+              aria-hidden="true"
+              className="absolute inset-0 w-full h-full object-cover opacity-30 mix-blend-screen pointer-events-none"
+            />
+            <svg viewBox={`0 0 ${MAP_W} ${MAP_H}`} className="relative w-full h-auto block">
               {/* Country dots */}
               {travels.map((t) => {
                 const { x, y } = project(t.lat, t.lng);
                 const active = filteredIds.has(t.id);
                 return (
-                  <g key={t.id} className={active ? "" : "opacity-30"}>
-                    <circle cx={x} cy={y} r={active ? 9 : 5} className="fill-sky-400/20" />
-                    <circle cx={x} cy={y} r={active ? 4 : 3} className="fill-sky-400" />
+                  <g key={t.id} className={active ? "" : "opacity-40"}>
+                    <circle cx={x} cy={y} r={active ? 11 : 6} className="fill-sky-400/30" />
+                    <circle cx={x} cy={y} r={active ? 5 : 3.5} className="fill-sky-400" />
                     <text
-                      x={x + 8}
-                      y={y - 8}
-                      className="fill-sky-200 font-mono"
+                      x={x + 9}
+                      y={y - 9}
+                      className="fill-sky-100 font-mono drop-shadow-[0_1px_2px_rgba(0,0,0,0.9)]"
                       style={{ fontSize: "11px" }}
                     >
                       {t.country}
@@ -84,7 +80,7 @@ function Page() {
                 );
               })}
             </svg>
-            <div className="absolute bottom-3 right-4 font-mono text-[10px] uppercase tracking-widest text-muted-foreground">
+            <div className="absolute bottom-3 right-4 font-mono text-[10px] uppercase tracking-widest text-muted-foreground bg-background/60 px-2 py-1 rounded">
               {filtered.length}/{travels.length} highlighted
             </div>
           </div>
