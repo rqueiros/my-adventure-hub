@@ -7,22 +7,21 @@ const FACETS = [
   "profile", "books", "events", "projects", "travels", "running",
   "opinion", "others", "upcoming",
 ] as const;
-type Table = (typeof FACETS)[number];
+
+function serial<T>(x: T): T {
+  return JSON.parse(JSON.stringify(x ?? null)) as T;
+}
 
 async function assertAdmin(userId: string) {
   const { data, error } = await supabaseAdmin
-    .from("user_roles")
-    .select("role")
-    .eq("user_id", userId)
-    .eq("role", "admin")
-    .maybeSingle();
+    .from("user_roles").select("role")
+    .eq("user_id", userId).eq("role", "admin").maybeSingle();
   if (error) throw new Error(error.message);
   if (!data) throw new Error("Forbidden: admin role required");
 }
 
 const facetSchema = z.enum(FACETS);
 
-// CHECK ROLE - call from admin gate
 export const checkAdmin = createServerFn({ method: "GET" })
   .middleware([requireSupabaseAuth])
   .handler(async ({ context }) => {
@@ -32,25 +31,23 @@ export const checkAdmin = createServerFn({ method: "GET" })
     return { isAdmin: !!data, userId: context.userId };
   });
 
-// CREATE
 export const createRow = createServerFn({ method: "POST" })
   .middleware([requireSupabaseAuth])
-  .inputValidator((d: { facet: Table; values: Record<string, unknown> }) => ({
+  .inputValidator((d: { facet: string; values: Record<string, unknown> }) => ({
     facet: facetSchema.parse(d.facet),
     values: d.values,
   }))
   .handler(async ({ data, context }) => {
     await assertAdmin(context.userId);
     const { data: row, error } = await supabaseAdmin
-      .from(data.facet).insert(data.values).select().single();
+      .from(data.facet).insert(data.values as any).select().single();
     if (error) throw new Error(error.message);
-    return row as Record<string, unknown>;
+    return serial(row) as any;
   });
 
-// UPDATE
 export const updateRow = createServerFn({ method: "POST" })
   .middleware([requireSupabaseAuth])
-  .inputValidator((d: { facet: Table; id: string; values: Record<string, unknown> }) => ({
+  .inputValidator((d: { facet: string; id: string; values: Record<string, unknown> }) => ({
     facet: facetSchema.parse(d.facet),
     id: z.string().uuid().parse(d.id),
     values: d.values,
@@ -58,15 +55,14 @@ export const updateRow = createServerFn({ method: "POST" })
   .handler(async ({ data, context }) => {
     await assertAdmin(context.userId);
     const { data: row, error } = await supabaseAdmin
-      .from(data.facet).update(data.values).eq("id", data.id).select().single();
+      .from(data.facet).update(data.values as any).eq("id", data.id).select().single();
     if (error) throw new Error(error.message);
-    return row as Record<string, unknown>;
+    return serial(row) as any;
   });
 
-// DELETE
 export const deleteRow = createServerFn({ method: "POST" })
   .middleware([requireSupabaseAuth])
-  .inputValidator((d: { facet: Table; id: string }) => ({
+  .inputValidator((d: { facet: string; id: string }) => ({
     facet: facetSchema.parse(d.facet),
     id: z.string().uuid().parse(d.id),
   }))
