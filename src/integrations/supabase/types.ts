@@ -14,16 +14,396 @@ export type Database = {
   }
   public: {
     Tables: {
-      [_ in never]: never
+      books: {
+        Row: {
+          created_at: string
+          date: string
+          id: string
+          image: string | null
+          meta: string | null
+          publisher: string | null
+          subtitle: string | null
+          title: string
+          updated_at: string
+          url: string | null
+        }
+        Insert: {
+          created_at?: string
+          date: string
+          id?: string
+          image?: string | null
+          meta?: string | null
+          publisher?: string | null
+          subtitle?: string | null
+          title: string
+          updated_at?: string
+          url?: string | null
+        }
+        Update: {
+          created_at?: string
+          date?: string
+          id?: string
+          image?: string | null
+          meta?: string | null
+          publisher?: string | null
+          subtitle?: string | null
+          title?: string
+          updated_at?: string
+          url?: string | null
+        }
+        Relationships: []
+      }
+      events: {
+        Row: {
+          created_at: string
+          date: string
+          id: string
+          image: string | null
+          kind: string
+          meta: string | null
+          subtitle: string | null
+          title: string
+          updated_at: string
+          url: string | null
+        }
+        Insert: {
+          created_at?: string
+          date: string
+          id?: string
+          image?: string | null
+          kind: string
+          meta?: string | null
+          subtitle?: string | null
+          title: string
+          updated_at?: string
+          url?: string | null
+        }
+        Update: {
+          created_at?: string
+          date?: string
+          id?: string
+          image?: string | null
+          kind?: string
+          meta?: string | null
+          subtitle?: string | null
+          title?: string
+          updated_at?: string
+          url?: string | null
+        }
+        Relationships: []
+      }
+      opinion: {
+        Row: {
+          body: string
+          created_at: string
+          date: string
+          id: string
+          image: string | null
+          magazine: string
+          subtitle: string | null
+          title: string
+          updated_at: string
+          url: string | null
+        }
+        Insert: {
+          body?: string
+          created_at?: string
+          date: string
+          id?: string
+          image?: string | null
+          magazine: string
+          subtitle?: string | null
+          title: string
+          updated_at?: string
+          url?: string | null
+        }
+        Update: {
+          body?: string
+          created_at?: string
+          date?: string
+          id?: string
+          image?: string | null
+          magazine?: string
+          subtitle?: string | null
+          title?: string
+          updated_at?: string
+          url?: string | null
+        }
+        Relationships: []
+      }
+      others: {
+        Row: {
+          created_at: string
+          date: string
+          id: string
+          image: string | null
+          kind: string
+          role: string | null
+          subtitle: string | null
+          title: string
+          updated_at: string
+          url: string | null
+        }
+        Insert: {
+          created_at?: string
+          date: string
+          id?: string
+          image?: string | null
+          kind: string
+          role?: string | null
+          subtitle?: string | null
+          title: string
+          updated_at?: string
+          url?: string | null
+        }
+        Update: {
+          created_at?: string
+          date?: string
+          id?: string
+          image?: string | null
+          kind?: string
+          role?: string | null
+          subtitle?: string | null
+          title?: string
+          updated_at?: string
+          url?: string | null
+        }
+        Relationships: []
+      }
+      profile: {
+        Row: {
+          avatar: string | null
+          bio: string
+          id: string
+          name: string
+          orcid: string | null
+          socials: Json
+          title: string
+          updated_at: string
+          website: string | null
+        }
+        Insert: {
+          avatar?: string | null
+          bio: string
+          id?: string
+          name: string
+          orcid?: string | null
+          socials?: Json
+          title: string
+          updated_at?: string
+          website?: string | null
+        }
+        Update: {
+          avatar?: string | null
+          bio?: string
+          id?: string
+          name?: string
+          orcid?: string | null
+          socials?: Json
+          title?: string
+          updated_at?: string
+          website?: string | null
+        }
+        Relationships: []
+      }
+      projects: {
+        Row: {
+          created_at: string
+          date: string
+          id: string
+          image: string | null
+          meta: string | null
+          subtitle: string | null
+          title: string
+          updated_at: string
+          url: string | null
+        }
+        Insert: {
+          created_at?: string
+          date: string
+          id?: string
+          image?: string | null
+          meta?: string | null
+          subtitle?: string | null
+          title: string
+          updated_at?: string
+          url?: string | null
+        }
+        Update: {
+          created_at?: string
+          date?: string
+          id?: string
+          image?: string | null
+          meta?: string | null
+          subtitle?: string | null
+          title?: string
+          updated_at?: string
+          url?: string | null
+        }
+        Relationships: []
+      }
+      running: {
+        Row: {
+          created_at: string
+          date: string
+          distance: string
+          id: string
+          image: string | null
+          race_name: string
+          time: string
+          updated_at: string
+          url: string | null
+          year: number
+        }
+        Insert: {
+          created_at?: string
+          date: string
+          distance: string
+          id?: string
+          image?: string | null
+          race_name: string
+          time: string
+          updated_at?: string
+          url?: string | null
+          year: number
+        }
+        Update: {
+          created_at?: string
+          date?: string
+          distance?: string
+          id?: string
+          image?: string | null
+          race_name?: string
+          time?: string
+          updated_at?: string
+          url?: string | null
+          year?: number
+        }
+        Relationships: []
+      }
+      travels: {
+        Row: {
+          continent: string
+          country: string
+          created_at: string
+          date: string
+          id: string
+          image: string | null
+          lat: number | null
+          lng: number | null
+          meta: string | null
+          subtitle: string | null
+          title: string
+          updated_at: string
+          url: string | null
+        }
+        Insert: {
+          continent: string
+          country: string
+          created_at?: string
+          date: string
+          id?: string
+          image?: string | null
+          lat?: number | null
+          lng?: number | null
+          meta?: string | null
+          subtitle?: string | null
+          title: string
+          updated_at?: string
+          url?: string | null
+        }
+        Update: {
+          continent?: string
+          country?: string
+          created_at?: string
+          date?: string
+          id?: string
+          image?: string | null
+          lat?: number | null
+          lng?: number | null
+          meta?: string | null
+          subtitle?: string | null
+          title?: string
+          updated_at?: string
+          url?: string | null
+        }
+        Relationships: []
+      }
+      upcoming: {
+        Row: {
+          created_at: string
+          date: string
+          facet: string
+          id: string
+          image: string | null
+          meta: string | null
+          subtitle: string | null
+          title: string
+          updated_at: string
+          url: string | null
+        }
+        Insert: {
+          created_at?: string
+          date: string
+          facet: string
+          id?: string
+          image?: string | null
+          meta?: string | null
+          subtitle?: string | null
+          title: string
+          updated_at?: string
+          url?: string | null
+        }
+        Update: {
+          created_at?: string
+          date?: string
+          facet?: string
+          id?: string
+          image?: string | null
+          meta?: string | null
+          subtitle?: string | null
+          title?: string
+          updated_at?: string
+          url?: string | null
+        }
+        Relationships: []
+      }
+      user_roles: {
+        Row: {
+          created_at: string
+          id: string
+          role: Database["public"]["Enums"]["app_role"]
+          user_id: string
+        }
+        Insert: {
+          created_at?: string
+          id?: string
+          role: Database["public"]["Enums"]["app_role"]
+          user_id: string
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          role?: Database["public"]["Enums"]["app_role"]
+          user_id?: string
+        }
+        Relationships: []
+      }
     }
     Views: {
       [_ in never]: never
     }
     Functions: {
-      [_ in never]: never
+      has_role: {
+        Args: {
+          _role: Database["public"]["Enums"]["app_role"]
+          _user_id: string
+        }
+        Returns: boolean
+      }
     }
     Enums: {
-      [_ in never]: never
+      app_role: "admin" | "user"
     }
     CompositeTypes: {
       [_ in never]: never
@@ -150,6 +530,8 @@ export type CompositeTypes<
 
 export const Constants = {
   public: {
-    Enums: {},
+    Enums: {
+      app_role: ["admin", "user"],
+    },
   },
 } as const
