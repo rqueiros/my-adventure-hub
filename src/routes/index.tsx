@@ -1,6 +1,8 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
+import { useQuery } from "@tanstack/react-query";
 import { ExternalLink, Twitter, Linkedin, Github, Youtube, Mail } from "lucide-react";
 import { facetMeta, stats, profile, upcoming, opinion, fmtDate, type Facet } from "@/data/activity";
+import { fetchOrcidWorks } from "@/lib/orcid";
 
 export const Route = createFileRoute("/")({
   component: Dashboard,
