@@ -1,6 +1,8 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
+import { useQuery } from "@tanstack/react-query";
 import { ExternalLink, Twitter, Linkedin, Github, Youtube, Mail } from "lucide-react";
 import { facetMeta, stats, profile, upcoming, opinion, fmtDate, type Facet } from "@/data/activity";
+import { fetchOrcidWorks } from "@/lib/orcid";
 
 export const Route = createFileRoute("/")({
   component: Dashboard,
@@ -30,6 +32,17 @@ function upcomingSorted() {
   return [...upcoming]
     .filter((u) => new Date(u.date).getTime() >= now - 1000 * 60 * 60 * 24)
     .sort((a, b) => a.date.localeCompare(b.date));
+}
+
+function ArticlesCount({ fallback }: { fallback: number }) {
+  const { data, isLoading, isError } = useQuery({
+    queryKey: ["orcid-works", profile.orcid],
+    queryFn: () => fetchOrcidWorks(profile.orcid),
+    staleTime: 60 * 60 * 1000,
+  });
+  if (isLoading) return <>…</>;
+  if (isError || !data) return <>{fallback}</>;
+  return <>{data.length}</>;
 }
 
 function Dashboard() {
@@ -135,7 +148,9 @@ function Dashboard() {
                       {m.code}
                     </span>
                   </div>
-                  <div className={`text-4xl font-extrabold mb-1 ${m.color}`}>{s.count}</div>
+                  <div className={`text-4xl font-extrabold mb-1 ${m.color}`}>
+                    {f === "articles" ? <ArticlesCount fallback={s.count} /> : s.count}
+                  </div>
                   <div className="text-[10px] font-bold uppercase tracking-widest text-foreground/80">{m.label}</div>
                   <div className="text-[10px] text-muted-foreground mt-0.5">{m.unit}</div>
                 </Link>
