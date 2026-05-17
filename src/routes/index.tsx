@@ -137,7 +137,9 @@ function Dashboard() {
                       {m.code}
                     </span>
                   </div>
-                  <div className={`text-4xl font-extrabold mb-1 ${m.color}`}>{s.count}</div>
+                  <div className={`text-4xl font-extrabold mb-1 ${m.color}`}>
+                    {f === "articles" ? <ArticlesCount fallback={s.count} /> : s.count}
+                  </div>
                   <div className="text-[10px] font-bold uppercase tracking-widest text-foreground/80">{m.label}</div>
                   <div className="text-[10px] text-muted-foreground mt-0.5">{m.unit}</div>
                 </Link>
