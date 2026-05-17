@@ -34,6 +34,17 @@ function upcomingSorted() {
     .sort((a, b) => a.date.localeCompare(b.date));
 }
 
+function ArticlesCount({ fallback }: { fallback: number }) {
+  const { data, isLoading, isError } = useQuery({
+    queryKey: ["orcid-works", profile.orcid],
+    queryFn: () => fetchOrcidWorks(profile.orcid),
+    staleTime: 60 * 60 * 1000,
+  });
+  if (isLoading) return <>…</>;
+  if (isError || !data) return <>{fallback}</>;
+  return <>{data.length}</>;
+}
+
 function Dashboard() {
   const latestOpinion = [...opinion].sort((a, b) => b.date.localeCompare(a.date))[0];
   const upcomingList = upcomingSorted();
