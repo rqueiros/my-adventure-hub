@@ -1,5 +1,5 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { AdminFacetPage } from "./admin";
+import { AdminFacetPage } from "@/components/admin/AdminFacetPage";
 
 export const Route = createFileRoute("/admin/$facet")({
   component: Page,
