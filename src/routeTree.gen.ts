@@ -13,16 +13,12 @@ import { Route as ViagensRouteImport } from './routes/viagens'
 import { Route as ProjetosRouteImport } from './routes/projetos'
 import { Route as OutrosRouteImport } from './routes/outros'
 import { Route as OpiniaoRouteImport } from './routes/opiniao'
-import { Route as LoginRouteImport } from './routes/login'
 import { Route as LivrosRouteImport } from './routes/livros'
 import { Route as EventosRouteImport } from './routes/eventos'
 import { Route as CorridasRouteImport } from './routes/corridas'
 import { Route as ArtigosRouteImport } from './routes/artigos'
-import { Route as AdminRouteImport } from './routes/admin'
 import { Route as IndexRouteImport } from './routes/index'
-import { Route as AdminIndexRouteImport } from './routes/admin.index'
 import { Route as OpiniaoIdRouteImport } from './routes/opiniao.$id'
-import { Route as AdminFacetRouteImport } from './routes/admin.$facet'
 
 const ViagensRoute = ViagensRouteImport.update({
   id: '/viagens',
@@ -42,11 +38,6 @@ const OutrosRoute = OutrosRouteImport.update({
 const OpiniaoRoute = OpiniaoRouteImport.update({
   id: '/opiniao',
   path: '/opiniao',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const LoginRoute = LoginRouteImport.update({
-  id: '/login',
-  path: '/login',
   getParentRoute: () => rootRouteImport,
 } as any)
 const LivrosRoute = LivrosRouteImport.update({
@@ -69,47 +60,28 @@ const ArtigosRoute = ArtigosRouteImport.update({
   path: '/artigos',
   getParentRoute: () => rootRouteImport,
 } as any)
-const AdminRoute = AdminRouteImport.update({
-  id: '/admin',
-  path: '/admin',
-  getParentRoute: () => rootRouteImport,
-} as any)
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
   getParentRoute: () => rootRouteImport,
-} as any)
-const AdminIndexRoute = AdminIndexRouteImport.update({
-  id: '/',
-  path: '/',
-  getParentRoute: () => AdminRoute,
 } as any)
 const OpiniaoIdRoute = OpiniaoIdRouteImport.update({
   id: '/$id',
   path: '/$id',
   getParentRoute: () => OpiniaoRoute,
 } as any)
-const AdminFacetRoute = AdminFacetRouteImport.update({
-  id: '/$facet',
-  path: '/$facet',
-  getParentRoute: () => AdminRoute,
-} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
-  '/admin': typeof AdminRouteWithChildren
   '/artigos': typeof ArtigosRoute
   '/corridas': typeof CorridasRoute
   '/eventos': typeof EventosRoute
   '/livros': typeof LivrosRoute
-  '/login': typeof LoginRoute
   '/opiniao': typeof OpiniaoRouteWithChildren
   '/outros': typeof OutrosRoute
   '/projetos': typeof ProjetosRoute
   '/viagens': typeof ViagensRoute
-  '/admin/$facet': typeof AdminFacetRoute
   '/opiniao/$id': typeof OpiniaoIdRoute
-  '/admin/': typeof AdminIndexRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
@@ -117,49 +89,38 @@ export interface FileRoutesByTo {
   '/corridas': typeof CorridasRoute
   '/eventos': typeof EventosRoute
   '/livros': typeof LivrosRoute
-  '/login': typeof LoginRoute
   '/opiniao': typeof OpiniaoRouteWithChildren
   '/outros': typeof OutrosRoute
   '/projetos': typeof ProjetosRoute
   '/viagens': typeof ViagensRoute
-  '/admin/$facet': typeof AdminFacetRoute
   '/opiniao/$id': typeof OpiniaoIdRoute
-  '/admin': typeof AdminIndexRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
-  '/admin': typeof AdminRouteWithChildren
   '/artigos': typeof ArtigosRoute
   '/corridas': typeof CorridasRoute
   '/eventos': typeof EventosRoute
   '/livros': typeof LivrosRoute
-  '/login': typeof LoginRoute
   '/opiniao': typeof OpiniaoRouteWithChildren
   '/outros': typeof OutrosRoute
   '/projetos': typeof ProjetosRoute
   '/viagens': typeof ViagensRoute
-  '/admin/$facet': typeof AdminFacetRoute
   '/opiniao/$id': typeof OpiniaoIdRoute
-  '/admin/': typeof AdminIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
   fullPaths:
     | '/'
-    | '/admin'
     | '/artigos'
     | '/corridas'
     | '/eventos'
     | '/livros'
-    | '/login'
     | '/opiniao'
     | '/outros'
     | '/projetos'
     | '/viagens'
-    | '/admin/$facet'
     | '/opiniao/$id'
-    | '/admin/'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
@@ -167,40 +128,31 @@ export interface FileRouteTypes {
     | '/corridas'
     | '/eventos'
     | '/livros'
-    | '/login'
     | '/opiniao'
     | '/outros'
     | '/projetos'
     | '/viagens'
-    | '/admin/$facet'
     | '/opiniao/$id'
-    | '/admin'
   id:
     | '__root__'
     | '/'
-    | '/admin'
     | '/artigos'
     | '/corridas'
     | '/eventos'
     | '/livros'
-    | '/login'
     | '/opiniao'
     | '/outros'
     | '/projetos'
     | '/viagens'
-    | '/admin/$facet'
     | '/opiniao/$id'
-    | '/admin/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
-  AdminRoute: typeof AdminRouteWithChildren
   ArtigosRoute: typeof ArtigosRoute
   CorridasRoute: typeof CorridasRoute
   EventosRoute: typeof EventosRoute
   LivrosRoute: typeof LivrosRoute
-  LoginRoute: typeof LoginRoute
   OpiniaoRoute: typeof OpiniaoRouteWithChildren
   OutrosRoute: typeof OutrosRoute
   ProjetosRoute: typeof ProjetosRoute
@@ -237,13 +189,6 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof OpiniaoRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/login': {
-      id: '/login'
-      path: '/login'
-      fullPath: '/login'
-      preLoaderRoute: typeof LoginRouteImport
-      parentRoute: typeof rootRouteImport
-    }
     '/livros': {
       id: '/livros'
       path: '/livros'
@@ -272,26 +217,12 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ArtigosRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/admin': {
-      id: '/admin'
-      path: '/admin'
-      fullPath: '/admin'
-      preLoaderRoute: typeof AdminRouteImport
-      parentRoute: typeof rootRouteImport
-    }
     '/': {
       id: '/'
       path: '/'
       fullPath: '/'
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
-    }
-    '/admin/': {
-      id: '/admin/'
-      path: '/'
-      fullPath: '/admin/'
-      preLoaderRoute: typeof AdminIndexRouteImport
-      parentRoute: typeof AdminRoute
     }
     '/opiniao/$id': {
       id: '/opiniao/$id'
@@ -300,27 +231,8 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof OpiniaoIdRouteImport
       parentRoute: typeof OpiniaoRoute
     }
-    '/admin/$facet': {
-      id: '/admin/$facet'
-      path: '/$facet'
-      fullPath: '/admin/$facet'
-      preLoaderRoute: typeof AdminFacetRouteImport
-      parentRoute: typeof AdminRoute
-    }
   }
 }
-
-interface AdminRouteChildren {
-  AdminFacetRoute: typeof AdminFacetRoute
-  AdminIndexRoute: typeof AdminIndexRoute
-}
-
-const AdminRouteChildren: AdminRouteChildren = {
-  AdminFacetRoute: AdminFacetRoute,
-  AdminIndexRoute: AdminIndexRoute,
-}
-
-const AdminRouteWithChildren = AdminRoute._addFileChildren(AdminRouteChildren)
 
 interface OpiniaoRouteChildren {
   OpiniaoIdRoute: typeof OpiniaoIdRoute
@@ -335,12 +247,10 @@ const OpiniaoRouteWithChildren =
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
-  AdminRoute: AdminRouteWithChildren,
   ArtigosRoute: ArtigosRoute,
   CorridasRoute: CorridasRoute,
   EventosRoute: EventosRoute,
   LivrosRoute: LivrosRoute,
-  LoginRoute: LoginRoute,
   OpiniaoRoute: OpiniaoRouteWithChildren,
   OutrosRoute: OutrosRoute,
   ProjetosRoute: ProjetosRoute,
