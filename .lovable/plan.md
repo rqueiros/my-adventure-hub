@@ -1,80 +1,99 @@
-## Scope
+## Objetivo
 
-1. **Articles count tile (live)** — Dashboard tile for Articles fetches live count from ORCID (already cached 1h via React Query).
-2. **Skip opinion detail** — already exists at `/opiniao/$id`.
-3. **Full backoffice** — Lovable Cloud + auth + CRUD for all 7 manual facets.
+Site totalmente estático (sem Node.js no servidor), conteúdo gerido por ficheiros markdown locais, gráficos no dashboard, novo avatar.
 
-## 1. Articles count tile
+## 1. Arquitetura: TanStack Start (SSR) → Vite SPA
 
-- Move `stats.articles.count` rendering to a small `<ArticlesTile>` that calls `useQuery(["orcid-works", profile.orcid])` with same key/queryFn as the articles page → instant cache hit on navigation.
-- While loading, show "…"; on error fall back to the static count.
+- Remover `@tanstack/react-start`, `createServerFn`, Cloudflare Worker, `src/server.ts`, `src/start.ts`, `src/lib/error-capture.ts`, `vite.config.ts` SSR config.
+- Manter `@tanstack/react-router` mas em modo **browser history** (cliente puro).
+- Novo `index.html` na raiz + `src/main.tsx` que monta o router.
+- `vite build` produz `dist/` com `index.html` + assets — serve em qualquer host estático.
+- Para hosts sem SPA fallback: adicionar pequeno script de prerender (rota → HTML estático) usando `vite-plugin-prerender` ou um script Node pós-build. Decisão: começar com SPA puro; se o teu host não fizer fallback, adicionamos prerender depois.
 
-## 2. Backoffice (largest part)
+## 2. Remover Lovable Cloud / backoffice
 
-### Cloud activation
-- Enable Lovable Cloud (Supabase). Configure email/password + Google auth.
-- Single admin user (the owner). Use `user_roles` table + `has_role()` security definer; only `admin` role can write.
+Apagar:
+- `src/routes/admin.tsx`, `admin.index.tsx`, `admin.$facet.tsx`, `login.tsx`
+- `src/components/admin/`
+- `src/lib/cms.functions.ts`, `admin.functions.ts`, `admin-config.ts`
+- `src/hooks/use-cms.ts`
+- `src/integrations/supabase/*`
+- `supabase/` (migrations + config)
+- `src/components/HudNav.tsx` link de admin
 
-### Schema (1 table per facet — keeps things straight)
+## 3. Conteúdo em markdown
+
+Estrutura:
 ```
-profile        (singleton row: name, title, bio, avatar, website, socials jsonb, orcid)
-books          (id, title, year, publisher, image, url, created_at)
-events         (id, title, kind, date, image, url, location, meta)
-                kind enum: talk, seminar, workshop, conference, podcast, jury, hackathon
-projects       (id, title, description, year, image, url, tech text[])
-travels        (id, country, city, year, lat, lng, image, notes)
-running        (id, race, distance, date, time_seconds, location, image, url)
-opinion        (id, title, subtitle, magazine, date, image, url, body)
-others         (id, title, kind, year, url, meta)
-                kind enum: supervision, committee, editorial, coordination
-upcoming       (id, facet, title, date, image, url, meta)
+content/
+  profile.md
+  books/<slug>.md
+  events/<slug>.md
+  projects/<slug>.md
+  travels/<slug>.md
+  running/<slug>.md
+  opinion/<slug>.md
+  others/<slug>.md
+  upcoming/<slug>.md
+public/
+  images/
+    books/, events/, projects/, travels/, running/, opinion/, others/, upcoming/, profile/
 ```
-All tables: `id uuid pk default gen_random_uuid()`, RLS enabled, `SELECT` public (read), `INSERT/UPDATE/DELETE` only via `has_role(auth.uid(),'admin')`.
 
-### Data migration
-- Seed all current `activity.ts` content into the tables via insert tool. `activity.ts` keeps only types + helpers (icons, labels, fmtDate).
+Cada `.md` com frontmatter YAML + corpo (só relevante para `opinion`):
+```md
+---
+title: Título
+date: 2024-05-12
+image: /images/events/talk-x.jpg
+kind: talk
+subtitle: ...
+url: https://...
+meta: 40 min
+---
+Corpo markdown (opinião)
+```
 
-### Public reads
-- Replace each route's static array import with a `createServerFn` that uses `supabaseAdmin` (public select, no auth needed) + `useQuery`. Cache 5 min.
-- Routes touched: `index.tsx`, `livros.tsx`, `eventos.tsx`, `projetos.tsx`, `viagens.tsx`, `corridas.tsx`, `opiniao.tsx`, `opiniao.$id.tsx`, `outros.tsx`. (Articles stays ORCID.)
+Loader: `src/content/loader.ts` usa `import.meta.glob('/content/**/*.md', { eager: true, query: '?raw', import: 'default' })` + `gray-matter` para parse. Resultado tipado por faceta.
 
-### Backoffice UI (`/admin/*`)
-- `/login` — email+password & Google sign-in.
-- `_authenticated/admin.tsx` layout — sidebar with one link per facet, gated by `has_role('admin')` (redirect to `/` otherwise).
-- For each facet: list table + "New" / "Edit" / "Delete" using shadcn `Table`, `Dialog`, `Form` + zod. Image upload optional v1 → just paste URL.
-- All mutations via authenticated server fns (`requireSupabaseAuth` + role check) → `queryClient.invalidateQueries` on success.
+Seed: converter o conteúdo atual de `src/data/activity.ts` em ficheiros `.md` (script único `scripts/seed-content.ts` que corro localmente).
 
-### Out of scope (v1)
-- Image upload to Storage (use URL field for now).
-- Multi-admin management UI.
-- Bulk import / CSV.
-- Rich-text editor for `opinion.body` (use textarea + markdown).
+Páginas (`livros`, `eventos`, etc.) passam a ler do loader em vez de `activity.ts`. `activity.ts` mantém só types + helpers.
 
-## File map
+Detalhe de opinião (`/opiniao/$id`) lê body markdown e renderiza com `react-markdown` + `remark-gfm`.
 
-**New**
-- `src/routes/login.tsx`
-- `src/routes/_authenticated.tsx`
-- `src/routes/_authenticated/admin.tsx` (layout w/ sidebar)
-- `src/routes/_authenticated/admin/index.tsx` (overview)
-- `src/routes/_authenticated/admin/{books,events,projects,travels,running,opinion,others,upcoming,profile}.tsx`
-- `src/lib/cms.functions.ts` — public read fns (1 per facet)
-- `src/lib/admin.functions.ts` — admin CRUD (one set per facet)
-- `src/components/admin/{DataTable,EntityDialog,DeleteButton}.tsx`
-- DB migrations for all tables + RLS + `user_roles` + `has_role`
+## 4. Gráficos no dashboard
 
-**Edited**
-- `src/data/activity.ts` — drop arrays, keep types/helpers
-- All facet routes — switch from static import → `useQuery`
-- `src/routes/index.tsx` — Articles tile uses ORCID live count; other tiles read from DB counts via server fn
-- `src/components/HudNav.tsx` — add Admin link when signed in as admin
+Usar `recharts` (já incluído pelo shadcn). Abaixo das caixas:
+- **Timeline anual**: barras empilhadas por faceta, eixo X = ano.
+- **Distribuição por faceta**: donut com % de cada faceta.
+- **Heatmap mensal**: grelha 12×N anos, intensidade por nº de itens no mês.
 
-## Order of execution
+Componentes em `src/components/charts/{TimelineChart,FacetDonut,MonthlyHeatmap}.tsx`. Dados agregados a partir do loader unificado.
 
-1. Enable Cloud, create schema + RLS + roles.
-2. Seed data.
-3. Wire public reads (no UI change visible).
-4. Build login + admin shell + CRUD pages.
-5. Live ORCID count tile.
+## 5. Avatar
 
-This is a large change — I'll proceed straight through and ship as one batch.
+Atualizar `profile.md` (e fallback em `activity.ts`) com:
+`https://dashboard.cip.ipp.pt/assets/9adc22ac-485b-4f86-877a-b352b7ff12c2?width=600&height=600&format=webp`
+
+## 6. Contagem ORCID
+
+Continua client-side fetch (já é). Sem mudança.
+
+## Ordem de execução
+
+1. Adicionar deps: `gray-matter`, `react-markdown`, `remark-gfm`. Remover `@tanstack/react-start`, `@supabase/*`, `@cloudflare/*`, `wrangler`, etc.
+2. Migrar bootstrap para Vite SPA (`index.html`, `src/main.tsx`, novo `vite.config.ts`).
+3. Criar loader + seed do `content/` a partir de `activity.ts`.
+4. Adaptar rotas para ler do loader.
+5. Apagar tudo de Supabase/admin.
+6. Adicionar gráficos.
+7. Atualizar avatar.
+
+## Notas
+
+- Imagens externas (URLs http) continuam a funcionar. Para imagens locais, pôr em `public/images/{faceta}/` e referenciar como `/images/...` no frontmatter.
+- Para acrescentares conteúdo: criar novo `.md` na pasta da faceta + pôr imagem em `public/images/{faceta}/`. Build & deploy.
+- README curto em `content/README.md` explica o fluxo.
+
+Vou avançar de uma vez, é um batch grande mas coeso.
