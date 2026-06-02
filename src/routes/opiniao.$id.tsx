@@ -34,7 +34,7 @@ function Page() {
         <img src={o.image} alt={o.title} className="w-full aspect-[16/9] object-cover rounded-xl ring-1 ring-white/10 mb-10" />
 
         <div className="prose prose-invert max-w-none text-foreground/90 leading-relaxed space-y-5 text-[15px] md:text-base">
-          {o.body.split("\n\n").map((p, i) => <p key={i}>{p}</p>)}
+          {(o.body ?? "").split(/\n\n+/).map((p, i) => <p key={i}>{p}</p>)}
         </div>
 
         <div className="mt-12 pt-6 border-t border-border">

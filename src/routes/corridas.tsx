@@ -29,15 +29,15 @@ function Page() {
 
   // Aggregated table: rows = race name, cols = year, cells = time. Filtered by distance.
   const matrixSource = filter === "ALL" ? running : running.filter((r) => r.distance === filter);
-  const raceNames = Array.from(new Set(matrixSource.map((r) => r.raceName))).sort();
+  const raceNames = Array.from(new Set(matrixSource.map((r) => r.title))).sort();
   const years = Array.from(new Set(matrixSource.map((r) => r.year))).sort((a, b) => b - a);
   const cell = (race: string, year: number) => {
-    const matches = matrixSource.filter((r) => r.raceName === race && r.year === year);
+    const matches = matrixSource.filter((r) => r.title === race && r.year === year);
     if (matches.length === 0) return null;
     return matches.map((m) => m.time).join(" · ");
   };
   const distanceForRace = (race: string): Distance =>
-    matrixSource.find((r) => r.raceName === race)!.distance;
+    matrixSource.find((r) => r.title === race)!.distance;
 
   return (
     <div className="min-h-screen bg-background text-foreground p-6 md:p-12 pb-32">
@@ -157,7 +157,7 @@ function Page() {
                   {filteredDetail.map((r) => (
                     <tr key={r.id} className="hover:bg-white/[0.02]">
                       <td className="px-4 py-3 font-mono text-[10px] text-muted-foreground whitespace-nowrap">{fmtDate(r.date)}</td>
-                      <td className="px-4 py-3 font-medium">{r.raceName}</td>
+                      <td className="px-4 py-3 font-medium">{r.title}</td>
                       <td className="px-3 py-3 text-center">
                         <span className={`font-mono text-[10px] font-bold px-2 py-0.5 border rounded ${distanceColor[r.distance]}`}>
                           {r.distance}
