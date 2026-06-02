@@ -3,6 +3,7 @@ import { useQuery } from "@tanstack/react-query";
 import { ExternalLink, Twitter, Linkedin, Github, Youtube, Mail } from "lucide-react";
 import { facetMeta, stats, profile, upcoming, opinion, fmtDate, type Facet } from "@/data/activity";
 import { fetchOrcidWorks } from "@/lib/orcid";
+import { TimelineChart, FacetDonut, MonthlyHeatmap } from "@/components/charts/DashboardCharts";
 
 export const Route = createFileRoute("/")({
   component: Dashboard,
@@ -158,6 +159,20 @@ function Dashboard() {
             })}
           </div>
         </section>
+
+        {/* Charts */}
+        <section className="animate-fade-up" style={{ animationDelay: "400ms" }}>
+          <div className="flex items-center gap-4 border-l-2 border-primary/60 pl-4 mb-6">
+            <h2 className="text-xl font-bold uppercase tracking-widest">Insights</h2>
+            <div className="flex-1 h-px bg-border" />
+          </div>
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
+            <TimelineChart />
+            <FacetDonut />
+            <MonthlyHeatmap />
+          </div>
+        </section>
+
 
         {/* Upcoming activity with image column */}
         <section className="animate-fade-up" style={{ animationDelay: "500ms" }}>
