@@ -27,6 +27,7 @@ const socialLinks = [
   { href: profile.socials.github,   Icon: Github,   label: "GitHub" },
   { href: profile.socials.youtube,  Icon: Youtube,  label: "YouTube" },
   { href: profile.socials.email,    Icon: Mail,     label: "Email" },
+  { href: "/feed.xml",              Icon: Rss,      label: "RSS — Opinion" },
 ];
 
 function upcomingSorted() {
