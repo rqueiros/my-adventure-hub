@@ -1,8 +1,10 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { useQuery } from "@tanstack/react-query";
-import { ExternalLink, Twitter, Linkedin, Github, Youtube, Mail } from "lucide-react";
+import { ExternalLink, Twitter, Linkedin, Github, Youtube, Mail, Rss } from "lucide-react";
 import { facetMeta, stats, profile, upcoming, opinion, fmtDate, type Facet } from "@/data/activity";
 import { fetchOrcidWorks } from "@/lib/orcid";
+import { NowStrip } from "@/components/NowStrip";
+import { YearMetrics } from "@/components/YearMetrics";
 
 export const Route = createFileRoute("/")({
   component: Dashboard,
@@ -25,6 +27,7 @@ const socialLinks = [
   { href: profile.socials.github,   Icon: Github,   label: "GitHub" },
   { href: profile.socials.youtube,  Icon: Youtube,  label: "YouTube" },
   { href: profile.socials.email,    Icon: Mail,     label: "Email" },
+  { href: "/feed.xml",              Icon: Rss,      label: "RSS — Opinion" },
 ];
 
 function upcomingSorted() {
@@ -88,6 +91,8 @@ function Dashboard() {
       </header>
 
       <main className="max-w-7xl mx-auto space-y-16">
+        <NowStrip />
+
         {/* Featured Op-Ed (above the count tiles) */}
         {latestOpinion && (
           <section className="animate-fade-up" style={{ animationDelay: "100ms" }}>
@@ -158,7 +163,7 @@ function Dashboard() {
             })}
           </div>
         </section>
-
+        <YearMetrics />
 
 
 
