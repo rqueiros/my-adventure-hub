@@ -1,4 +1,4 @@
-import matter from "gray-matter";
+import yaml from "js-yaml";
 
 // Raw markdown files loaded eagerly at build time via Vite's import.meta.glob.
 // Add a new .md under content/<facet>/ and it shows up after rebuild.
@@ -15,6 +15,21 @@ function slugFromPath(path: string): string {
   return name.replace(/\.md$/, "");
 }
 
+// Browser-safe frontmatter parser (gray-matter requires Node's Buffer).
+const FM_RE = /^---\r?\n([\s\S]*?)\r?\n---\r?\n?([\s\S]*)$/;
+function matter(raw: string): { data: Record<string, unknown>; content: string } {
+  const m = raw.match(FM_RE);
+  if (!m) return { data: {}, content: raw };
+  let data: Record<string, unknown> = {};
+  try {
+    const parsed = yaml.load(m[1]);
+    if (parsed && typeof parsed === "object") data = parsed as Record<string, unknown>;
+  } catch {
+    data = {};
+  }
+  return { data, content: m[2] ?? "" };
+}
+
 function parseFolder<T extends RawItem>(folder: string): T[] {
   const prefix = `/content/${folder}/`;
   const items: T[] = [];
@@ -22,9 +37,8 @@ function parseFolder<T extends RawItem>(folder: string): T[] {
     if (!path.startsWith(prefix)) continue;
     const { data, content } = matter(raw);
     const id = (data.id as string) || slugFromPath(path);
-    items.push({ ...(data as Record<string, unknown>), id, body: content.trim() } as unknown as T);
+    items.push({ ...data, id, body: content.trim() } as unknown as T);
   }
-  // Default sort: most recent first
   return items.sort((a, b) =>
     String((b as any).date ?? "").localeCompare(String((a as any).date ?? "")),
   );
@@ -33,8 +47,7 @@ function parseFolder<T extends RawItem>(folder: string): T[] {
 function parseSingle(path: string): Record<string, unknown> | null {
   const raw = RAW_FILES[path];
   if (!raw) return null;
-  const { data } = matter(raw);
-  return data as Record<string, unknown>;
+  return matter(raw).data;
 }
 
 // === Types ===
