@@ -103,6 +103,10 @@ export const profile = (parseSingle("/content/profile.md") as unknown as Profile
   socials: { twitter: "", linkedin: "", github: "", youtube: "", email: "" },
 };
 
+export type Now = { updated: string; items: string[] };
+export const now = (parseSingle("/content/now.md") as unknown as Now) ?? { updated: "", items: [] };
+
 export const facetData: Record<Exclude<Facet, "articles">, Item[]> = {
   books, events, projects, travels, running, opinion, others,
 };
+
