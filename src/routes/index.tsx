@@ -162,7 +162,7 @@ function Dashboard() {
             })}
           </div>
         </section>
-
+        <YearMetrics />
 
 
 
