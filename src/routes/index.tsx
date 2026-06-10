@@ -159,18 +159,8 @@ function Dashboard() {
           </div>
         </section>
 
-        {/* Charts */}
-        <section className="animate-fade-up" style={{ animationDelay: "400ms" }}>
-          <div className="flex items-center gap-4 border-l-2 border-primary/60 pl-4 mb-6">
-            <h2 className="text-xl font-bold uppercase tracking-widest">Insights</h2>
-            <div className="flex-1 h-px bg-border" />
-          </div>
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
-            <TimelineChart />
-            <FacetDonut />
-            <MonthlyHeatmap />
-          </div>
-        </section>
+
+
 
 
         {/* Upcoming activity with image column */}
