@@ -22,24 +22,23 @@ function escapeXml(s: string) {
 }
 
 function buildOpinionFeed(): string {
-  const dir = join(process.cwd(), "content", "opinion");
-  if (!existsSync(dir)) return "";
-  const files = readdirSync(dir).filter((f) => f.endsWith(".md"));
-  const items = files
-    .map((f) => {
-      const raw = readFileSync(join(dir, f), "utf8");
-      const m = raw.match(/^---\r?\n([\s\S]*?)\r?\n---\r?\n?([\s\S]*)$/);
-      const data = (m ? (yaml.load(m[1]) as Record<string, unknown>) : {}) ?? {};
-      const body = m ? m[2].trim() : "";
-      const id = (data.id as string) || f.replace(/\.md$/, "");
+  const file = join(process.cwd(), "content", "opinion.md");
+  if (!existsSync(file)) return "";
+  const raw = readFileSync(file, "utf8");
+  const m = raw.match(/^---\r?\n([\s\S]*?)\r?\n---\r?\n?([\s\S]*)$/);
+  const data = (m ? (yaml.load(m[1]) as Record<string, unknown>) : {}) ?? {};
+  const rawItems = Array.isArray((data as any).items) ? ((data as any).items as Record<string, unknown>[]) : [];
+  const items = rawItems
+    .map((it) => {
+      const id = String(it.id ?? "");
       return {
         id,
-        title: String(data.title ?? id),
-        date: String(data.date ?? ""),
-        magazine: String(data.magazine ?? ""),
-        subtitle: String(data.subtitle ?? ""),
+        title: String(it.title ?? id),
+        date: String(it.date ?? ""),
+        magazine: String(it.magazine ?? ""),
+        subtitle: String(it.subtitle ?? ""),
         url: `${SITE_URL}/opiniao/${id}`,
-        body,
+        body: String(it.body ?? "").trim(),
       };
     })
     .filter((it) => it.date)
