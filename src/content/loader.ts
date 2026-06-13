@@ -2,11 +2,20 @@ import yaml from "js-yaml";
 
 // One markdown file per facet. Add a new item by appending to the `items:`
 // array in content/<facet>.md and rebuild — no new files needed.
+// Eager + ?raw glob: Vite watches these files and HMR-invalidates this module
+// (and every importer) whenever any content/*.md changes, so the site updates
+// live without a manual restart.
 const RAW_FILES = import.meta.glob("/content/*.md", {
   eager: true,
   query: "?raw",
   import: "default",
 }) as Record<string, string>;
+
+// Force-accept HMR so edits to this loader (or any glob-matched md) trigger
+// a fast refresh instead of a full page reload-loop.
+if (import.meta.hot) {
+  import.meta.hot.accept();
+}
 
 // Browser-safe frontmatter parser (gray-matter requires Node's Buffer).
 const FM_RE = /^---\r?\n([\s\S]*?)\r?\n---\r?\n?([\s\S]*)$/;
