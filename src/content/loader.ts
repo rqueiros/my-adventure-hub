@@ -1,54 +1,44 @@
 import yaml from "js-yaml";
 
-// One markdown file per facet. Add a new item by appending to the `items:`
-// array in content/<facet>.md and rebuild — no new files needed.
-// Eager + ?raw glob: Vite watches these files and HMR-invalidates this module
-// (and every importer) whenever any content/*.md changes, so the site updates
-// live without a manual restart.
-const RAW_FILES = import.meta.glob("/content/*.md", {
-  eager: true,
-  query: "?raw",
-  import: "default",
-}) as Record<string, string>;
+// =====================================================================
+// Runtime content loader.
+//
+// Markdown lives in /public/content/*.md and is served as STATIC files.
+// At app boot we `fetch()` each file in parallel and populate the mutable
+// arrays/objects exported below. Nothing is bundled into the JS — to update
+// the site, edit a markdown file under public/content and (in production)
+// redeploy; in dev the files are served live and a reload picks them up.
+// =====================================================================
 
-// Force-accept HMR so edits to this loader (or any glob-matched md) trigger
-// a fast refresh instead of a full page reload-loop.
-if (import.meta.hot) {
-  import.meta.hot.accept();
-}
-
-// Browser-safe frontmatter parser (gray-matter requires Node's Buffer).
+// Browser-safe YAML frontmatter parser.
 const FM_RE = /^---\r?\n([\s\S]*?)\r?\n---\r?\n?([\s\S]*)$/;
 function matter(raw: string): { data: Record<string, unknown>; content: string } {
   const m = raw.match(FM_RE);
   if (!m) return { data: {}, content: raw };
-  let data: Record<string, unknown> = {};
   try {
     const parsed = yaml.load(m[1]);
-    if (parsed && typeof parsed === "object") data = parsed as Record<string, unknown>;
+    return {
+      data: parsed && typeof parsed === "object" ? (parsed as Record<string, unknown>) : {},
+      content: m[2] ?? "",
+    };
   } catch {
-    data = {};
+    return { data: {}, content: m[2] ?? "" };
   }
-  return { data, content: m[2] ?? "" };
 }
 
-type RawItem = { id: string; [k: string]: unknown };
-
-function parseFacet<T extends RawItem>(facet: string): T[] {
-  const path = `/content/${facet}.md`;
-  const raw = RAW_FILES[path];
-  if (!raw) return [];
-  const { data } = matter(raw);
-  const items = Array.isArray((data as any).items) ? ((data as any).items as RawItem[]) : [];
-  return (items as T[]).slice().sort((a, b) =>
-    String((b as any).date ?? "").localeCompare(String((a as any).date ?? "")),
-  );
+async function fetchMd(facet: string): Promise<{ data: Record<string, unknown>; content: string }> {
+  const res = await fetch(`/content/${facet}.md`, { cache: "no-cache" });
+  if (!res.ok) return { data: {}, content: "" };
+  const raw = await res.text();
+  return matter(raw);
 }
 
-function parseSingle(facet: string): Record<string, unknown> | null {
-  const raw = RAW_FILES[`/content/${facet}.md`];
-  if (!raw) return null;
-  return matter(raw).data;
+async function fetchFacet<T extends { date?: string }>(facet: string): Promise<T[]> {
+  const { data } = await fetchMd(facet);
+  const items = Array.isArray((data as any).items) ? ((data as any).items as T[]) : [];
+  return items
+    .slice()
+    .sort((a, b) => String((b as any).date ?? "").localeCompare(String((a as any).date ?? "")));
 }
 
 // === Types ===
@@ -89,24 +79,71 @@ export type Profile = {
   socials: { twitter: string; linkedin: string; github: string; youtube: string; email: string };
 };
 
-// === Loaded content ===
-export const books = parseFacet<Book>("books");
-export const events = parseFacet<Event>("events");
-export const projects = parseFacet<Item>("projects");
-export const travels = parseFacet<Travel>("travels");
-export const running = parseFacet<Race>("running");
-export const opinion = parseFacet<Opinion>("opinion");
-export const others = parseFacet<Other>("others");
-export const upcoming = parseFacet<UpcomingItem>("upcoming");
+export type Now = { updated: string; items: string[] };
 
-export const profile = (parseSingle("profile") as unknown as Profile) ?? {
+// === Mutable, live-populated exports ===
+// Arrays keep the same reference, so consumers that imported them at module
+// load see the items as soon as initContent() finishes.
+export const books: Book[] = [];
+export const events: Event[] = [];
+export const projects: Item[] = [];
+export const travels: Travel[] = [];
+export const running: Race[] = [];
+export const opinion: Opinion[] = [];
+export const others: Other[] = [];
+export const upcoming: UpcomingItem[] = [];
+
+export const profile: Profile = {
   name: "", title: "", bio: "", orcid: "", website: "", avatar: "",
   socials: { twitter: "", linkedin: "", github: "", youtube: "", email: "" },
 };
 
-export type Now = { updated: string; items: string[] };
-export const now = (parseSingle("now") as unknown as Now) ?? { updated: "", items: [] };
+export const now: Now = { updated: "", items: [] };
 
 export const facetData: Record<Exclude<Facet, "articles">, Item[]> = {
   books, events, projects, travels, running, opinion, others,
 };
+
+function replaceArr<T>(target: T[], next: T[]) {
+  target.length = 0;
+  target.push(...next);
+}
+
+let initPromise: Promise<void> | null = null;
+
+export function initContent(): Promise<void> {
+  if (initPromise) return initPromise;
+  initPromise = (async () => {
+    const [
+      bks, evs, prj, trv, run, opi, oth, upc, prof, nw,
+    ] = await Promise.all([
+      fetchFacet<Book>("books"),
+      fetchFacet<Event>("events"),
+      fetchFacet<Item>("projects"),
+      fetchFacet<Travel>("travels"),
+      fetchFacet<Race>("running"),
+      fetchFacet<Opinion>("opinion"),
+      fetchFacet<Other>("others"),
+      fetchFacet<UpcomingItem>("upcoming"),
+      fetchMd("profile").then((m) => m.data as unknown as Profile),
+      fetchMd("now").then((m) => m.data as unknown as Now),
+    ]);
+    replaceArr(books, bks);
+    replaceArr(events, evs);
+    replaceArr(projects, prj);
+    replaceArr(travels, trv);
+    replaceArr(running, run);
+    replaceArr(opinion, opi);
+    replaceArr(others, oth);
+    replaceArr(upcoming, upc);
+    if (prof && typeof prof === "object") {
+      Object.assign(profile, prof);
+      if ((prof as any).socials) Object.assign(profile.socials, (prof as any).socials);
+    }
+    if (nw && typeof nw === "object") {
+      Object.assign(now, nw);
+      if (Array.isArray((nw as any).items)) now.items = (nw as any).items;
+    }
+  })();
+  return initPromise;
+}
