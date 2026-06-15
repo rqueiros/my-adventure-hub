@@ -22,7 +22,7 @@ function escapeXml(s: string) {
 }
 
 function buildOpinionFeed(): string {
-  const file = join(process.cwd(), "content", "opinion.md");
+  const file = join(process.cwd(), "public", "content", "opinion.md");
   if (!existsSync(file)) return "";
   const raw = readFileSync(file, "utf8");
   const m = raw.match(/^---\r?\n([\s\S]*?)\r?\n---\r?\n?([\s\S]*)$/);
