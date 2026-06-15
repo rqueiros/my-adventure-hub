@@ -50,6 +50,22 @@ function ArticlesCount({ fallback }: { fallback: number }) {
 
 function Dashboard() {
   const latestOpinion = [...opinion].sort((a, b) => b.date.localeCompare(a.date))[0];
+
+  // Highlight: any item marked `featured: true` in events / travels / others md,
+  // otherwise fallback to the most recent event by date.
+  const highlightPool = [...events, ...travels, ...others] as any[];
+  const featured =
+    highlightPool.find((x) => x?.featured) ??
+    [...events].sort((a, b) => b.date.localeCompare(a.date))[0];
+  const featuredFacet: Facet = events.includes(featured as any)
+    ? "events"
+    : travels.includes(featured as any)
+    ? "travels"
+    : others.includes(featured as any)
+    ? "others"
+    : "events";
+  const fMeta = facetMeta[featuredFacet];
+
   const upcomingList = upcomingSorted();
 
   return (
