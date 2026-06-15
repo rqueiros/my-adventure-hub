@@ -1,7 +1,7 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { useQuery } from "@tanstack/react-query";
 import { ExternalLink, Twitter, Linkedin, Github, Youtube, Mail, Rss } from "lucide-react";
-import { facetMeta, stats, profile, upcoming, opinion, fmtDate, type Facet } from "@/data/activity";
+import { facetMeta, stats, profile, upcoming, opinion, events, travels, others, fmtDate, type Facet } from "@/data/activity";
 import { fetchOrcidWorks } from "@/lib/orcid";
 import { NowStrip } from "@/components/NowStrip";
 import { YearMetrics } from "@/components/YearMetrics";
@@ -50,6 +50,22 @@ function ArticlesCount({ fallback }: { fallback: number }) {
 
 function Dashboard() {
   const latestOpinion = [...opinion].sort((a, b) => b.date.localeCompare(a.date))[0];
+
+  // Highlight: any item marked `featured: true` in events / travels / others md,
+  // otherwise fallback to the most recent event by date.
+  const highlightPool = [...events, ...travels, ...others] as any[];
+  const featured =
+    highlightPool.find((x) => x?.featured) ??
+    [...events].sort((a, b) => b.date.localeCompare(a.date))[0];
+  const featuredFacet: Facet = events.includes(featured as any)
+    ? "events"
+    : travels.includes(featured as any)
+    ? "travels"
+    : others.includes(featured as any)
+    ? "others"
+    : "events";
+  const fMeta = facetMeta[featuredFacet];
+
   const upcomingList = upcomingSorted();
 
   return (
@@ -93,39 +109,72 @@ function Dashboard() {
       <main className="max-w-7xl mx-auto space-y-16">
         <NowStrip />
 
-        {/* Featured Op-Ed (above the count tiles) */}
-        {latestOpinion && (
+        {/* Featured row: Latest Op-Ed + Highlight */}
+        {(latestOpinion || featured) && (
           <section className="animate-fade-up" style={{ animationDelay: "100ms" }}>
             <div className="flex items-center gap-4 border-l-2 border-rose-400 pl-4 mb-4">
-              <h2 className="text-xs font-bold uppercase tracking-[0.3em] text-rose-400">Latest Op-Ed</h2>
+              <h2 className="text-xs font-bold uppercase tracking-[0.3em] text-rose-400">Featured</h2>
               <div className="flex-1 h-px bg-border" />
             </div>
-            <Link
-              to="/opiniao/$id"
-              params={{ id: latestOpinion.id }}
-              className="group flex flex-col sm:flex-row gap-5 p-5 rounded-2xl border border-rose-400/30 bg-rose-400/[0.04] hover:bg-rose-400/[0.08] hover:border-rose-400/60 transition-colors"
-            >
-              <img
-                src={latestOpinion.image}
-                alt={latestOpinion.title}
-                loading="lazy"
-                className="w-full sm:w-44 h-32 sm:h-28 object-cover rounded-lg ring-1 ring-white/10 shrink-0"
-              />
-              <div className="flex-1 min-w-0">
-                <div className="font-mono text-[10px] uppercase tracking-[0.3em] text-rose-400 mb-2">
-                  {latestOpinion.magazine} · {fmtDate(latestOpinion.date)}
-                </div>
-                <h3 className="text-xl md:text-2xl font-bold leading-tight group-hover:text-rose-200 transition-colors">
-                  {latestOpinion.title}
-                </h3>
-                {latestOpinion.subtitle && (
-                  <p className="text-sm text-muted-foreground mt-1">{latestOpinion.subtitle}</p>
-                )}
-                <span className="inline-flex items-center gap-1 mt-3 font-mono text-[10px] uppercase tracking-widest text-rose-400 group-hover:underline">
-                  Read full piece →
-                </span>
-              </div>
-            </Link>
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
+              {latestOpinion && (
+                <Link
+                  to="/opiniao/$id"
+                  params={{ id: latestOpinion.id }}
+                  className="group flex flex-col rounded-2xl border border-rose-400/30 bg-rose-400/[0.04] hover:bg-rose-400/[0.08] hover:border-rose-400/60 transition-colors overflow-hidden"
+                >
+                  <img
+                    src={latestOpinion.image}
+                    alt={latestOpinion.title}
+                    loading="lazy"
+                    className="w-full aspect-[16/9] object-cover"
+                  />
+                  <div className="p-5">
+                    <div className="font-mono text-[10px] uppercase tracking-[0.3em] text-rose-400 mb-2">
+                      Latest Op-Ed · {latestOpinion.magazine} · {fmtDate(latestOpinion.date)}
+                    </div>
+                    <h3 className="text-xl md:text-2xl font-bold leading-tight group-hover:text-rose-200 transition-colors">
+                      {latestOpinion.title}
+                    </h3>
+                    {latestOpinion.subtitle && (
+                      <p className="text-sm text-muted-foreground mt-1">{latestOpinion.subtitle}</p>
+                    )}
+                    <span className="inline-flex items-center gap-1 mt-3 font-mono text-[10px] uppercase tracking-widest text-rose-400 group-hover:underline">
+                      Read full piece →
+                    </span>
+                  </div>
+                </Link>
+              )}
+              {featured && (
+                <a
+                  href={featured.url || fMeta.path}
+                  target={featured.url ? "_blank" : undefined}
+                  rel={featured.url ? "noopener noreferrer" : undefined}
+                  className={`group flex flex-col rounded-2xl border ${fMeta.border} ${fMeta.bg} hover:bg-opacity-30 transition-colors overflow-hidden`}
+                >
+                  <img
+                    src={featured.image}
+                    alt={featured.title}
+                    loading="lazy"
+                    className="w-full aspect-[16/9] object-cover"
+                  />
+                  <div className="p-5">
+                    <div className={`font-mono text-[10px] uppercase tracking-[0.3em] ${fMeta.color} mb-2`}>
+                      Highlight · {fMeta.label} · {fmtDate(featured.date)}
+                    </div>
+                    <h3 className="text-xl md:text-2xl font-bold leading-tight transition-colors">
+                      {featured.title}
+                    </h3>
+                    {featured.subtitle && (
+                      <p className="text-sm text-muted-foreground mt-1">{featured.subtitle}</p>
+                    )}
+                    <span className={`inline-flex items-center gap-1 mt-3 font-mono text-[10px] uppercase tracking-widest ${fMeta.color} group-hover:underline`}>
+                      {featured.url ? "Open →" : "Explore →"}
+                    </span>
+                  </div>
+                </a>
+              )}
+            </div>
           </section>
         )}
 
