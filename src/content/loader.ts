@@ -1,3 +1,4 @@
+import { useSyncExternalStore } from "react";
 import yaml from "js-yaml";
 
 // =====================================================================
@@ -8,6 +9,11 @@ import yaml from "js-yaml";
 // arrays/objects exported below. Nothing is bundled into the JS — to update
 // the site, edit a markdown file under public/content and (in production)
 // redeploy; in dev the files are served live and a reload picks them up.
+//
+// A tiny pub/sub + `useContent()` hook (useSyncExternalStore) lets any
+// component re-render once content has been fetched. `initContent()` is
+// awaited in main.tsx before first render, but the hook also lets us
+// refresh data later (e.g. on window focus).
 // =====================================================================
 
 // Browser-safe YAML frontmatter parser.
@@ -27,7 +33,8 @@ function matter(raw: string): { data: Record<string, unknown>; content: string }
 }
 
 async function fetchMd(facet: string): Promise<{ data: Record<string, unknown>; content: string }> {
-  const res = await fetch(`/content/${facet}.md`, { cache: "no-cache" });
+  // cache: "no-store" so editing an .md and refreshing always shows fresh data.
+  const res = await fetch(`/content/${facet}.md?t=${Date.now()}`, { cache: "no-store" });
   if (!res.ok) return { data: {}, content: "" };
   const raw = await res.text();
   return matter(raw);
@@ -109,41 +116,91 @@ function replaceArr<T>(target: T[], next: T[]) {
   target.push(...next);
 }
 
+// === pub/sub for React reactivity =====================================
+let version = 0;
+let ready = false;
+const listeners = new Set<() => void>();
+function emit() {
+  version += 1;
+  for (const l of listeners) l();
+}
+
+function subscribe(l: () => void) {
+  listeners.add(l);
+  return () => listeners.delete(l);
+}
+function getSnapshot() {
+  return version;
+}
+
+/**
+ * Re-render any component that calls this hook when content is (re)loaded.
+ * Returns `{ ready, version }`. `ready` is true after the first successful
+ * `initContent()` resolves; pages can guard expensive work behind it.
+ */
+export function useContent() {
+  const v = useSyncExternalStore(subscribe, getSnapshot, getSnapshot);
+  return { ready, version: v };
+}
+
+export function isContentReady() {
+  return ready;
+}
+
+// === Loader ===========================================================
 let initPromise: Promise<void> | null = null;
+
+async function loadAll() {
+  const [
+    bks, evs, prj, trv, run, opi, oth, upc, prof, nw,
+  ] = await Promise.all([
+    fetchFacet<Book>("books"),
+    fetchFacet<Event>("events"),
+    fetchFacet<Item>("projects"),
+    fetchFacet<Travel>("travels"),
+    fetchFacet<Race>("running"),
+    fetchFacet<Opinion>("opinion"),
+    fetchFacet<Other>("others"),
+    fetchFacet<UpcomingItem>("upcoming"),
+    fetchMd("profile").then((m) => m.data as unknown as Profile),
+    fetchMd("now").then((m) => m.data as unknown as Now),
+  ]);
+  replaceArr(books, bks);
+  replaceArr(events, evs);
+  replaceArr(projects, prj);
+  replaceArr(travels, trv);
+  replaceArr(running, run);
+  replaceArr(opinion, opi);
+  replaceArr(others, oth);
+  replaceArr(upcoming, upc);
+  if (prof && typeof prof === "object") {
+    Object.assign(profile, prof);
+    if ((prof as any).socials) Object.assign(profile.socials, (prof as any).socials);
+  }
+  if (nw && typeof nw === "object") {
+    Object.assign(now, nw);
+    if (Array.isArray((nw as any).items)) now.items = (nw as any).items;
+  }
+  ready = true;
+  emit();
+}
 
 export function initContent(): Promise<void> {
   if (initPromise) return initPromise;
-  initPromise = (async () => {
-    const [
-      bks, evs, prj, trv, run, opi, oth, upc, prof, nw,
-    ] = await Promise.all([
-      fetchFacet<Book>("books"),
-      fetchFacet<Event>("events"),
-      fetchFacet<Item>("projects"),
-      fetchFacet<Travel>("travels"),
-      fetchFacet<Race>("running"),
-      fetchFacet<Opinion>("opinion"),
-      fetchFacet<Other>("others"),
-      fetchFacet<UpcomingItem>("upcoming"),
-      fetchMd("profile").then((m) => m.data as unknown as Profile),
-      fetchMd("now").then((m) => m.data as unknown as Now),
-    ]);
-    replaceArr(books, bks);
-    replaceArr(events, evs);
-    replaceArr(projects, prj);
-    replaceArr(travels, trv);
-    replaceArr(running, run);
-    replaceArr(opinion, opi);
-    replaceArr(others, oth);
-    replaceArr(upcoming, upc);
-    if (prof && typeof prof === "object") {
-      Object.assign(profile, prof);
-      if ((prof as any).socials) Object.assign(profile.socials, (prof as any).socials);
-    }
-    if (nw && typeof nw === "object") {
-      Object.assign(now, nw);
-      if (Array.isArray((nw as any).items)) now.items = (nw as any).items;
-    }
-  })();
+  initPromise = loadAll().catch((err) => {
+    // Even on failure, mark ready so the UI renders (with whatever was
+    // loaded) instead of getting stuck on a blank screen.
+    console.error("[content] init failed:", err);
+    ready = true;
+    emit();
+  });
+  return initPromise;
+}
+
+/** Force a refetch (e.g. on window focus). */
+export function refreshContent(): Promise<void> {
+  initPromise = loadAll().catch((err) => {
+    console.error("[content] refresh failed:", err);
+  });
   return initPromise;
 }
