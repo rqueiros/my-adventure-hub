@@ -8,7 +8,7 @@ import {
 
 export {
   books, events, projects, travels, running, opinion, others, upcoming,
-  profile, now, facetData,
+  profile, now, facetData, useContent, refreshContent, isContentReady,
 } from "@/content/loader";
 export type {
   Facet, Item, Book, Event, EventKind, Travel, Continent, Race, Distance,
@@ -59,17 +59,19 @@ export const articleKindLabel: Record<ArticleKind, string> = {
   bookchapter: "Book Chapters", thesis: "Theses",
 };
 
-// Live counts from loaded markdown. Articles count is filled live via ORCID
-// on the dashboard; here we fall back to 0 (no markdown files for articles).
-export const stats: Record<Facet, { count: number }> = {
-  books:    { count: books.length },
-  articles: { count: 0 },
-  events:   { count: events.length },
-  projects: { count: projects.length },
-  travels:  { count: new Set(travels.map((t) => t.country)).size },
-  running:  { count: running.length },
-  opinion:  { count: opinion.length },
-  others:   { count: others.length },
+// Live counts from loaded markdown. Defined via getters so reading
+// `stats.books.count` always reflects the current array length (arrays are
+// populated asynchronously by the content loader after the app boots).
+// Articles count comes live from ORCID on the dashboard; default to 0 here.
+export const stats: Record<Facet, { readonly count: number }> = {
+  books:    { get count() { return books.length; } },
+  articles: { get count() { return 0; } },
+  events:   { get count() { return events.length; } },
+  projects: { get count() { return projects.length; } },
+  travels:  { get count() { return new Set(travels.map((t) => t.country)).size; } },
+  running:  { get count() { return running.length; } },
+  opinion:  { get count() { return opinion.length; } },
+  others:   { get count() { return others.length; } },
 };
 
 export function fmtDate(iso: string) {

@@ -1,6 +1,6 @@
 import { createFileRoute, Link, notFound } from "@tanstack/react-router";
 import { ExternalLink } from "lucide-react";
-import { opinion, fmtDate } from "@/data/activity";
+import { opinion, fmtDate, useContent } from "@/data/activity";
 
 export const Route = createFileRoute("/opiniao/$id")({
   component: Page,
@@ -15,8 +15,14 @@ export const Route = createFileRoute("/opiniao/$id")({
 
 function Page() {
   const { id } = Route.useParams();
+  const { ready } = useContent();
   const o = opinion.find((x) => x.id === id);
-  if (!o) throw notFound();
+  // While content is still loading on a hard refresh, render nothing
+  // instead of throwing notFound (which would flash a 404 page).
+  if (!o) {
+    if (!ready) return <div className="min-h-screen bg-background" />;
+    throw notFound();
+  }
 
   return (
     <div className="min-h-screen bg-background text-foreground p-6 md:p-12 pb-32">
