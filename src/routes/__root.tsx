@@ -1,6 +1,7 @@
 import { Outlet, Link, createRootRouteWithContext, useRouter } from "@tanstack/react-router";
 import type { QueryClient } from "@tanstack/react-query";
 import { HudNav } from "@/components/HudNav";
+import { useContent } from "@/content/loader";
 
 function NotFoundComponent() {
   return (
@@ -50,6 +51,9 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
 });
 
 function RootComponent() {
+  // Subscribe the whole app to content updates so every page re-renders
+  // when initContent / refreshContent finishes loading markdown.
+  useContent();
   return (
     <>
       <Outlet />
