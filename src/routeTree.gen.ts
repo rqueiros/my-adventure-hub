@@ -16,6 +16,7 @@ import { Route as OpiniaoRouteImport } from './routes/opiniao'
 import { Route as LivrosRouteImport } from './routes/livros'
 import { Route as EventosRouteImport } from './routes/eventos'
 import { Route as CorridasRouteImport } from './routes/corridas'
+import { Route as ContactoRouteImport } from './routes/contacto'
 import { Route as ArtigosRouteImport } from './routes/artigos'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as OpiniaoIdRouteImport } from './routes/opiniao.$id'
@@ -55,6 +56,11 @@ const CorridasRoute = CorridasRouteImport.update({
   path: '/corridas',
   getParentRoute: () => rootRouteImport,
 } as any)
+const ContactoRoute = ContactoRouteImport.update({
+  id: '/contacto',
+  path: '/contacto',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const ArtigosRoute = ArtigosRouteImport.update({
   id: '/artigos',
   path: '/artigos',
@@ -74,6 +80,7 @@ const OpiniaoIdRoute = OpiniaoIdRouteImport.update({
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/artigos': typeof ArtigosRoute
+  '/contacto': typeof ContactoRoute
   '/corridas': typeof CorridasRoute
   '/eventos': typeof EventosRoute
   '/livros': typeof LivrosRoute
@@ -86,6 +93,7 @@ export interface FileRoutesByFullPath {
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/artigos': typeof ArtigosRoute
+  '/contacto': typeof ContactoRoute
   '/corridas': typeof CorridasRoute
   '/eventos': typeof EventosRoute
   '/livros': typeof LivrosRoute
@@ -99,6 +107,7 @@ export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
   '/artigos': typeof ArtigosRoute
+  '/contacto': typeof ContactoRoute
   '/corridas': typeof CorridasRoute
   '/eventos': typeof EventosRoute
   '/livros': typeof LivrosRoute
@@ -113,6 +122,7 @@ export interface FileRouteTypes {
   fullPaths:
     | '/'
     | '/artigos'
+    | '/contacto'
     | '/corridas'
     | '/eventos'
     | '/livros'
@@ -125,6 +135,7 @@ export interface FileRouteTypes {
   to:
     | '/'
     | '/artigos'
+    | '/contacto'
     | '/corridas'
     | '/eventos'
     | '/livros'
@@ -137,6 +148,7 @@ export interface FileRouteTypes {
     | '__root__'
     | '/'
     | '/artigos'
+    | '/contacto'
     | '/corridas'
     | '/eventos'
     | '/livros'
@@ -150,6 +162,7 @@ export interface FileRouteTypes {
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   ArtigosRoute: typeof ArtigosRoute
+  ContactoRoute: typeof ContactoRoute
   CorridasRoute: typeof CorridasRoute
   EventosRoute: typeof EventosRoute
   LivrosRoute: typeof LivrosRoute
@@ -210,6 +223,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof CorridasRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/contacto': {
+      id: '/contacto'
+      path: '/contacto'
+      fullPath: '/contacto'
+      preLoaderRoute: typeof ContactoRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/artigos': {
       id: '/artigos'
       path: '/artigos'
@@ -248,6 +268,7 @@ const OpiniaoRouteWithChildren =
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   ArtigosRoute: ArtigosRoute,
+  ContactoRoute: ContactoRoute,
   CorridasRoute: CorridasRoute,
   EventosRoute: EventosRoute,
   LivrosRoute: LivrosRoute,
