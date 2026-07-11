@@ -52,27 +52,47 @@ function Page() {
         {/* World map */}
         <section className="mb-10">
           <div className="relative border border-border rounded-xl overflow-hidden bg-slate-950">
-            {/* Background world map (equirectangular blank) */}
-            <img
-              src="https://upload.wikimedia.org/wikipedia/commons/8/83/Equirectangular_projection_SW.jpg"
-              alt=""
-              aria-hidden="true"
-              className="absolute inset-0 w-full h-full object-cover opacity-30 mix-blend-screen pointer-events-none"
-            />
-            <svg viewBox={`0 0 ${MAP_W} ${MAP_H}`} className="relative w-full h-auto block">
+            <svg viewBox={`0 0 ${MAP_W} ${MAP_H}`} className="relative w-full h-auto block" xmlns="http://www.w3.org/2000/svg">
+              {/* Ocean */}
+              <rect x="0" y="0" width={MAP_W} height={MAP_H} className="fill-slate-900" />
+              {/* Latitude / longitude grid */}
+              {Array.from({ length: 11 }).map((_, i) => (
+                <line
+                  key={`h-${i}`}
+                  x1={0}
+                  x2={MAP_W}
+                  y1={(i * MAP_H) / 10}
+                  y2={(i * MAP_H) / 10}
+                  className="stroke-slate-700/40"
+                  strokeWidth={0.5}
+                />
+              ))}
+              {Array.from({ length: 19 }).map((_, i) => (
+                <line
+                  key={`v-${i}`}
+                  y1={0}
+                  y2={MAP_H}
+                  x1={(i * MAP_W) / 18}
+                  x2={(i * MAP_W) / 18}
+                  className="stroke-slate-700/40"
+                  strokeWidth={0.5}
+                />
+              ))}
+              {/* Equator */}
+              <line x1={0} x2={MAP_W} y1={MAP_H / 2} y2={MAP_H / 2} className="stroke-slate-600/60" strokeWidth={0.8} />
               {/* Country dots */}
               {travels.map((t) => {
                 const { x, y } = project(t.lat, t.lng);
                 const active = filteredIds.has(t.id);
                 return (
                   <g key={t.id} className={active ? "" : "opacity-40"}>
-                    <circle cx={x} cy={y} r={active ? 11 : 6} className="fill-sky-400/30" />
-                    <circle cx={x} cy={y} r={active ? 5 : 3.5} className="fill-sky-400" />
+                    <circle cx={x} cy={y} r={active ? 13 : 7} className="fill-sky-400/25" />
+                    <circle cx={x} cy={y} r={active ? 5.5 : 3.5} className="fill-sky-400" />
                     <text
                       x={x + 9}
                       y={y - 9}
-                      className="fill-sky-100 font-mono drop-shadow-[0_1px_2px_rgba(0,0,0,0.9)]"
-                      style={{ fontSize: "11px" }}
+                      className="fill-sky-100 font-mono"
+                      style={{ fontSize: "11px", paintOrder: "stroke", stroke: "rgba(0,0,0,0.85)", strokeWidth: 3 }}
                     >
                       {t.country}
                     </text>

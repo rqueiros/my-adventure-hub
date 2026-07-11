@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { createFileRoute, Link } from "@tanstack/react-router";
-import { ExternalLink } from "lucide-react";
-import { events, eventKindLabel, stats, fmtDate, type EventKind } from "@/data/activity";
+import { events, eventKindLabel, stats, type EventKind } from "@/data/activity";
+import { ItemCard } from "@/components/ItemCard";
 
 export const Route = createFileRoute("/eventos")({
   component: Page,
@@ -40,7 +40,7 @@ function Page() {
         </p>
 
         {/* Tabs */}
-        <div className="flex flex-wrap gap-2 mb-6 font-mono text-[10px] uppercase tracking-widest">
+        <div className="flex flex-wrap gap-2 mb-10 font-mono text-[10px] uppercase tracking-widest">
           {(["ALL", ...kindOrder] as Filter[]).map((f) => {
             const active = filter === f;
             const label = f === "ALL" ? `All (${events.length})` : `${eventKindLabel[f]} (${countOf(f)})`;
@@ -60,45 +60,24 @@ function Page() {
           })}
         </div>
 
-        <div className="border border-border rounded-xl overflow-hidden">
-          <table className="w-full text-sm">
-            <thead className="bg-white/[0.03] font-mono text-[10px] uppercase tracking-widest text-muted-foreground">
-              <tr>
-                <th className="text-left px-4 py-3 w-28">Image</th>
-                <th className="text-left px-4 py-3 w-28">Date</th>
-                <th className="text-left px-4 py-3">Title</th>
-                <th className="text-left px-4 py-3 hidden md:table-cell">Type</th>
-                <th className="text-right px-4 py-3 w-20">Link</th>
-              </tr>
-            </thead>
-            <tbody className="divide-y divide-border">
-              {filtered.map((e) => (
-                <tr key={e.id} className="hover:bg-white/[0.02]">
-                  <td className="px-4 py-3">
-                    <img src={e.image} alt={e.title} loading="lazy"
-                      className="w-24 h-16 object-cover rounded ring-1 ring-white/10" />
-                  </td>
-                  <td className="px-4 py-3 font-mono text-[10px] text-muted-foreground whitespace-nowrap">
-                    {fmtDate(e.date)}
-                  </td>
-                  <td className="px-4 py-3 font-medium">
-                    {e.title}
-                    {e.subtitle && <div className="text-[10px] text-muted-foreground mt-0.5">{e.subtitle}{e.meta ? ` · ${e.meta}` : ""}</div>}
-                  </td>
-                  <td className="px-4 py-3 text-muted-foreground hidden md:table-cell text-[11px] uppercase tracking-widest">
-                    {eventKindLabel[e.kind]}
-                  </td>
-                  <td className="px-4 py-3 text-right">
-                    <a href={e.url} target="_blank" rel="noopener noreferrer"
-                      className="inline-flex items-center gap-1 text-primary hover:underline font-mono text-[10px] uppercase tracking-widest">
-                      Open <ExternalLink className="size-3" />
-                    </a>
-                  </td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
+        <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
+          {filtered.map((e) => (
+            <ItemCard
+              key={e.id}
+              date={e.date}
+              title={e.title}
+              subtitle={e.subtitle}
+              meta={e.meta}
+              image={e.image}
+              url={e.url}
+              badge={{ label: eventKindLabel[e.kind] ?? e.kind, className: "text-fuchsia-300 border-fuchsia-400/40" }}
+            />
+          ))}
         </div>
+
+        {filtered.length === 0 && (
+          <p className="text-center text-muted-foreground font-mono text-xs mt-8">No events in this category.</p>
+        )}
       </div>
     </div>
   );
