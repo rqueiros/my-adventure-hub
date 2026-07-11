@@ -1,9 +1,8 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { useQuery } from "@tanstack/react-query";
-import { ExternalLink, Twitter, Linkedin, Github, Youtube, Mail, Rss } from "lucide-react";
-import { facetMeta, stats, profile, upcoming, opinion, events, travels, others, fmtDate, type Facet } from "@/data/activity";
+import { ExternalLink, Twitter, Linkedin, Github, Youtube, Mail, Rss, Send } from "lucide-react";
+import { facetMeta, stats, profile, upcoming, opinion, events, fmtDate, type Facet } from "@/data/activity";
 import { fetchOrcidWorks } from "@/lib/orcid";
-import { NowStrip } from "@/components/NowStrip";
 import { YearMetrics } from "@/components/YearMetrics";
 
 export const Route = createFileRoute("/")({
@@ -21,12 +20,14 @@ const facetOrder: Facet[] = (
   ["books", "articles", "events", "opinion", "projects", "running", "travels"] as Facet[]
 ).sort((a, b) => facetMeta[a].label.localeCompare(facetMeta[b].label)).concat("others");
 
+const CONTACT_EMAIL = "ricardo.queiros@gmail.com";
+
 const socialLinks = [
   { href: profile.socials.twitter,  Icon: Twitter,  label: "Twitter" },
   { href: profile.socials.linkedin, Icon: Linkedin, label: "LinkedIn" },
   { href: profile.socials.github,   Icon: Github,   label: "GitHub" },
   { href: profile.socials.youtube,  Icon: Youtube,  label: "YouTube" },
-  { href: profile.socials.email,    Icon: Mail,     label: "Email" },
+  { href: `mailto:${CONTACT_EMAIL}`, Icon: Mail,    label: "Email" },
   { href: "/feed.xml",              Icon: Rss,      label: "RSS — Opinion" },
 ];
 
@@ -50,21 +51,58 @@ function ArticlesCount({ fallback }: { fallback: number }) {
 
 function Dashboard() {
   const latestOpinion = [...opinion].sort((a, b) => b.date.localeCompare(a.date))[0];
+  const lastEvents = [...events].sort((a, b) => b.date.localeCompare(a.date)).slice(0, 3);
+  const eMeta = facetMeta.events;
+  const oMeta = facetMeta.opinion;
 
-  // Highlight: any item marked `featured: true` in events / travels / others md,
-  // otherwise fallback to the most recent event by date.
-  const highlightPool = [...events, ...travels, ...others] as any[];
-  const featured =
-    highlightPool.find((x) => x?.featured) ??
-    [...events].sort((a, b) => b.date.localeCompare(a.date))[0];
-  const featuredFacet: Facet = events.includes(featured as any)
-    ? "events"
-    : travels.includes(featured as any)
-    ? "travels"
-    : others.includes(featured as any)
-    ? "others"
-    : "events";
-  const fMeta = facetMeta[featuredFacet];
+  type FeatCard = {
+    key: string;
+    kind: "opinion" | "event";
+    title: string;
+    subtitle?: string;
+    image: string;
+    date: string;
+    label: string;
+    to?: string;
+    params?: Record<string, string>;
+    href?: string;
+    border: string;
+    bg: string;
+    color: string;
+  };
+
+  const featureCards: FeatCard[] = [];
+  if (latestOpinion) {
+    featureCards.push({
+      key: "op-" + latestOpinion.id,
+      kind: "opinion",
+      title: latestOpinion.title,
+      subtitle: latestOpinion.subtitle,
+      image: latestOpinion.image,
+      date: latestOpinion.date,
+      label: `Latest Op-Ed · ${latestOpinion.magazine}`,
+      to: "/opiniao/$id",
+      params: { id: latestOpinion.id },
+      border: oMeta.border,
+      bg: oMeta.bg,
+      color: oMeta.color,
+    });
+  }
+  for (const ev of lastEvents) {
+    featureCards.push({
+      key: "ev-" + ev.id,
+      kind: "event",
+      title: ev.title,
+      subtitle: ev.subtitle,
+      image: ev.image,
+      date: ev.date,
+      label: `Event · ${ev.kind}`,
+      href: ev.url,
+      border: eMeta.border,
+      bg: eMeta.bg,
+      color: eMeta.color,
+    });
+  }
 
   const upcomingList = upcomingSorted();
 
@@ -73,7 +111,7 @@ function Dashboard() {
       {/* Top bar with social icons */}
       <div className="max-w-7xl mx-auto flex justify-end gap-2 mb-6">
         {socialLinks.map(({ href, Icon, label }) => (
-          <a key={label} href={href} target="_blank" rel="noopener noreferrer" aria-label={label}
+          <a key={label} href={href} target={href.startsWith("http") ? "_blank" : undefined} rel="noopener noreferrer" aria-label={label}
             className="size-9 rounded-full border border-border bg-card/40 flex items-center justify-center text-muted-foreground hover:text-primary hover:border-primary/60 transition-colors">
             <Icon className="size-4" />
           </a>
@@ -94,92 +132,27 @@ function Dashboard() {
             <p className="text-sm md:text-base text-foreground/80 leading-relaxed max-w-3xl">
               {profile.bio}
             </p>
-            <a
-              href={profile.website}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="inline-flex items-center gap-1.5 font-mono text-xs text-primary hover:underline"
-            >
-              www.ricardoqueiros.com <ExternalLink className="size-3" />
-            </a>
+            <div className="flex flex-wrap items-center gap-4">
+              <a
+                href={`mailto:${CONTACT_EMAIL}`}
+                className="inline-flex items-center gap-1.5 font-mono text-xs text-primary hover:underline"
+              >
+                <Mail className="size-3" /> {CONTACT_EMAIL}
+              </a>
+              <Link
+                to="/contacto"
+                className="inline-flex items-center gap-2 rounded-lg bg-primary text-primary-foreground px-4 py-2 font-mono text-[11px] uppercase tracking-widest hover:opacity-90 transition-opacity"
+              >
+                <Send className="size-3.5" /> Pedir formação / workshop / consultoria
+              </Link>
+            </div>
           </div>
         </div>
       </header>
 
       <main className="max-w-7xl mx-auto space-y-16">
-        <NowStrip />
-
-        {/* Featured row: Latest Op-Ed + Highlight */}
-        {(latestOpinion || featured) && (
-          <section className="animate-fade-up" style={{ animationDelay: "100ms" }}>
-            <div className="flex items-center gap-4 border-l-2 border-rose-400 pl-4 mb-4">
-              <h2 className="text-xs font-bold uppercase tracking-[0.3em] text-rose-400">Featured</h2>
-              <div className="flex-1 h-px bg-border" />
-            </div>
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
-              {latestOpinion && (
-                <Link
-                  to="/opiniao/$id"
-                  params={{ id: latestOpinion.id }}
-                  className="group flex flex-col rounded-2xl border border-rose-400/30 bg-rose-400/[0.04] hover:bg-rose-400/[0.08] hover:border-rose-400/60 transition-colors overflow-hidden"
-                >
-                  <img
-                    src={latestOpinion.image}
-                    alt={latestOpinion.title}
-                    loading="lazy"
-                    className="w-full aspect-[16/9] object-cover"
-                  />
-                  <div className="p-5">
-                    <div className="font-mono text-[10px] uppercase tracking-[0.3em] text-rose-400 mb-2">
-                      Latest Op-Ed · {latestOpinion.magazine} · {fmtDate(latestOpinion.date)}
-                    </div>
-                    <h3 className="text-xl md:text-2xl font-bold leading-tight group-hover:text-rose-200 transition-colors">
-                      {latestOpinion.title}
-                    </h3>
-                    {latestOpinion.subtitle && (
-                      <p className="text-sm text-muted-foreground mt-1">{latestOpinion.subtitle}</p>
-                    )}
-                    <span className="inline-flex items-center gap-1 mt-3 font-mono text-[10px] uppercase tracking-widest text-rose-400 group-hover:underline">
-                      Read full piece →
-                    </span>
-                  </div>
-                </Link>
-              )}
-              {featured && (
-                <a
-                  href={featured.url || fMeta.path}
-                  target={featured.url ? "_blank" : undefined}
-                  rel={featured.url ? "noopener noreferrer" : undefined}
-                  className={`group flex flex-col rounded-2xl border ${fMeta.border} ${fMeta.bg} hover:bg-opacity-30 transition-colors overflow-hidden`}
-                >
-                  <img
-                    src={featured.image}
-                    alt={featured.title}
-                    loading="lazy"
-                    className="w-full aspect-[16/9] object-cover"
-                  />
-                  <div className="p-5">
-                    <div className={`font-mono text-[10px] uppercase tracking-[0.3em] ${fMeta.color} mb-2`}>
-                      Highlight · {fMeta.label} · {fmtDate(featured.date)}
-                    </div>
-                    <h3 className="text-xl md:text-2xl font-bold leading-tight transition-colors">
-                      {featured.title}
-                    </h3>
-                    {featured.subtitle && (
-                      <p className="text-sm text-muted-foreground mt-1">{featured.subtitle}</p>
-                    )}
-                    <span className={`inline-flex items-center gap-1 mt-3 font-mono text-[10px] uppercase tracking-widest ${fMeta.color} group-hover:underline`}>
-                      {featured.url ? "Open →" : "Explore →"}
-                    </span>
-                  </div>
-                </a>
-              )}
-            </div>
-          </section>
-        )}
-
-        {/* Aggregated Facet Tiles */}
-        <section>
+        {/* Overview (moved up) */}
+        <section className="animate-fade-up">
           <div className="flex items-center gap-4 border-l-2 border-primary pl-4 mb-6">
             <h2 className="text-xl font-bold uppercase tracking-widest">Overview</h2>
             <div className="flex-1 h-px bg-border" />
@@ -194,7 +167,7 @@ function Dashboard() {
                   key={f}
                   to={m.path}
                   className={`animate-fade-up group relative overflow-hidden border ${m.border} ${m.bg} hover:bg-opacity-30 p-5 rounded-xl transition-all hover:scale-[1.02]`}
-                  style={{ animationDelay: `${200 + i * 40}ms` }}
+                  style={{ animationDelay: `${i * 40}ms` }}
                 >
                   <div className="flex items-start justify-between mb-4">
                     <Icon className={`size-6 ${m.color}`} strokeWidth={1.5} />
@@ -212,13 +185,55 @@ function Dashboard() {
             })}
           </div>
         </section>
+
         <YearMetrics />
 
-
-
+        {/* Featured: latest op-ed + 3 last events, 2 per row */}
+        {featureCards.length > 0 && (
+          <section className="animate-fade-up">
+            <div className="flex items-center gap-4 border-l-2 border-rose-400 pl-4 mb-6">
+              <h2 className="text-xl font-bold uppercase tracking-widest">Featured</h2>
+              <div className="flex-1 h-px bg-border" />
+            </div>
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
+              {featureCards.map((c) => {
+                const inner = (
+                  <>
+                    <img
+                      src={c.image}
+                      alt={c.title}
+                      loading="lazy"
+                      className="w-full aspect-[16/9] object-cover"
+                    />
+                    <div className="p-5">
+                      <div className={`font-mono text-[10px] uppercase tracking-[0.3em] ${c.color} mb-2`}>
+                        {c.label} · {fmtDate(c.date)}
+                      </div>
+                      <h3 className="text-xl md:text-2xl font-bold leading-tight">
+                        {c.title}
+                      </h3>
+                      {c.subtitle && (
+                        <p className="text-sm text-muted-foreground mt-1">{c.subtitle}</p>
+                      )}
+                      <span className={`inline-flex items-center gap-1 mt-3 font-mono text-[10px] uppercase tracking-widest ${c.color} group-hover:underline`}>
+                        {c.kind === "opinion" ? "Read full piece →" : "Open →"}
+                      </span>
+                    </div>
+                  </>
+                );
+                const cls = `group flex flex-col rounded-2xl border ${c.border} ${c.bg} hover:bg-opacity-30 transition-colors overflow-hidden`;
+                return c.to ? (
+                  <Link key={c.key} to={c.to} params={c.params as any} className={cls}>{inner}</Link>
+                ) : (
+                  <a key={c.key} href={c.href} target="_blank" rel="noopener noreferrer" className={cls}>{inner}</a>
+                );
+              })}
+            </div>
+          </section>
+        )}
 
         {/* Upcoming activity with image column */}
-        <section className="animate-fade-up" style={{ animationDelay: "500ms" }}>
+        <section className="animate-fade-up">
           <div className="flex items-center gap-4 border-l-2 border-white/20 pl-4 mb-6">
             <h2 className="text-xl font-bold uppercase tracking-widest text-muted-foreground">
               Upcoming Activity
