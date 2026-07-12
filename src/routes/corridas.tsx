@@ -99,7 +99,7 @@ function Page() {
             <table className="w-full text-sm">
               <thead className="bg-white/[0.03] font-mono text-[10px] uppercase tracking-widest text-muted-foreground">
                 <tr>
-                  <th className="text-left px-4 py-3">Race</th>
+                  <th className="text-left px-4 py-3">Corrida</th>
                   <th className="text-center px-3 py-3 w-16">Dist.</th>
                   {years.map((y) => (
                     <th key={y} className="text-center px-4 py-3">{y}</th>
