@@ -238,7 +238,7 @@ function Dashboard() {
         <section className="animate-fade-up">
           <div className="flex items-center gap-4 border-l-2 border-white/20 pl-4 mb-6">
             <h2 className="text-xl font-bold uppercase tracking-widest text-muted-foreground">
-              Upcoming Activity
+              Próxima atividade
             </h2>
             <div className="flex-1 h-px bg-border" />
           </div>
@@ -246,10 +246,10 @@ function Dashboard() {
             <table className="w-full text-sm">
               <thead className="bg-white/[0.03] font-mono text-[10px] uppercase tracking-widest text-muted-foreground">
                 <tr>
-                  <th className="text-left px-4 py-3 w-24">Image</th>
-                  <th className="text-left px-4 py-3 w-28">Date</th>
+                  <th className="text-left px-4 py-3 w-24">Imagem</th>
+                  <th className="text-left px-4 py-3 w-28">Data</th>
                   <th className="text-left px-4 py-3 w-32">Facet</th>
-                  <th className="text-left px-4 py-3">Title</th>
+                  <th className="text-left px-4 py-3">Título</th>
                   <th className="text-right px-4 py-3 w-20">Link</th>
                 </tr>
               </thead>
