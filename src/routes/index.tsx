@@ -156,7 +156,7 @@ function Dashboard() {
         {/* Overview (moved up) */}
         <section className="animate-fade-up">
           <div className="flex items-center gap-4 border-l-2 border-primary pl-4 mb-6">
-            <h2 className="text-xl font-bold uppercase tracking-widest">Overview</h2>
+            <h2 className="text-xl font-bold uppercase tracking-widest">Visão geral</h2>
             <div className="flex-1 h-px bg-border" />
           </div>
           <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-8 gap-4">
