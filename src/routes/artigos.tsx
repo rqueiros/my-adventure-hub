@@ -8,8 +8,8 @@ import { fetchOrcidWorks, type OrcidWork } from "@/lib/orcid";
 export const Route = createFileRoute("/artigos")({
   component: Page,
   head: () => ({ meta: [
-    { title: "Articles — Ricardo Queirós" },
-    { name: "description", content: "Scientific publications from ORCID: conferences, journals, book chapters and theses." },
+    { title: "Artigos — Ricardo Queirós" },
+    { name: "description", content: "Publicações científicas do ORCID: conferências, revistas, capítulos de livro e teses." },
   ]}),
 });
 
