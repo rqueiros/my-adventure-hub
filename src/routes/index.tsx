@@ -9,8 +9,8 @@ export const Route = createFileRoute("/")({
   component: Dashboard,
   head: () => ({
     meta: [
-      { title: "Ricardo Queirós — Professor, Researcher, Writer & Runner" },
-      { name: "description", content: "Personal dashboard of books, articles, opinion, events, projects, travels, running and academic service." },
+      { title: "Ricardo Queirós — Professor, Investigador, Escritor & Corredor" },
+      { name: "description", content: "Painel pessoal de livros, artigos, opinião, eventos, projetos, viagens, corridas e serviço académico." },
     ],
   }),
 });
