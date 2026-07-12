@@ -69,7 +69,7 @@ function Page() {
 
         {/* Distance filter — promoted to top, controls both tables */}
         <div className="flex flex-wrap items-center gap-3 mb-6">
-          <span className="font-mono text-[10px] uppercase tracking-widest text-muted-foreground">Distance:</span>
+          <span className="font-mono text-[10px] uppercase tracking-widest text-muted-foreground">Distância:</span>
           <div className="flex flex-wrap gap-2 font-mono text-[10px] uppercase tracking-widest">
             {(["ALL", "10K", "21K", "42K"] as Filter[]).map((f) => {
               const active = filter === f;
