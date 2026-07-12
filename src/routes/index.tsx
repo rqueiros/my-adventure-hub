@@ -80,7 +80,7 @@ function Dashboard() {
       subtitle: latestOpinion.subtitle,
       image: latestOpinion.image,
       date: latestOpinion.date,
-      label: `Latest Op-Ed · ${latestOpinion.magazine}`,
+      label: `Último artigo · ${latestOpinion.magazine}`,
       to: "/opiniao/$id",
       params: { id: latestOpinion.id },
       border: oMeta.border,
