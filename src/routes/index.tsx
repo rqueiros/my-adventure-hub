@@ -194,7 +194,7 @@ function Dashboard() {
         {featureCards.length > 0 && (
           <section className="animate-fade-up">
             <div className="flex items-center gap-4 border-l-2 border-rose-400 pl-4 mb-6">
-              <h2 className="text-xl font-bold uppercase tracking-widest">Featured</h2>
+              <h2 className="text-xl font-bold uppercase tracking-widest">Destaques</h2>
               <div className="flex-1 h-px bg-border" />
             </div>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
@@ -218,7 +218,7 @@ function Dashboard() {
                         <p className="text-sm text-muted-foreground mt-1">{c.subtitle}</p>
                       )}
                       <span className={`inline-flex items-center gap-1 mt-3 font-mono text-[10px] uppercase tracking-widest ${c.color} group-hover:underline`}>
-                        {c.kind === "opinion" ? "Read full piece →" : "Open →"}
+                        {c.kind === "opinion" ? "Ler artigo →" : "Aceder →"}
                       </span>
                     </div>
                   </>
