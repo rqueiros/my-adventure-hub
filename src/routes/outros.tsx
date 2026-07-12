@@ -27,22 +27,22 @@ function Page() {
         <header className="mt-6 border-b border-border pb-8 mb-8">
           <span className="font-mono text-[10px] text-muted-foreground tracking-[0.3em]">08 // FACET</span>
           <div className="flex flex-wrap items-end justify-between gap-6 mt-3">
-            <h1 className="text-4xl md:text-6xl font-extrabold tracking-tight uppercase">Others</h1>
+            <h1 className="text-4xl md:text-6xl font-extrabold tracking-tight uppercase">Outros</h1>
             <div className="font-mono text-xs text-muted-foreground">
-              <span className="text-primary font-bold">{stats.others.count}</span> activities
+              <span className="text-primary font-bold">{stats.others.count}</span> atividades
             </div>
           </div>
         </header>
 
         <p className="text-muted-foreground max-w-3xl mb-8 text-sm md:text-base leading-relaxed">
-          Academic supervisions, program committees, editorial boards and scientific service —
-          contributions to the broader research community.
+          Orientações académicas, comissões de programa, conselhos editoriais e serviço científico —
+          contributos para a comunidade científica em geral.
         </p>
 
         <div className="flex flex-wrap gap-2 mb-6 font-mono text-[10px] uppercase tracking-widest">
           {(["ALL", ...kindOrder] as Filter[]).map((f) => {
             const active = filter === f;
-            const label = f === "ALL" ? `All (${others.length})` : `${otherKindLabel[f]} (${countOf(f)})`;
+            const label = f === "ALL" ? `Todos (${others.length})` : `${otherKindLabel[f]} (${countOf(f)})`;
             return (
               <button key={f} onClick={() => setFilter(f)}
                 className={`px-3 py-1.5 rounded border transition-colors ${
@@ -58,10 +58,10 @@ function Page() {
           <table className="w-full text-sm">
             <thead className="bg-white/[0.03] font-mono text-[10px] uppercase tracking-widest text-muted-foreground">
               <tr>
-                <th className="text-left px-4 py-3 w-28">Image</th>
-                <th className="text-left px-4 py-3 w-28">Since</th>
-                <th className="text-left px-4 py-3">Title</th>
-                <th className="text-left px-4 py-3 hidden md:table-cell w-44">Type</th>
+                <th className="text-left px-4 py-3 w-28">Imagem</th>
+                <th className="text-left px-4 py-3 w-28">Desde</th>
+                <th className="text-left px-4 py-3">Título</th>
+                <th className="text-left px-4 py-3 hidden md:table-cell w-44">Tipo</th>
                 <th className="text-right px-4 py-3 w-20">Link</th>
               </tr>
             </thead>
