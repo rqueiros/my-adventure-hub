@@ -6,8 +6,8 @@ import { others, otherKindLabel, stats, fmtDate, type OtherKind } from "@/data/a
 export const Route = createFileRoute("/outros")({
   component: Page,
   head: () => ({ meta: [
-    { title: "Others — Ricardo Queirós" },
-    { name: "description", content: "Supervisions, program committees, editorial boards and scientific service." },
+    { title: "Outros — Ricardo Queirós" },
+    { name: "description", content: "Orientações, comissões de programa, conselhos editoriais e serviço científico." },
   ]}),
 });
 
