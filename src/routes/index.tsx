@@ -96,7 +96,7 @@ function Dashboard() {
       subtitle: ev.subtitle,
       image: ev.image,
       date: ev.date,
-      label: `Event · ${ev.kind}`,
+      label: `Evento · ${ev.kind}`,
       href: ev.url,
       border: eMeta.border,
       bg: eMeta.bg,
