@@ -5,8 +5,8 @@ import { ItemCard } from "@/components/ItemCard";
 export const Route = createFileRoute("/projetos")({
   component: Page,
   head: () => ({ meta: [
-    { title: "Projects — Ricardo Queirós" },
-    { name: "description", content: "Personal and open-source projects." },
+    { title: "Projetos — Ricardo Queirós" },
+    { name: "description", content: "Projetos pessoais e de código aberto." },
   ]}),
 });
 
@@ -19,16 +19,16 @@ function Page() {
         <header className="mt-6 border-b border-border pb-8 mb-8">
           <span className="font-mono text-[10px] text-muted-foreground tracking-[0.3em]">04 // FACET</span>
           <div className="flex flex-wrap items-end justify-between gap-6 mt-3">
-            <h1 className="text-4xl md:text-6xl font-extrabold tracking-tight uppercase">Projects</h1>
+            <h1 className="text-4xl md:text-6xl font-extrabold tracking-tight uppercase">Projetos</h1>
             <div className="font-mono text-xs text-muted-foreground">
-              <span className="text-primary font-bold">{stats.projects.count}</span> active
+              <span className="text-primary font-bold">{stats.projects.count}</span> ativos
             </div>
           </div>
         </header>
 
         <p className="text-muted-foreground max-w-3xl mb-12 text-sm md:text-base leading-relaxed">
-          Software, tools and ongoing experiments — some open source, others in incubation. A space
-          where research ideas take product shape.
+          Software, ferramentas e experiências em curso — alguns em código aberto, outros em incubação.
+          Um espaço onde as ideias de investigação ganham forma de produto.
         </p>
 
         <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
