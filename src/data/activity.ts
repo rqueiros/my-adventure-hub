@@ -77,5 +77,5 @@ export const stats: Record<Facet, { readonly count: number }> = {
 export function fmtDate(iso: string) {
   if (!iso) return "";
   const d = new Date(iso);
-  return d.toLocaleDateString("en-GB", { day: "2-digit", month: "short", year: "numeric" });
+  return d.toLocaleDateString("pt-PT", { day: "2-digit", month: "short", year: "numeric" });
 }
