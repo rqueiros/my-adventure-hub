@@ -76,7 +76,7 @@ function Page() {
         </div>
 
         {filtered.length === 0 && (
-          <p className="text-center text-muted-foreground font-mono text-xs mt-8">No events in this category.</p>
+          <p className="text-center text-muted-foreground font-mono text-xs mt-8">Sem eventos nesta categoria.</p>
         )}
       </div>
     </div>
