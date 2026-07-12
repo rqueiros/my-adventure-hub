@@ -24,39 +24,39 @@ export const facetMeta: Record<Facet, {
   code: string; label: string; path: string; unit: string;
   icon: LucideIcon; color: string; bg: string; border: string;
 }> = {
-  books:    { code: "01", label: "BOOKS",    path: "/livros",   unit: "Published",
+  books:    { code: "01", label: "LIVROS",   path: "/livros",   unit: "Publicados",
               icon: BookOpen,   color: "text-amber-400",  bg: "bg-amber-400/10",  border: "border-amber-400/40" },
-  articles: { code: "02", label: "ARTICLES", path: "/artigos",  unit: "Published",
+  articles: { code: "02", label: "ARTIGOS",  path: "/artigos",  unit: "Publicados",
               icon: FileText,   color: "text-cyan-400",   bg: "bg-cyan-400/10",   border: "border-cyan-400/40" },
-  events:   { code: "03", label: "EVENTS",   path: "/eventos",  unit: "Delivered",
+  events:   { code: "03", label: "EVENTOS",  path: "/eventos",  unit: "Realizados",
               icon: Mic,        color: "text-fuchsia-400",bg: "bg-fuchsia-400/10",border: "border-fuchsia-400/40" },
-  projects: { code: "04", label: "PROJECTS", path: "/projetos", unit: "Active",
+  projects: { code: "04", label: "PROJETOS", path: "/projetos", unit: "Ativos",
               icon: Boxes,      color: "text-emerald-400",bg: "bg-emerald-400/10",border: "border-emerald-400/40" },
-  travels:  { code: "05", label: "TRAVELS",  path: "/viagens",  unit: "Countries",
+  travels:  { code: "05", label: "VIAGENS",  path: "/viagens",  unit: "Países",
               icon: Plane,      color: "text-sky-400",    bg: "bg-sky-400/10",    border: "border-sky-400/40" },
-  running:  { code: "06", label: "RUNNING",  path: "/corridas", unit: "Races",
+  running:  { code: "06", label: "CORRIDAS", path: "/corridas", unit: "Corridas",
               icon: Footprints, color: "text-primary",    bg: "bg-primary/10",    border: "border-primary/40" },
-  opinion:  { code: "07", label: "OPINION",  path: "/opiniao",  unit: "Op-eds",
+  opinion:  { code: "07", label: "OPINIÃO",  path: "/opiniao",  unit: "Artigos",
               icon: PenSquare,  color: "text-rose-400",   bg: "bg-rose-400/10",   border: "border-rose-400/40" },
-  others:   { code: "08", label: "OTHERS",   path: "/outros",   unit: "Activities",
+  others:   { code: "08", label: "OUTROS",   path: "/outros",   unit: "Atividades",
               icon: Sparkles,   color: "text-violet-400", bg: "bg-violet-400/10", border: "border-violet-400/40" },
 };
 
 export const eventKindLabel: Record<string, string> = {
-  talk: "Talks", seminar: "Seminars", workshop: "Workshops",
-  conference: "Conferences", podcast: "Podcasts",
-  arguencia: "Thesis Juries", hackathon: "Contests / Hackathons",
+  talk: "Palestras", seminar: "Seminários", workshop: "Workshops",
+  conference: "Conferências", podcast: "Podcasts",
+  arguencia: "Arguências", hackathon: "Concursos / Hackathons",
 };
 
 export const otherKindLabel: Record<string, string> = {
-  supervision: "Supervisions", committee: "Program Committees",
-  editorial: "Editorial Boards", service: "Scientific Service",
+  supervision: "Orientações", committee: "Comissões de Programa",
+  editorial: "Conselhos Editoriais", service: "Serviço Científico",
 };
 
 export type ArticleKind = "conference" | "journal" | "bookchapter" | "thesis";
 export const articleKindLabel: Record<ArticleKind, string> = {
-  conference: "Conferences", journal: "Journals",
-  bookchapter: "Book Chapters", thesis: "Theses",
+  conference: "Conferências", journal: "Revistas",
+  bookchapter: "Capítulos de Livro", thesis: "Teses",
 };
 
 // Live counts from loaded markdown. Defined via getters so reading
