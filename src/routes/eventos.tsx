@@ -6,8 +6,8 @@ import { ItemCard } from "@/components/ItemCard";
 export const Route = createFileRoute("/eventos")({
   component: Page,
   head: () => ({ meta: [
-    { title: "Events — Ricardo Queirós" },
-    { name: "description", content: "Talks, seminars, workshops, conferences, podcasts, juries and hackathons." },
+    { title: "Eventos — Ricardo Queirós" },
+    { name: "description", content: "Palestras, seminários, workshops, conferências, podcasts, arguências e hackathons." },
   ]}),
 });
 
