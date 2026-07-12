@@ -79,10 +79,10 @@ function Page() {
             <table className="w-full text-sm">
               <thead className="bg-white/[0.03] font-mono text-[10px] uppercase tracking-widest text-muted-foreground">
                 <tr>
-                  <th className="text-left px-4 py-3 w-24">Date</th>
-                  <th className="text-left px-4 py-3">Title</th>
-                  <th className="text-left px-4 py-3 hidden md:table-cell w-48">Venue</th>
-                  <th className="text-left px-4 py-3 hidden md:table-cell w-32">Type</th>
+                  <th className="text-left px-4 py-3 w-24">Data</th>
+                  <th className="text-left px-4 py-3">Título</th>
+                  <th className="text-left px-4 py-3 hidden md:table-cell w-48">Local</th>
+                  <th className="text-left px-4 py-3 hidden md:table-cell w-32">Tipo</th>
                   <th className="text-right px-4 py-3 w-20">Link</th>
                 </tr>
               </thead>
