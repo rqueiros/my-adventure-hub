@@ -37,24 +37,31 @@ function Page() {
         <header className="mt-6 border-b border-border pb-8 mb-8">
           <span className="font-mono text-[10px] text-muted-foreground tracking-[0.3em]">05 // FACET</span>
           <div className="flex flex-wrap items-end justify-between gap-6 mt-3">
-            <h1 className="text-4xl md:text-6xl font-extrabold tracking-tight uppercase">Travels</h1>
+            <h1 className="text-4xl md:text-6xl font-extrabold tracking-tight uppercase">Viagens</h1>
             <div className="font-mono text-xs text-muted-foreground">
-              <span className="text-primary font-bold">{stats.travels.count}</span> countries
+              <span className="text-primary font-bold">{stats.travels.count}</span> países
             </div>
           </div>
         </header>
 
         <p className="text-muted-foreground max-w-3xl mb-8 text-sm md:text-base leading-relaxed">
-          Each trip is a chapter — a record of urban exploration, extreme nature and encounters
-          with different cultures. Filter by year to focus a season.
+          Cada viagem é um capítulo — um registo de exploração urbana, natureza extrema e encontros
+          com diferentes culturas. Filtre por ano para focar uma temporada.
         </p>
 
-        {/* World map */}
-        <section className="mb-10">
-          <div className="relative border border-border rounded-xl overflow-hidden bg-slate-950">
+        {/* World map — smaller, with country outlines */}
+        <section className="mb-10 flex justify-center">
+          <div className="relative border border-border rounded-xl overflow-hidden bg-slate-950 w-full max-w-3xl">
             <svg viewBox={`0 0 ${MAP_W} ${MAP_H}`} className="relative w-full h-auto block" xmlns="http://www.w3.org/2000/svg">
               {/* Ocean */}
               <rect x="0" y="0" width={MAP_W} height={MAP_H} className="fill-slate-900" />
+              {/* Continent outlines (equirectangular) */}
+              <image
+                href="https://upload.wikimedia.org/wikipedia/commons/8/83/Equirectangular_projection_SW.jpg"
+                x="0" y="0" width={MAP_W} height={MAP_H}
+                preserveAspectRatio="none"
+                opacity={0.35}
+              />
               {/* Latitude / longitude grid */}
               {Array.from({ length: 11 }).map((_, i) => (
                 <line
@@ -63,7 +70,7 @@ function Page() {
                   x2={MAP_W}
                   y1={(i * MAP_H) / 10}
                   y2={(i * MAP_H) / 10}
-                  className="stroke-slate-700/40"
+                  className="stroke-slate-500/25"
                   strokeWidth={0.5}
                 />
               ))}
@@ -74,25 +81,25 @@ function Page() {
                   y2={MAP_H}
                   x1={(i * MAP_W) / 18}
                   x2={(i * MAP_W) / 18}
-                  className="stroke-slate-700/40"
+                  className="stroke-slate-500/25"
                   strokeWidth={0.5}
                 />
               ))}
               {/* Equator */}
-              <line x1={0} x2={MAP_W} y1={MAP_H / 2} y2={MAP_H / 2} className="stroke-slate-600/60" strokeWidth={0.8} />
+              <line x1={0} x2={MAP_W} y1={MAP_H / 2} y2={MAP_H / 2} className="stroke-slate-400/40" strokeWidth={0.8} />
               {/* Country dots */}
               {travels.map((t) => {
                 const { x, y } = project(t.lat, t.lng);
                 const active = filteredIds.has(t.id);
                 return (
                   <g key={t.id} className={active ? "" : "opacity-40"}>
-                    <circle cx={x} cy={y} r={active ? 13 : 7} className="fill-sky-400/25" />
-                    <circle cx={x} cy={y} r={active ? 5.5 : 3.5} className="fill-sky-400" />
+                    <circle cx={x} cy={y} r={active ? 11 : 6} className="fill-sky-400/25" />
+                    <circle cx={x} cy={y} r={active ? 4.5 : 3} className="fill-sky-400" />
                     <text
-                      x={x + 9}
-                      y={y - 9}
+                      x={x + 8}
+                      y={y - 8}
                       className="fill-sky-100 font-mono"
-                      style={{ fontSize: "11px", paintOrder: "stroke", stroke: "rgba(0,0,0,0.85)", strokeWidth: 3 }}
+                      style={{ fontSize: "10px", paintOrder: "stroke", stroke: "rgba(0,0,0,0.85)", strokeWidth: 3 }}
                     >
                       {t.country}
                     </text>
@@ -101,7 +108,7 @@ function Page() {
               })}
             </svg>
             <div className="absolute bottom-3 right-4 font-mono text-[10px] uppercase tracking-widest text-muted-foreground bg-background/60 px-2 py-1 rounded">
-              {filtered.length}/{travels.length} highlighted
+              {filtered.length}/{travels.length} destacadas
             </div>
           </div>
         </section>
