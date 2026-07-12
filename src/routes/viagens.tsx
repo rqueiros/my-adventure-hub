@@ -6,8 +6,8 @@ import { travels, stats, fmtDate } from "@/data/activity";
 export const Route = createFileRoute("/viagens")({
   component: Page,
   head: () => ({ meta: [
-    { title: "Travels — Ricardo Queirós" },
-    { name: "description", content: "Travels filterable by year, with a world map of visited countries." },
+    { title: "Viagens — Ricardo Queirós" },
+    { name: "description", content: "Viagens filtráveis por ano, com um mapa-mundo dos países visitados." },
   ]}),
 });
 
