@@ -120,30 +120,32 @@ function Dashboard() {
 
       {/* Header */}
       <header className="max-w-7xl mx-auto mb-12 animate-fade-up">
-        <div className="flex flex-col md:flex-row items-start gap-8 border-b border-border pb-12">
+        <div className="flex flex-col md:flex-row items-start gap-8 pb-4">
           <img
             src={profile.avatar}
             alt={profile.name}
             className="size-32 md:size-40 rounded-2xl object-cover ring-1 ring-white/10 shrink-0"
           />
-          <div className="flex-1 space-y-4 w-full">
-            <h1 className="text-4xl md:text-6xl font-extrabold tracking-tight uppercase">{profile.name}</h1>
-            <p className="font-mono text-xs uppercase tracking-[0.3em] text-muted-foreground">{profile.title}</p>
-            <p className="text-sm md:text-base text-foreground/80 leading-relaxed max-w-3xl">
-              {profile.bio}
-            </p>
-            <div className="flex flex-wrap items-center gap-4">
-              <a
-                href={`mailto:${CONTACT_EMAIL}`}
-                className="inline-flex items-center gap-1.5 font-mono text-xs text-primary hover:underline"
-              >
-                <Mail className="size-3" /> {CONTACT_EMAIL}
-              </a>
+          <div className="flex-1 w-full">
+            <div className="flex flex-wrap items-start justify-between gap-4">
+              <div className="space-y-4 max-w-3xl">
+                <h1 className="text-4xl md:text-6xl font-extrabold tracking-tight uppercase">{profile.name}</h1>
+                <p className="font-mono text-xs uppercase tracking-[0.3em] text-muted-foreground">{profile.title}</p>
+                <p className="text-sm md:text-base text-foreground/80 leading-relaxed">
+                  {profile.bio}
+                </p>
+                <a
+                  href={`mailto:${CONTACT_EMAIL}`}
+                  className="inline-flex items-center gap-1.5 font-mono text-xs text-primary hover:underline"
+                >
+                  <Mail className="size-3" /> {CONTACT_EMAIL}
+                </a>
+              </div>
               <Link
                 to="/contacto"
-                className="inline-flex items-center gap-2 rounded-lg bg-primary text-primary-foreground px-4 py-2 font-mono text-[11px] uppercase tracking-widest hover:opacity-90 transition-opacity"
+                className="shrink-0 inline-flex items-center gap-2 rounded-lg bg-primary text-primary-foreground px-4 py-2 font-mono text-[11px] uppercase tracking-widest hover:opacity-90 transition-opacity"
               >
-                <Send className="size-3.5" /> Pedir formação / workshop / consultoria
+                <Send className="size-3.5" /> Pedir formação
               </Link>
             </div>
           </div>
