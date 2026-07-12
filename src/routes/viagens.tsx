@@ -115,7 +115,7 @@ function Page() {
 
         {/* Year filter */}
         <div className="flex flex-wrap items-center gap-3 mb-6">
-          <span className="font-mono text-[10px] uppercase tracking-widest text-muted-foreground">Year:</span>
+          <span className="font-mono text-[10px] uppercase tracking-widest text-muted-foreground">Ano:</span>
           <div className="flex flex-wrap gap-1.5 font-mono text-[10px] uppercase tracking-widest">
             {(["ALL", ...years] as (number | "ALL")[]).map((y) => {
               const active = year === y;
@@ -124,7 +124,7 @@ function Page() {
                   className={`px-2.5 py-1 rounded border transition-colors ${
                     active ? "bg-primary text-primary-foreground border-primary"
                            : "border-border text-muted-foreground hover:text-primary hover:border-primary/40"}`}>
-                  {y === "ALL" ? "All" : y}
+                  {y === "ALL" ? "Todos" : y}
                 </button>
               );
             })}
@@ -135,11 +135,11 @@ function Page() {
           <table className="w-full text-sm">
             <thead className="bg-white/[0.03] font-mono text-[10px] uppercase tracking-widest text-muted-foreground">
               <tr>
-                <th className="text-left px-4 py-3 w-28">Photo</th>
-                <th className="text-left px-4 py-3 w-28">Date</th>
-                <th className="text-left px-4 py-3">Destination</th>
-                <th className="text-left px-4 py-3 hidden md:table-cell">Continent</th>
-                <th className="text-left px-4 py-3 hidden md:table-cell w-24">Duration</th>
+                <th className="text-left px-4 py-3 w-28">Foto</th>
+                <th className="text-left px-4 py-3 w-28">Data</th>
+                <th className="text-left px-4 py-3">Destino</th>
+                <th className="text-left px-4 py-3 hidden md:table-cell">Continente</th>
+                <th className="text-left px-4 py-3 hidden md:table-cell w-24">Duração</th>
                 <th className="text-right px-4 py-3 w-20">Link</th>
               </tr>
             </thead>
@@ -162,7 +162,7 @@ function Page() {
                   <td className="px-4 py-3 text-right">
                     <a href={t.url} target="_blank" rel="noopener noreferrer"
                       className="inline-flex items-center gap-1 text-primary hover:underline font-mono text-[10px] uppercase tracking-widest">
-                      Open <ExternalLink className="size-3" />
+                      Aceder <ExternalLink className="size-3" />
                     </a>
                   </td>
                 </tr>
@@ -171,7 +171,7 @@ function Page() {
           </table>
         </div>
         {filtered.length === 0 && (
-          <p className="text-center text-muted-foreground font-mono text-xs mt-8">No travels this year.</p>
+          <p className="text-center text-muted-foreground font-mono text-xs mt-8">Sem viagens neste ano.</p>
         )}
       </div>
     </div>
