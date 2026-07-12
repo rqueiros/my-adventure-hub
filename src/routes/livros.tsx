@@ -5,8 +5,8 @@ import { books, stats } from "@/data/activity";
 export const Route = createFileRoute("/livros")({
   component: Page,
   head: () => ({ meta: [
-    { title: "Books — Ricardo Queirós" },
-    { name: "description", content: "Catalogue of published books." },
+    { title: "Livros — Ricardo Queirós" },
+    { name: "description", content: "Catálogo de livros publicados." },
   ]}),
 });
 
@@ -19,26 +19,27 @@ function Page() {
         <header className="mt-6 border-b border-border pb-8 mb-8">
           <span className="font-mono text-[10px] text-muted-foreground tracking-[0.3em]">01 // FACET</span>
           <div className="flex flex-wrap items-end justify-between gap-6 mt-3">
-            <h1 className="text-4xl md:text-6xl font-extrabold tracking-tight uppercase">Books</h1>
+            <h1 className="text-4xl md:text-6xl font-extrabold tracking-tight uppercase">Livros</h1>
             <div className="font-mono text-xs text-muted-foreground">
-              <span className="text-primary font-bold">{stats.books.count}</span> published
+              <span className="text-primary font-bold">{stats.books.count}</span> publicados
             </div>
           </div>
         </header>
 
         <p className="text-muted-foreground max-w-3xl mb-10 text-sm md:text-base leading-relaxed">
-          Original works between technical essay and scientific outreach. Each book is the result of years
-          of research and practice, translated into language accessible to students, teachers and the curious.
+          Obras originais entre o ensaio técnico e a divulgação científica. Cada livro é o resultado de
+          anos de investigação e prática, traduzidos numa linguagem acessível a estudantes, professores
+          e curiosos.
         </p>
 
         <div className="border border-border rounded-xl overflow-hidden">
           <table className="w-full text-sm">
             <thead className="bg-white/[0.03] font-mono text-[10px] uppercase tracking-widest text-muted-foreground">
               <tr>
-                <th className="text-left px-4 py-3 w-20">Cover</th>
-                <th className="text-left px-4 py-3 w-20">Year</th>
-                <th className="text-left px-4 py-3">Title</th>
-                <th className="text-left px-4 py-3 hidden md:table-cell">Publisher</th>
+                <th className="text-left px-4 py-3 w-20">Capa</th>
+                <th className="text-left px-4 py-3 w-20">Ano</th>
+                <th className="text-left px-4 py-3">Título</th>
+                <th className="text-left px-4 py-3 hidden md:table-cell">Editora</th>
                 <th className="text-right px-4 py-3 w-20">Link</th>
               </tr>
             </thead>
@@ -58,7 +59,7 @@ function Page() {
                   <td className="px-4 py-3 text-right">
                     <a href={b.url} target="_blank" rel="noopener noreferrer"
                       className="inline-flex items-center gap-1 text-primary hover:underline font-mono text-[10px] uppercase tracking-widest">
-                      Open <ExternalLink className="size-3" />
+                      Aceder <ExternalLink className="size-3" />
                     </a>
                   </td>
                 </tr>

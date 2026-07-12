@@ -9,8 +9,8 @@ export const Route = createFileRoute("/")({
   component: Dashboard,
   head: () => ({
     meta: [
-      { title: "Ricardo Queirós — Professor, Researcher, Writer & Runner" },
-      { name: "description", content: "Personal dashboard of books, articles, opinion, events, projects, travels, running and academic service." },
+      { title: "Ricardo Queirós — Professor, Investigador, Escritor & Corredor" },
+      { name: "description", content: "Painel pessoal de livros, artigos, opinião, eventos, projetos, viagens, corridas e serviço académico." },
     ],
   }),
 });
@@ -80,7 +80,7 @@ function Dashboard() {
       subtitle: latestOpinion.subtitle,
       image: latestOpinion.image,
       date: latestOpinion.date,
-      label: `Latest Op-Ed · ${latestOpinion.magazine}`,
+      label: `Último artigo · ${latestOpinion.magazine}`,
       to: "/opiniao/$id",
       params: { id: latestOpinion.id },
       border: oMeta.border,
@@ -96,7 +96,7 @@ function Dashboard() {
       subtitle: ev.subtitle,
       image: ev.image,
       date: ev.date,
-      label: `Event · ${ev.kind}`,
+      label: `Evento · ${ev.kind}`,
       href: ev.url,
       border: eMeta.border,
       bg: eMeta.bg,
@@ -120,30 +120,32 @@ function Dashboard() {
 
       {/* Header */}
       <header className="max-w-7xl mx-auto mb-12 animate-fade-up">
-        <div className="flex flex-col md:flex-row items-start gap-8 border-b border-border pb-12">
+        <div className="flex flex-col md:flex-row items-start gap-8 pb-4">
           <img
             src={profile.avatar}
             alt={profile.name}
             className="size-32 md:size-40 rounded-2xl object-cover ring-1 ring-white/10 shrink-0"
           />
-          <div className="flex-1 space-y-4 w-full">
-            <h1 className="text-4xl md:text-6xl font-extrabold tracking-tight uppercase">{profile.name}</h1>
-            <p className="font-mono text-xs uppercase tracking-[0.3em] text-muted-foreground">{profile.title}</p>
-            <p className="text-sm md:text-base text-foreground/80 leading-relaxed max-w-3xl">
-              {profile.bio}
-            </p>
-            <div className="flex flex-wrap items-center gap-4">
-              <a
-                href={`mailto:${CONTACT_EMAIL}`}
-                className="inline-flex items-center gap-1.5 font-mono text-xs text-primary hover:underline"
-              >
-                <Mail className="size-3" /> {CONTACT_EMAIL}
-              </a>
+          <div className="flex-1 w-full">
+            <div className="flex flex-wrap items-start justify-between gap-4">
+              <div className="space-y-4 max-w-3xl">
+                <h1 className="text-4xl md:text-6xl font-extrabold tracking-tight uppercase">{profile.name}</h1>
+                <p className="font-mono text-xs uppercase tracking-[0.3em] text-muted-foreground">{profile.title}</p>
+                <p className="text-sm md:text-base text-foreground/80 leading-relaxed">
+                  {profile.bio}
+                </p>
+                <a
+                  href={`mailto:${CONTACT_EMAIL}`}
+                  className="inline-flex items-center gap-1.5 font-mono text-xs text-primary hover:underline"
+                >
+                  <Mail className="size-3" /> {CONTACT_EMAIL}
+                </a>
+              </div>
               <Link
                 to="/contacto"
-                className="inline-flex items-center gap-2 rounded-lg bg-primary text-primary-foreground px-4 py-2 font-mono text-[11px] uppercase tracking-widest hover:opacity-90 transition-opacity"
+                className="shrink-0 inline-flex items-center gap-2 rounded-lg bg-primary text-primary-foreground px-4 py-2 font-mono text-[11px] uppercase tracking-widest hover:opacity-90 transition-opacity"
               >
-                <Send className="size-3.5" /> Pedir formação / workshop / consultoria
+                <Send className="size-3.5" /> Pedir formação
               </Link>
             </div>
           </div>
@@ -154,7 +156,7 @@ function Dashboard() {
         {/* Overview (moved up) */}
         <section className="animate-fade-up">
           <div className="flex items-center gap-4 border-l-2 border-primary pl-4 mb-6">
-            <h2 className="text-xl font-bold uppercase tracking-widest">Overview</h2>
+            <h2 className="text-xl font-bold uppercase tracking-widest">Visão geral</h2>
             <div className="flex-1 h-px bg-border" />
           </div>
           <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-8 gap-4">
@@ -192,7 +194,7 @@ function Dashboard() {
         {featureCards.length > 0 && (
           <section className="animate-fade-up">
             <div className="flex items-center gap-4 border-l-2 border-rose-400 pl-4 mb-6">
-              <h2 className="text-xl font-bold uppercase tracking-widest">Featured</h2>
+              <h2 className="text-xl font-bold uppercase tracking-widest">Destaques</h2>
               <div className="flex-1 h-px bg-border" />
             </div>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
@@ -216,7 +218,7 @@ function Dashboard() {
                         <p className="text-sm text-muted-foreground mt-1">{c.subtitle}</p>
                       )}
                       <span className={`inline-flex items-center gap-1 mt-3 font-mono text-[10px] uppercase tracking-widest ${c.color} group-hover:underline`}>
-                        {c.kind === "opinion" ? "Read full piece →" : "Open →"}
+                        {c.kind === "opinion" ? "Ler artigo →" : "Aceder →"}
                       </span>
                     </div>
                   </>
@@ -236,7 +238,7 @@ function Dashboard() {
         <section className="animate-fade-up">
           <div className="flex items-center gap-4 border-l-2 border-white/20 pl-4 mb-6">
             <h2 className="text-xl font-bold uppercase tracking-widest text-muted-foreground">
-              Upcoming Activity
+              Próxima atividade
             </h2>
             <div className="flex-1 h-px bg-border" />
           </div>
@@ -244,10 +246,10 @@ function Dashboard() {
             <table className="w-full text-sm">
               <thead className="bg-white/[0.03] font-mono text-[10px] uppercase tracking-widest text-muted-foreground">
                 <tr>
-                  <th className="text-left px-4 py-3 w-24">Image</th>
-                  <th className="text-left px-4 py-3 w-28">Date</th>
+                  <th className="text-left px-4 py-3 w-24">Imagem</th>
+                  <th className="text-left px-4 py-3 w-28">Data</th>
                   <th className="text-left px-4 py-3 w-32">Facet</th>
-                  <th className="text-left px-4 py-3">Title</th>
+                  <th className="text-left px-4 py-3">Título</th>
                   <th className="text-right px-4 py-3 w-20">Link</th>
                 </tr>
               </thead>
@@ -276,14 +278,14 @@ function Dashboard() {
                       <td className="px-4 py-3 text-right">
                         <a href={u.url} target="_blank" rel="noopener noreferrer"
                           className="inline-flex items-center gap-1 text-primary hover:underline font-mono text-[10px] uppercase tracking-widest">
-                          Open <ExternalLink className="size-3" />
+                          Aceder <ExternalLink className="size-3" />
                         </a>
                       </td>
                     </tr>
                   );
                 })}
                 {upcomingList.length === 0 && (
-                  <tr><td colSpan={5} className="text-center text-muted-foreground py-8 font-mono text-xs">Nothing scheduled.</td></tr>
+                  <tr><td colSpan={5} className="text-center text-muted-foreground py-8 font-mono text-xs">Nada agendado.</td></tr>
                 )}
               </tbody>
             </table>

@@ -6,8 +6,8 @@ import { running, stats, fmtDate, type Distance } from "@/data/activity";
 export const Route = createFileRoute("/corridas")({
   component: Page,
   head: () => ({ meta: [
-    { title: "Running — Ricardo Queirós" },
-    { name: "description", content: "10K, 21K and 42K race results since 2016." },
+    { title: "Corridas — Ricardo Queirós" },
+    { name: "description", content: "Resultados de corridas de 10K, 21K e 42K desde 2016." },
   ]}),
 });
 
@@ -46,16 +46,16 @@ function Page() {
         <header className="mt-6 border-b border-border pb-8 mb-8">
           <span className="font-mono text-[10px] text-muted-foreground tracking-[0.3em]">06 // FACET</span>
           <div className="flex flex-wrap items-end justify-between gap-6 mt-3">
-            <h1 className="text-4xl md:text-6xl font-extrabold tracking-tight uppercase">Running</h1>
+            <h1 className="text-4xl md:text-6xl font-extrabold tracking-tight uppercase">Corridas</h1>
             <div className="font-mono text-xs text-muted-foreground">
-              <span className="text-primary font-bold">{stats.running.count}</span> races
+              <span className="text-primary font-bold">{stats.running.count}</span> corridas
             </div>
           </div>
         </header>
 
         <p className="text-muted-foreground max-w-3xl mb-8 text-sm md:text-base leading-relaxed">
-          Official 10K, half marathon (21K) and full marathon (42K) race history since 2016. Running as a
-          discipline parallel to writing: focus, pace and measurable progression year over year.
+          Histórico oficial de corridas de 10K, meia maratona (21K) e maratona (42K) desde 2016. Correr como
+          disciplina paralela à escrita: foco, ritmo e progressão mensurável ano após ano.
         </p>
 
         <section className="grid grid-cols-3 gap-4 mb-8">
@@ -69,7 +69,7 @@ function Page() {
 
         {/* Distance filter — promoted to top, controls both tables */}
         <div className="flex flex-wrap items-center gap-3 mb-6">
-          <span className="font-mono text-[10px] uppercase tracking-widest text-muted-foreground">Distance:</span>
+          <span className="font-mono text-[10px] uppercase tracking-widest text-muted-foreground">Distância:</span>
           <div className="flex flex-wrap gap-2 font-mono text-[10px] uppercase tracking-widest">
             {(["ALL", "10K", "21K", "42K"] as Filter[]).map((f) => {
               const active = filter === f;
@@ -83,7 +83,7 @@ function Page() {
                       : "border-border text-muted-foreground hover:text-primary hover:border-primary/40"
                   }`}
                 >
-                  {f === "ALL" ? "All" : f}
+                  {f === "ALL" ? "Todas" : f}
                 </button>
               );
             })}
@@ -93,13 +93,13 @@ function Page() {
         {/* Aggregated matrix — primary view */}
         <section className="mb-10">
           <h2 className="text-xl font-bold uppercase tracking-widest border-l-2 border-primary pl-3 mb-5">
-            Times by race / year
+            Tempos por corrida / ano
           </h2>
           <div className="border border-border rounded-xl overflow-x-auto">
             <table className="w-full text-sm">
               <thead className="bg-white/[0.03] font-mono text-[10px] uppercase tracking-widest text-muted-foreground">
                 <tr>
-                  <th className="text-left px-4 py-3">Race</th>
+                  <th className="text-left px-4 py-3">Corrida</th>
                   <th className="text-center px-3 py-3 w-16">Dist.</th>
                   {years.map((y) => (
                     <th key={y} className="text-center px-4 py-3">{y}</th>

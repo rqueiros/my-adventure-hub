@@ -6,8 +6,8 @@ import { ItemCard } from "@/components/ItemCard";
 export const Route = createFileRoute("/eventos")({
   component: Page,
   head: () => ({ meta: [
-    { title: "Events — Ricardo Queirós" },
-    { name: "description", content: "Talks, seminars, workshops, conferences, podcasts, juries and hackathons." },
+    { title: "Eventos — Ricardo Queirós" },
+    { name: "description", content: "Palestras, seminários, workshops, conferências, podcasts, arguências e hackathons." },
   ]}),
 });
 
@@ -27,23 +27,23 @@ function Page() {
         <header className="mt-6 border-b border-border pb-8 mb-8">
           <span className="font-mono text-[10px] text-muted-foreground tracking-[0.3em]">03 // FACET</span>
           <div className="flex flex-wrap items-end justify-between gap-6 mt-3">
-            <h1 className="text-4xl md:text-6xl font-extrabold tracking-tight uppercase">Events</h1>
+            <h1 className="text-4xl md:text-6xl font-extrabold tracking-tight uppercase">Eventos</h1>
             <div className="font-mono text-xs text-muted-foreground">
-              <span className="text-primary font-bold">{stats.events.count}</span> delivered
+              <span className="text-primary font-bold">{stats.events.count}</span> realizados
             </div>
           </div>
         </header>
 
         <p className="text-muted-foreground max-w-3xl mb-8 text-sm md:text-base leading-relaxed">
-          Active community participation through talks, seminars, hands-on workshops, conferences,
-          podcasts, academic juries and hackathon panels.
+          Participação ativa na comunidade através de palestras, seminários, workshops práticos,
+          conferências, podcasts, arguências académicas e painéis de hackathons.
         </p>
 
         {/* Tabs */}
         <div className="flex flex-wrap gap-2 mb-10 font-mono text-[10px] uppercase tracking-widest">
           {(["ALL", ...kindOrder] as Filter[]).map((f) => {
             const active = filter === f;
-            const label = f === "ALL" ? `All (${events.length})` : `${eventKindLabel[f]} (${countOf(f)})`;
+            const label = f === "ALL" ? `Todos (${events.length})` : `${eventKindLabel[f]} (${countOf(f)})`;
             return (
               <button
                 key={f}
@@ -76,7 +76,7 @@ function Page() {
         </div>
 
         {filtered.length === 0 && (
-          <p className="text-center text-muted-foreground font-mono text-xs mt-8">No events in this category.</p>
+          <p className="text-center text-muted-foreground font-mono text-xs mt-8">Sem eventos nesta categoria.</p>
         )}
       </div>
     </div>

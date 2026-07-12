@@ -8,8 +8,8 @@ import { fetchOrcidWorks, type OrcidWork } from "@/lib/orcid";
 export const Route = createFileRoute("/artigos")({
   component: Page,
   head: () => ({ meta: [
-    { title: "Articles — Ricardo Queirós" },
-    { name: "description", content: "Scientific publications from ORCID: conferences, journals, book chapters and theses." },
+    { title: "Artigos — Ricardo Queirós" },
+    { name: "description", content: "Publicações científicas do ORCID: conferências, revistas, capítulos de livro e teses." },
   ]}),
 });
 
@@ -36,25 +36,25 @@ function Page() {
         <header className="mt-6 border-b border-border pb-8 mb-8">
           <span className="font-mono text-[10px] text-muted-foreground tracking-[0.3em]">02 // FACET</span>
           <div className="flex flex-wrap items-end justify-between gap-6 mt-3">
-            <h1 className="text-4xl md:text-6xl font-extrabold tracking-tight uppercase">Articles</h1>
+            <h1 className="text-4xl md:text-6xl font-extrabold tracking-tight uppercase">Artigos</h1>
             <div className="font-mono text-xs text-muted-foreground">
-              <span className="text-primary font-bold">{works.length}</span> from ORCID
+              <span className="text-primary font-bold">{works.length}</span> do ORCID
             </div>
           </div>
         </header>
 
         <p className="text-muted-foreground max-w-3xl mb-4 text-sm md:text-base leading-relaxed">
-          Scientific output pulled live from{" "}
+          Produção científica obtida em tempo real a partir do{" "}
           <a href={`https://orcid.org/${profile.orcid}`} target="_blank" rel="noopener noreferrer"
              className="text-primary hover:underline font-mono">ORCID {profile.orcid}</a>.
-          Organised by publication type: international conferences, indexed journals, book chapters and theses.
+          Organizada por tipo de publicação: conferências internacionais, revistas indexadas, capítulos de livro e teses.
         </p>
 
         {/* Tabs */}
         <div className="flex flex-wrap gap-2 mb-6 mt-6 font-mono text-[10px] uppercase tracking-widest">
           {(["ALL", ...kindOrder] as Filter[]).map((f) => {
             const active = filter === f;
-            const label = f === "ALL" ? `All (${works.length})` : `${articleKindLabel[f]} (${countOf(f)})`;
+            const label = f === "ALL" ? `Todos (${works.length})` : `${articleKindLabel[f]} (${countOf(f)})`;
             return (
               <button key={f} onClick={() => setFilter(f)}
                 className={`px-3 py-1.5 rounded border transition-colors ${
@@ -67,11 +67,11 @@ function Page() {
 
         {isLoading && (
           <div className="flex items-center gap-3 text-muted-foreground py-12 justify-center">
-            <Loader2 className="size-4 animate-spin" /> <span className="font-mono text-xs uppercase tracking-widest">Fetching ORCID…</span>
+            <Loader2 className="size-4 animate-spin" /> <span className="font-mono text-xs uppercase tracking-widest">A carregar ORCID…</span>
           </div>
         )}
         {error && (
-          <div className="text-rose-400 font-mono text-xs py-6">Failed to load ORCID works. Try again later.</div>
+          <div className="text-rose-400 font-mono text-xs py-6">Falha ao carregar dados do ORCID. Tente mais tarde.</div>
         )}
 
         {!isLoading && !error && (
@@ -79,10 +79,10 @@ function Page() {
             <table className="w-full text-sm">
               <thead className="bg-white/[0.03] font-mono text-[10px] uppercase tracking-widest text-muted-foreground">
                 <tr>
-                  <th className="text-left px-4 py-3 w-24">Date</th>
-                  <th className="text-left px-4 py-3">Title</th>
-                  <th className="text-left px-4 py-3 hidden md:table-cell w-48">Venue</th>
-                  <th className="text-left px-4 py-3 hidden md:table-cell w-32">Type</th>
+                  <th className="text-left px-4 py-3 w-24">Data</th>
+                  <th className="text-left px-4 py-3">Título</th>
+                  <th className="text-left px-4 py-3 hidden md:table-cell w-48">Local</th>
+                  <th className="text-left px-4 py-3 hidden md:table-cell w-32">Tipo</th>
                   <th className="text-right px-4 py-3 w-20">Link</th>
                 </tr>
               </thead>
@@ -103,13 +103,13 @@ function Page() {
                     <td className="px-4 py-3 text-right">
                       <a href={a.url} target="_blank" rel="noopener noreferrer"
                         className="inline-flex items-center gap-1 text-primary hover:underline font-mono text-[10px] uppercase tracking-widest">
-                        Open <ExternalLink className="size-3" />
+                        Aceder <ExternalLink className="size-3" />
                       </a>
                     </td>
                   </tr>
                 ))}
                 {filtered.length === 0 && (
-                  <tr><td colSpan={5} className="text-center text-muted-foreground py-8 font-mono text-xs">No works in this category.</td></tr>
+                  <tr><td colSpan={5} className="text-center text-muted-foreground py-8 font-mono text-xs">Sem publicações nesta categoria.</td></tr>
                 )}
               </tbody>
             </table>

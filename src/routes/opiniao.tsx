@@ -1,12 +1,12 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
-import { ExternalLink } from "lucide-react";
-import { opinion, stats, fmtDate } from "@/data/activity";
+import { opinion, stats } from "@/data/activity";
+import { ItemCard } from "@/components/ItemCard";
 
 export const Route = createFileRoute("/opiniao")({
   component: Page,
   head: () => ({ meta: [
-    { title: "Opinion — Ricardo Queirós" },
-    { name: "description", content: "Op-eds, columns and essays in the Portuguese press." },
+    { title: "Opinião — Ricardo Queirós" },
+    { name: "description", content: "Artigos de opinião, crónicas e ensaios na imprensa portuguesa." },
   ]}),
 });
 
@@ -19,54 +19,30 @@ function Page() {
         <header className="mt-6 border-b border-border pb-8 mb-8">
           <span className="font-mono text-[10px] text-muted-foreground tracking-[0.3em]">07 // FACET</span>
           <div className="flex flex-wrap items-end justify-between gap-6 mt-3">
-            <h1 className="text-4xl md:text-6xl font-extrabold tracking-tight uppercase">Opinion</h1>
+            <h1 className="text-4xl md:text-6xl font-extrabold tracking-tight uppercase">Opinião</h1>
             <div className="font-mono text-xs text-muted-foreground">
-              <span className="text-primary font-bold">{stats.opinion.count}</span> op-eds
+              <span className="text-primary font-bold">{stats.opinion.count}</span> artigos
             </div>
           </div>
         </header>
 
-        <p className="text-muted-foreground max-w-3xl mb-8 text-sm md:text-base leading-relaxed">
-          Op-eds, columns and essays published in Portuguese newspapers and magazines —
-          digital education, technology, culture and society.
+        <p className="text-muted-foreground max-w-3xl mb-12 text-sm md:text-base leading-relaxed">
+          Artigos de opinião, crónicas e ensaios publicados em jornais e revistas portuguesas —
+          educação digital, tecnologia, cultura e sociedade.
         </p>
 
-        <div className="border border-border rounded-xl overflow-hidden">
-          <table className="w-full text-sm">
-            <thead className="bg-white/[0.03] font-mono text-[10px] uppercase tracking-widest text-muted-foreground">
-              <tr>
-                <th className="text-left px-4 py-3 w-28">Image</th>
-                <th className="text-left px-4 py-3 w-28">Date</th>
-                <th className="text-left px-4 py-3">Title</th>
-                <th className="text-left px-4 py-3 hidden md:table-cell w-40">Magazine</th>
-                <th className="text-right px-4 py-3 w-20">Link</th>
-              </tr>
-            </thead>
-            <tbody className="divide-y divide-border">
-              {sorted.map((o) => (
-                <tr key={o.id} className="hover:bg-white/[0.02]">
-                  <td className="px-4 py-3">
-                    <img src={o.image} alt={o.title} loading="lazy"
-                      className="w-24 h-16 object-cover rounded ring-1 ring-white/10" />
-                  </td>
-                  <td className="px-4 py-3 font-mono text-[10px] text-muted-foreground whitespace-nowrap">{fmtDate(o.date)}</td>
-                  <td className="px-4 py-3 font-medium">
-                    {o.title}
-                    {o.subtitle && <div className="text-[10px] text-muted-foreground mt-0.5">{o.subtitle}</div>}
-                  </td>
-                  <td className="px-4 py-3 text-muted-foreground hidden md:table-cell text-[11px] uppercase tracking-widest">
-                    {o.magazine}
-                  </td>
-                  <td className="px-4 py-3 text-right">
-                    <a href={o.url} target="_blank" rel="noopener noreferrer"
-                      className="inline-flex items-center gap-1 text-primary hover:underline font-mono text-[10px] uppercase tracking-widest">
-                      Open <ExternalLink className="size-3" />
-                    </a>
-                  </td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
+        <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
+          {sorted.map((o) => (
+            <ItemCard
+              key={o.id}
+              date={o.date}
+              title={o.title}
+              subtitle={o.subtitle}
+              image={o.image}
+              url={o.url}
+              badge={{ label: o.magazine, className: "text-rose-300 border-rose-400/40" }}
+            />
+          ))}
         </div>
       </div>
     </div>
