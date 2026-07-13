@@ -127,7 +127,7 @@ function Dashboard() {
             className="size-32 md:size-40 rounded-2xl object-cover ring-1 ring-white/10 shrink-0"
           />
           <div className="flex-1 w-full">
-            <div className="flex flex-wrap items-start justify-between gap-4">
+            <div className="flex items-start justify-between gap-4">
               <div className="space-y-4 max-w-3xl">
                 <h1 className="text-4xl md:text-6xl font-extrabold tracking-tight uppercase">{profile.name}</h1>
                 <p className="font-mono text-xs uppercase tracking-[0.3em] text-muted-foreground">{profile.title}</p>
