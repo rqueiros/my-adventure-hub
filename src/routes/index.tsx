@@ -243,11 +243,11 @@ function Dashboard() {
             <table className="w-full text-sm">
               <thead className="bg-white/[0.03] font-mono text-[10px] uppercase tracking-widest text-muted-foreground">
                 <tr>
-                  <th className="text-left px-4 py-3 w-24">Imagem</th>
-                  <th className="text-left px-4 py-3 w-28">Data</th>
-                  <th className="text-left px-4 py-3 w-32">Facet</th>
-                  <th className="text-left px-4 py-3">Título</th>
-                  <th className="text-right px-4 py-3 w-20">Link</th>
+                  <th className="text-left px-3 sm:px-4 py-3 w-20 sm:w-24 hidden sm:table-cell">Imagem</th>
+                  <th className="text-left px-3 sm:px-4 py-3 w-24 sm:w-28">Data</th>
+                  <th className="text-left px-3 sm:px-4 py-3 w-32 hidden md:table-cell">Facet</th>
+                  <th className="text-left px-3 sm:px-4 py-3">Título</th>
+                  <th className="text-right px-3 sm:px-4 py-3 w-16 sm:w-20">Link</th>
                 </tr>
               </thead>
               <tbody className="divide-y divide-border">
@@ -256,26 +256,29 @@ function Dashboard() {
                   const Icon = m.icon;
                   return (
                     <tr key={u.id} className="hover:bg-white/[0.02]">
-                      <td className="px-4 py-3">
+                      <td className="px-3 sm:px-4 py-3 hidden sm:table-cell">
                         <img src={u.image} alt={u.title} loading="lazy"
                           className="w-20 h-14 object-cover rounded ring-1 ring-white/10" />
                       </td>
-                      <td className="px-4 py-3 font-mono text-[10px] text-muted-foreground whitespace-nowrap">
+                      <td className="px-3 sm:px-4 py-3 font-mono text-[10px] text-muted-foreground whitespace-nowrap">
                         {fmtDate(u.date)}
                       </td>
-                      <td className="px-4 py-3">
+                      <td className="px-3 sm:px-4 py-3 hidden md:table-cell">
                         <Link to={m.path} className={`inline-flex items-center gap-1.5 font-mono text-[10px] tracking-widest ${m.color} hover:underline`}>
                           <Icon className="size-3" /> {m.label}
                         </Link>
                       </td>
-                      <td className="px-4 py-3 font-medium text-white/90">
-                        {u.title}
+                      <td className="px-3 sm:px-4 py-3 font-medium text-white/90">
+                        <Link to={m.path} className={`md:hidden inline-flex items-center gap-1 font-mono text-[9px] tracking-widest ${m.color} mb-1`}>
+                          <Icon className="size-2.5" /> {m.label}
+                        </Link>
+                        <div>{u.title}</div>
                         {u.meta && <div className="text-[10px] text-muted-foreground mt-0.5">{u.meta}</div>}
                       </td>
-                      <td className="px-4 py-3 text-right">
+                      <td className="px-3 sm:px-4 py-3 text-right">
                         <a href={u.url} target="_blank" rel="noopener noreferrer"
                           className="inline-flex items-center gap-1 text-primary hover:underline font-mono text-[10px] uppercase tracking-widest">
-                          Aceder <ExternalLink className="size-3" />
+                          <span className="hidden sm:inline">Aceder</span> <ExternalLink className="size-3" />
                         </a>
                       </td>
                     </tr>
