@@ -107,9 +107,9 @@ function Dashboard() {
   const upcomingList = upcomingSorted();
 
   return (
-    <div className="min-h-screen bg-background text-foreground p-6 md:p-12 pb-32">
+    <div className="min-h-screen bg-background text-foreground p-4 sm:p-6 md:p-12 pb-32">
       {/* Top bar with social icons */}
-      <div className="max-w-7xl mx-auto flex justify-end gap-2 mb-6">
+      <div className="max-w-7xl mx-auto flex flex-wrap justify-end gap-2 mb-6">
         {socialLinks.map(({ href, Icon, label }) => (
           <a key={label} href={href} target={href.startsWith("http") ? "_blank" : undefined} rel="noopener noreferrer" aria-label={label}
             className="size-9 rounded-full border border-border bg-card/40 flex items-center justify-center text-muted-foreground hover:text-primary hover:border-primary/60 transition-colors">
@@ -120,25 +120,25 @@ function Dashboard() {
 
       {/* Header */}
       <header className="max-w-7xl mx-auto mb-12 animate-fade-up">
-        <div className="flex flex-col md:flex-row items-start gap-8 pb-4">
+        <div className="flex flex-col md:flex-row items-start gap-6 md:gap-8 pb-4">
           <img
             src={profile.avatar}
             alt={profile.name}
-            className="size-32 md:size-40 rounded-2xl object-cover ring-1 ring-white/10 shrink-0"
+            className="size-24 sm:size-32 md:size-40 rounded-2xl object-cover ring-1 ring-white/10 shrink-0"
           />
           <div className="flex-1 w-full">
-            <div className="flex items-start justify-between gap-4">
+            <div className="flex flex-col sm:flex-row items-start sm:justify-between gap-4">
               <div className="space-y-4 max-w-3xl">
-                <h1 className="text-4xl md:text-6xl font-extrabold tracking-tight uppercase">{profile.name}</h1>
-                <p className="font-mono text-xs uppercase tracking-[0.3em] text-muted-foreground">{profile.title}</p>
+                <h1 className="text-3xl sm:text-4xl md:text-6xl font-extrabold tracking-tight uppercase break-words">{profile.name}</h1>
+                <p className="font-mono text-[10px] sm:text-xs uppercase tracking-[0.3em] text-muted-foreground">{profile.title}</p>
                 <p className="text-sm md:text-base text-foreground/80 leading-relaxed">
                   {profile.bio}
                 </p>
                 <a
                   href={`mailto:${CONTACT_EMAIL}`}
-                  className="inline-flex items-center gap-1.5 font-mono text-xs text-primary hover:underline"
+                  className="inline-flex items-center gap-1.5 font-mono text-xs text-primary hover:underline break-all"
                 >
-                  <Mail className="size-3" /> {CONTACT_EMAIL}
+                  <Mail className="size-3 shrink-0" /> {CONTACT_EMAIL}
                 </a>
               </div>
               <Link
