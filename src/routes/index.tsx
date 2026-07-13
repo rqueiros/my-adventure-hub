@@ -23,12 +23,12 @@ const facetOrder: Facet[] = (
 const CONTACT_EMAIL = "ricardo.queiros@gmail.com";
 
 const socialLinks = [
-  { href: profile.socials.twitter,  Icon: Twitter,  label: "Twitter" },
-  { href: profile.socials.linkedin, Icon: Linkedin, label: "LinkedIn" },
-  { href: profile.socials.github,   Icon: Github,   label: "GitHub" },
-  { href: profile.socials.youtube,  Icon: Youtube,  label: "YouTube" },
-  { href: `mailto:${CONTACT_EMAIL}`, Icon: Mail,    label: "Email" },
-  { href: "/feed.xml",              Icon: Rss,      label: "RSS — Opinion" },
+  { href: "https://www.facebook.com/rapqueiros", Icon: Facebook, label: "Facebook" },
+  { href: "https://www.instagram.com/rqueiros09/", Icon: Instagram, label: "Instagram" },
+  { href: "https://www.linkedin.com/in/rqueiros/", Icon: Linkedin, label: "LinkedIn" },
+  { href: "https://github.com/rqueiros", Icon: Github, label: "GitHub" },
+  { href: `mailto:${CONTACT_EMAIL}`, Icon: Mail, label: "Email" },
+  { href: "/feed.xml", Icon: Rss, label: "RSS — Opinion" },
 ];
 
 function upcomingSorted() {
