@@ -1,6 +1,6 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { useQuery } from "@tanstack/react-query";
-import { ExternalLink, Twitter, Linkedin, Github, Youtube, Mail, Rss, Send } from "lucide-react";
+import { ExternalLink, Facebook, Instagram, Linkedin, Github, Mail, Rss, Send } from "lucide-react";
 import { facetMeta, stats, profile, upcoming, opinion, events, fmtDate, type Facet } from "@/data/activity";
 import { fetchOrcidWorks } from "@/lib/orcid";
 
