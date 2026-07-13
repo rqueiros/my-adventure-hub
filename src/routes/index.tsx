@@ -145,7 +145,7 @@ function Dashboard() {
                 to="/contacto"
                 className="shrink-0 inline-flex items-center gap-2 rounded-lg bg-primary text-primary-foreground px-4 py-2 font-mono text-[11px] uppercase tracking-widest hover:opacity-90 transition-opacity"
               >
-                <Send className="size-3.5" /> Pedir formação
+                <Send className="size-3.5" /> Pedir formação/workshop
               </Link>
             </div>
           </div>
