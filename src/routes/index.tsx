@@ -3,7 +3,7 @@ import { useQuery } from "@tanstack/react-query";
 import { ExternalLink, Twitter, Linkedin, Github, Youtube, Mail, Rss, Send } from "lucide-react";
 import { facetMeta, stats, profile, upcoming, opinion, events, fmtDate, type Facet } from "@/data/activity";
 import { fetchOrcidWorks } from "@/lib/orcid";
-import { YearMetrics } from "@/components/YearMetrics";
+
 
 export const Route = createFileRoute("/")({
   component: Dashboard,
@@ -185,7 +185,7 @@ function Dashboard() {
           </div>
         </section>
 
-        <YearMetrics />
+        
 
         {/* Featured: latest op-ed + 3 last events, 2 per row */}
         {featureCards.length > 0 && (
