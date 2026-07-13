@@ -145,7 +145,7 @@ function Dashboard() {
                 to="/contacto"
                 className="shrink-0 inline-flex items-center gap-2 rounded-lg bg-primary text-primary-foreground px-4 py-2 font-mono text-[11px] uppercase tracking-widest hover:opacity-90 transition-opacity"
               >
-                <Send className="size-3.5" /> Pedir formação
+                <Send className="size-3.5" /> Pedir formação/workshop
               </Link>
             </div>
           </div>
@@ -173,9 +173,6 @@ function Dashboard() {
                 >
                   <div className="flex items-start justify-between mb-4">
                     <Icon className={`size-6 ${m.color}`} strokeWidth={1.5} />
-                    <span className="font-mono text-[9px] text-muted-foreground tracking-widest">
-                      {m.code}
-                    </span>
                   </div>
                   <div className={`text-4xl font-extrabold mb-1 ${m.color}`}>
                     {f === "articles" ? <ArticlesCount fallback={s.count} /> : s.count}
