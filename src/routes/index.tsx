@@ -107,9 +107,9 @@ function Dashboard() {
   const upcomingList = upcomingSorted();
 
   return (
-    <div className="min-h-screen bg-background text-foreground p-6 md:p-12 pb-32">
+    <div className="min-h-screen bg-background text-foreground p-4 sm:p-6 md:p-12 pb-32">
       {/* Top bar with social icons */}
-      <div className="max-w-7xl mx-auto flex justify-end gap-2 mb-6">
+      <div className="max-w-7xl mx-auto flex flex-wrap justify-end gap-2 mb-6">
         {socialLinks.map(({ href, Icon, label }) => (
           <a key={label} href={href} target={href.startsWith("http") ? "_blank" : undefined} rel="noopener noreferrer" aria-label={label}
             className="size-9 rounded-full border border-border bg-card/40 flex items-center justify-center text-muted-foreground hover:text-primary hover:border-primary/60 transition-colors">
@@ -120,25 +120,25 @@ function Dashboard() {
 
       {/* Header */}
       <header className="max-w-7xl mx-auto mb-12 animate-fade-up">
-        <div className="flex flex-col md:flex-row items-start gap-8 pb-4">
+        <div className="flex flex-col md:flex-row items-start gap-6 md:gap-8 pb-4">
           <img
             src={profile.avatar}
             alt={profile.name}
-            className="size-32 md:size-40 rounded-2xl object-cover ring-1 ring-white/10 shrink-0"
+            className="size-24 sm:size-32 md:size-40 rounded-2xl object-cover ring-1 ring-white/10 shrink-0"
           />
           <div className="flex-1 w-full">
-            <div className="flex items-start justify-between gap-4">
+            <div className="flex flex-col sm:flex-row items-start sm:justify-between gap-4">
               <div className="space-y-4 max-w-3xl">
-                <h1 className="text-4xl md:text-6xl font-extrabold tracking-tight uppercase">{profile.name}</h1>
-                <p className="font-mono text-xs uppercase tracking-[0.3em] text-muted-foreground">{profile.title}</p>
+                <h1 className="text-3xl sm:text-4xl md:text-6xl font-extrabold tracking-tight uppercase break-words">{profile.name}</h1>
+                <p className="font-mono text-[10px] sm:text-xs uppercase tracking-[0.3em] text-muted-foreground">{profile.title}</p>
                 <p className="text-sm md:text-base text-foreground/80 leading-relaxed">
                   {profile.bio}
                 </p>
                 <a
                   href={`mailto:${CONTACT_EMAIL}`}
-                  className="inline-flex items-center gap-1.5 font-mono text-xs text-primary hover:underline"
+                  className="inline-flex items-center gap-1.5 font-mono text-xs text-primary hover:underline break-all"
                 >
-                  <Mail className="size-3" /> {CONTACT_EMAIL}
+                  <Mail className="size-3 shrink-0" /> {CONTACT_EMAIL}
                 </a>
               </div>
               <Link
@@ -243,11 +243,11 @@ function Dashboard() {
             <table className="w-full text-sm">
               <thead className="bg-white/[0.03] font-mono text-[10px] uppercase tracking-widest text-muted-foreground">
                 <tr>
-                  <th className="text-left px-4 py-3 w-24">Imagem</th>
-                  <th className="text-left px-4 py-3 w-28">Data</th>
-                  <th className="text-left px-4 py-3 w-32">Facet</th>
-                  <th className="text-left px-4 py-3">Título</th>
-                  <th className="text-right px-4 py-3 w-20">Link</th>
+                  <th className="text-left px-3 sm:px-4 py-3 w-20 sm:w-24 hidden sm:table-cell">Imagem</th>
+                  <th className="text-left px-3 sm:px-4 py-3 w-24 sm:w-28">Data</th>
+                  <th className="text-left px-3 sm:px-4 py-3 w-32 hidden md:table-cell">Facet</th>
+                  <th className="text-left px-3 sm:px-4 py-3">Título</th>
+                  <th className="text-right px-3 sm:px-4 py-3 w-16 sm:w-20">Link</th>
                 </tr>
               </thead>
               <tbody className="divide-y divide-border">
@@ -256,26 +256,29 @@ function Dashboard() {
                   const Icon = m.icon;
                   return (
                     <tr key={u.id} className="hover:bg-white/[0.02]">
-                      <td className="px-4 py-3">
+                      <td className="px-3 sm:px-4 py-3 hidden sm:table-cell">
                         <img src={u.image} alt={u.title} loading="lazy"
                           className="w-20 h-14 object-cover rounded ring-1 ring-white/10" />
                       </td>
-                      <td className="px-4 py-3 font-mono text-[10px] text-muted-foreground whitespace-nowrap">
+                      <td className="px-3 sm:px-4 py-3 font-mono text-[10px] text-muted-foreground whitespace-nowrap">
                         {fmtDate(u.date)}
                       </td>
-                      <td className="px-4 py-3">
+                      <td className="px-3 sm:px-4 py-3 hidden md:table-cell">
                         <Link to={m.path} className={`inline-flex items-center gap-1.5 font-mono text-[10px] tracking-widest ${m.color} hover:underline`}>
                           <Icon className="size-3" /> {m.label}
                         </Link>
                       </td>
-                      <td className="px-4 py-3 font-medium text-white/90">
-                        {u.title}
+                      <td className="px-3 sm:px-4 py-3 font-medium text-white/90">
+                        <Link to={m.path} className={`md:hidden inline-flex items-center gap-1 font-mono text-[9px] tracking-widest ${m.color} mb-1`}>
+                          <Icon className="size-2.5" /> {m.label}
+                        </Link>
+                        <div>{u.title}</div>
                         {u.meta && <div className="text-[10px] text-muted-foreground mt-0.5">{u.meta}</div>}
                       </td>
-                      <td className="px-4 py-3 text-right">
+                      <td className="px-3 sm:px-4 py-3 text-right">
                         <a href={u.url} target="_blank" rel="noopener noreferrer"
                           className="inline-flex items-center gap-1 text-primary hover:underline font-mono text-[10px] uppercase tracking-widest">
-                          Aceder <ExternalLink className="size-3" />
+                          <span className="hidden sm:inline">Aceder</span> <ExternalLink className="size-3" />
                         </a>
                       </td>
                     </tr>
