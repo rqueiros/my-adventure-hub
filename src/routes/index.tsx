@@ -173,9 +173,6 @@ function Dashboard() {
                 >
                   <div className="flex items-start justify-between mb-4">
                     <Icon className={`size-6 ${m.color}`} strokeWidth={1.5} />
-                    <span className="font-mono text-[9px] text-muted-foreground tracking-widest">
-                      {m.code}
-                    </span>
                   </div>
                   <div className={`text-4xl font-extrabold mb-1 ${m.color}`}>
                     {f === "articles" ? <ArticlesCount fallback={s.count} /> : s.count}
