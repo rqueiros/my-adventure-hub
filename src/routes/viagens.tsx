@@ -31,7 +31,7 @@ function Page() {
   const filteredIds = new Set(filtered.map((t) => t.id));
 
   return (
-    <div className="min-h-screen bg-background text-foreground p-6 md:p-12 pb-32">
+    <div className="min-h-screen bg-background text-foreground p-4 sm:p-6 md:p-12 pb-32">
       <div className="max-w-6xl mx-auto animate-fade-up">
         <Link to="/" className="font-mono text-[10px] tracking-[0.3em] text-muted-foreground hover:text-primary uppercase">← Dashboard</Link>
         <header className="mt-6 border-b border-border pb-8 mb-8">
@@ -135,34 +135,34 @@ function Page() {
           <table className="w-full text-sm">
             <thead className="bg-white/[0.03] font-mono text-[10px] uppercase tracking-widest text-muted-foreground">
               <tr>
-                <th className="text-left px-4 py-3 w-28">Foto</th>
-                <th className="text-left px-4 py-3 w-28">Data</th>
-                <th className="text-left px-4 py-3">Destino</th>
+                <th className="text-left px-3 sm:px-4 py-3 w-20 sm:w-28 hidden sm:table-cell">Foto</th>
+                <th className="text-left px-3 sm:px-4 py-3 w-24 sm:w-28">Data</th>
+                <th className="text-left px-3 sm:px-4 py-3">Destino</th>
                 <th className="text-left px-4 py-3 hidden md:table-cell">Continente</th>
                 <th className="text-left px-4 py-3 hidden md:table-cell w-24">Duração</th>
-                <th className="text-right px-4 py-3 w-20">Link</th>
+                <th className="text-right px-3 sm:px-4 py-3 w-16 sm:w-20">Link</th>
               </tr>
             </thead>
             <tbody className="divide-y divide-border">
               {filtered.map((t) => (
                 <tr key={t.id} className="hover:bg-white/[0.02]">
-                  <td className="px-4 py-3">
+                  <td className="px-3 sm:px-4 py-3 hidden sm:table-cell">
                     <img src={t.image} alt={t.title} loading="lazy"
                       className="w-24 h-16 object-cover rounded ring-1 ring-white/10" />
                   </td>
-                  <td className="px-4 py-3 font-mono text-[10px] text-muted-foreground whitespace-nowrap">
+                  <td className="px-3 sm:px-4 py-3 font-mono text-[10px] text-muted-foreground whitespace-nowrap">
                     {fmtDate(t.date)}
                   </td>
-                  <td className="px-4 py-3 font-medium">
+                  <td className="px-3 sm:px-4 py-3 font-medium">
                     {t.country} — {t.title}
                     {t.subtitle && <div className="text-[10px] text-muted-foreground mt-0.5">{t.subtitle}</div>}
                   </td>
                   <td className="px-4 py-3 text-muted-foreground hidden md:table-cell">{t.continent}</td>
                   <td className="px-4 py-3 text-muted-foreground hidden md:table-cell font-mono text-[11px]">{t.meta}</td>
-                  <td className="px-4 py-3 text-right">
+                  <td className="px-3 sm:px-4 py-3 text-right">
                     <a href={t.url} target="_blank" rel="noopener noreferrer"
                       className="inline-flex items-center gap-1 text-primary hover:underline font-mono text-[10px] uppercase tracking-widest">
-                      Aceder <ExternalLink className="size-3" />
+                      <span className="hidden sm:inline">Aceder</span> <ExternalLink className="size-3" />
                     </a>
                   </td>
                 </tr>
