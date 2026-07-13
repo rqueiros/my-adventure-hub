@@ -25,7 +25,7 @@ function Page() {
   }
 
   return (
-    <div className="min-h-screen bg-background text-foreground p-6 md:p-12 pb-32">
+    <div className="min-h-screen bg-background text-foreground p-4 sm:p-6 md:p-12 pb-32">
       <article className="max-w-3xl mx-auto animate-fade-up">
         <Link to="/opiniao" className="font-mono text-[10px] tracking-[0.3em] text-muted-foreground hover:text-primary uppercase">← All Opinion</Link>
 
