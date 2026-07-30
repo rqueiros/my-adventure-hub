@@ -49,69 +49,34 @@ function Page() {
           com diferentes culturas. Filtre por ano para focar uma temporada.
         </p>
 
-        {/* World map — smaller, with country outlines */}
-        <section className="mb-10 flex justify-center">
-          <div className="relative border border-border rounded-xl overflow-hidden bg-slate-950 w-full max-w-3xl">
-            <svg viewBox={`0 0 ${MAP_W} ${MAP_H}`} className="relative w-full h-auto block" xmlns="http://www.w3.org/2000/svg">
-              {/* Ocean */}
-              <rect x="0" y="0" width={MAP_W} height={MAP_H} className="fill-slate-900" />
-              {/* Continent outlines (equirectangular) */}
-              <image
-                href="https://upload.wikimedia.org/wikipedia/commons/8/83/Equirectangular_projection_SW.jpg"
-                x="0" y="0" width={MAP_W} height={MAP_H}
-                preserveAspectRatio="none"
-                opacity={0.35}
-              />
-              {/* Latitude / longitude grid */}
-              {Array.from({ length: 11 }).map((_, i) => (
-                <line
-                  key={`h-${i}`}
-                  x1={0}
-                  x2={MAP_W}
-                  y1={(i * MAP_H) / 10}
-                  y2={(i * MAP_H) / 10}
-                  className="stroke-slate-500/25"
-                  strokeWidth={0.5}
-                />
-              ))}
-              {Array.from({ length: 19 }).map((_, i) => (
-                <line
-                  key={`v-${i}`}
-                  y1={0}
-                  y2={MAP_H}
-                  x1={(i * MAP_W) / 18}
-                  x2={(i * MAP_W) / 18}
-                  className="stroke-slate-500/25"
-                  strokeWidth={0.5}
-                />
-              ))}
-              {/* Equator */}
-              <line x1={0} x2={MAP_W} y1={MAP_H / 2} y2={MAP_H / 2} className="stroke-slate-400/40" strokeWidth={0.8} />
-              {/* Country dots */}
-              {travels.map((t) => {
-                const { x, y } = project(t.lat, t.lng);
-                const active = filteredIds.has(t.id);
-                return (
-                  <g key={t.id} className={active ? "" : "opacity-40"}>
-                    <circle cx={x} cy={y} r={active ? 11 : 6} className="fill-sky-400/25" />
-                    <circle cx={x} cy={y} r={active ? 4.5 : 3} className="fill-sky-400" />
-                    <text
-                      x={x + 8}
-                      y={y - 8}
-                      className="fill-sky-100 font-mono"
-                      style={{ fontSize: "10px", paintOrder: "stroke", stroke: "rgba(0,0,0,0.85)", strokeWidth: 3 }}
-                    >
-                      {t.country}
-                    </text>
-                  </g>
-                );
-              })}
-            </svg>
-            <div className="absolute bottom-3 right-4 font-mono text-[10px] uppercase tracking-widest text-muted-foreground bg-background/60 px-2 py-1 rounded">
-              {filtered.length}/{travels.length} destacadas
-            </div>
+        {/* Últimas 3 viagens em destaque */}
+        <section className="mb-10">
+          <h2 className="font-mono text-[10px] uppercase tracking-[0.3em] text-muted-foreground mb-4">
+            Últimas viagens
+          </h2>
+          <div className="grid sm:grid-cols-3 gap-4">
+            {latest.map((t) => (
+              <a
+                key={t.id}
+                href={t.url}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="group border border-border rounded-xl overflow-hidden bg-card/40 hover:border-primary/60 transition-colors flex flex-col"
+              >
+                <div className="aspect-[16/10] overflow-hidden bg-white/5">
+                  <img src={t.image} alt={t.title} loading="lazy"
+                    className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" />
+                </div>
+                <div className="p-4">
+                  <span className="font-mono text-[10px] text-muted-foreground tracking-widest">{fmtDate(t.date)}</span>
+                  <h3 className="text-base font-bold leading-tight mt-1">{t.country} — {t.title}</h3>
+                  <p className="text-xs text-muted-foreground mt-1 font-mono">{t.continent}{t.meta ? ` // ${t.meta}` : ""}</p>
+                </div>
+              </a>
+            ))}
           </div>
         </section>
+
 
         {/* Year filter */}
         <div className="flex flex-wrap items-center gap-3 mb-6">
