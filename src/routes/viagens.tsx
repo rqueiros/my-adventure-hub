@@ -7,7 +7,7 @@ export const Route = createFileRoute("/viagens")({
   component: Page,
   head: () => ({ meta: [
     { title: "Viagens — Ricardo Queirós" },
-    { name: "description", content: "Viagens filtráveis por ano, com um mapa-mundo dos países visitados." },
+    { name: "description", content: "Viagens filtráveis por ano, com destaque para as últimas viagens realizadas." },
   ]}),
 });
 
