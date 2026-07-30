@@ -62,10 +62,11 @@ export function ItemCard({
           {shareable && (
             <ShareButtons
               title={title}
-              url={url}
+              image={image}
               defaultText={shareText ?? `${title}${subtitle ? ` — ${subtitle}` : ""}`}
             />
           )}
+
         </div>
 
       </div>
