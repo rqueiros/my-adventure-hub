@@ -50,14 +50,24 @@ export function ItemCard({
         <h2 className="text-lg font-bold leading-tight">{title}</h2>
         {subtitle && <p className="text-sm text-muted-foreground mt-1">{subtitle}</p>}
         {meta && <p className="text-xs text-muted-foreground mt-3 font-mono">// {meta}</p>}
-        <a
-          href={url}
-          target="_blank"
-          rel="noopener noreferrer"
-          className="mt-4 inline-flex items-center gap-1.5 font-mono text-[10px] uppercase tracking-widest text-primary hover:underline"
-        >
-          Aceder <ExternalLink className="size-3" />
-        </a>
+        <div className="mt-4 flex items-center justify-between gap-3">
+          <a
+            href={url}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="inline-flex items-center gap-1.5 font-mono text-[10px] uppercase tracking-widest text-primary hover:underline"
+          >
+            Aceder <ExternalLink className="size-3" />
+          </a>
+          {shareable && (
+            <ShareButtons
+              title={title}
+              url={url}
+              defaultText={shareText ?? `${title}${subtitle ? ` — ${subtitle}` : ""}`}
+            />
+          )}
+        </div>
+
       </div>
     </article>
   );
