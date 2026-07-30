@@ -1,5 +1,6 @@
 import { ExternalLink } from "lucide-react";
 import { fmtDate } from "@/data/activity";
+import { ShareButtons } from "@/components/ShareButtons";
 
 export function ItemCard({
   date,
@@ -10,6 +11,8 @@ export function ItemCard({
   image,
   url,
   badge,
+  shareable,
+  shareText,
 }: {
   date: string;
   title: string;
@@ -19,7 +22,10 @@ export function ItemCard({
   image: string;
   url: string;
   badge?: { label: string; className?: string };
+  shareable?: boolean;
+  shareText?: string;
 }) {
+
   return (
     <article className="group bg-card/40 border border-border rounded-xl overflow-hidden hover:border-primary/60 transition-colors flex flex-col">
       <a href={url} target="_blank" rel="noopener noreferrer" className="block aspect-[16/10] overflow-hidden bg-white/5">
@@ -44,14 +50,24 @@ export function ItemCard({
         <h2 className="text-lg font-bold leading-tight">{title}</h2>
         {subtitle && <p className="text-sm text-muted-foreground mt-1">{subtitle}</p>}
         {meta && <p className="text-xs text-muted-foreground mt-3 font-mono">// {meta}</p>}
-        <a
-          href={url}
-          target="_blank"
-          rel="noopener noreferrer"
-          className="mt-4 inline-flex items-center gap-1.5 font-mono text-[10px] uppercase tracking-widest text-primary hover:underline"
-        >
-          Aceder <ExternalLink className="size-3" />
-        </a>
+        <div className="mt-4 flex items-center justify-between gap-3">
+          <a
+            href={url}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="inline-flex items-center gap-1.5 font-mono text-[10px] uppercase tracking-widest text-primary hover:underline"
+          >
+            Aceder <ExternalLink className="size-3" />
+          </a>
+          {shareable && (
+            <ShareButtons
+              title={title}
+              url={url}
+              defaultText={shareText ?? `${title}${subtitle ? ` — ${subtitle}` : ""}`}
+            />
+          )}
+        </div>
+
       </div>
     </article>
   );
