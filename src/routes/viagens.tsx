@@ -11,14 +11,6 @@ export const Route = createFileRoute("/viagens")({
   ]}),
 });
 
-// Equirectangular projection helper
-const MAP_W = 1000;
-const MAP_H = 500;
-const project = (lat: number, lng: number) => ({
-  x: ((lng + 180) / 360) * MAP_W,
-  y: ((90 - lat) / 180) * MAP_H,
-});
-
 function Page() {
   const years = Array.from(new Set(travels.map((t) => new Date(t.date).getFullYear()))).sort((a, b) => b - a);
   const [year, setYear] = useState<number | "ALL">("ALL");
@@ -27,8 +19,8 @@ function Page() {
     .filter((t) => year === "ALL" || new Date(t.date).getFullYear() === year)
     .sort((a, b) => b.date.localeCompare(a.date));
 
-  // Map shows all visited countries (unique), highlighting the filtered year
-  const filteredIds = new Set(filtered.map((t) => t.id));
+  const latest = [...travels].sort((a, b) => b.date.localeCompare(a.date)).slice(0, 3);
+
 
   return (
     <div className="min-h-screen bg-background text-foreground p-4 sm:p-6 md:p-12 pb-32">
