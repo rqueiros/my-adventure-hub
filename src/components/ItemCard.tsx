@@ -1,5 +1,6 @@
 import { ExternalLink } from "lucide-react";
 import { fmtDate } from "@/data/activity";
+import { ShareButtons } from "@/components/ShareButtons";
 
 export function ItemCard({
   date,
@@ -10,6 +11,8 @@ export function ItemCard({
   image,
   url,
   badge,
+  shareable,
+  shareText,
 }: {
   date: string;
   title: string;
@@ -19,7 +22,10 @@ export function ItemCard({
   image: string;
   url: string;
   badge?: { label: string; className?: string };
+  shareable?: boolean;
+  shareText?: string;
 }) {
+
   return (
     <article className="group bg-card/40 border border-border rounded-xl overflow-hidden hover:border-primary/60 transition-colors flex flex-col">
       <a href={url} target="_blank" rel="noopener noreferrer" className="block aspect-[16/10] overflow-hidden bg-white/5">
