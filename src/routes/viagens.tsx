@@ -3,6 +3,16 @@ import { createFileRoute, Link } from "@tanstack/react-router";
 import { travels, stats } from "@/data/activity";
 import { ItemCard } from "@/components/ItemCard";
 
+const CONTINENT_LABEL: Record<string, string> = {
+  Africa: "África",
+  Asia: "Ásia",
+  Europe: "Europa",
+  "North America": "América do Norte",
+  "South America": "América do Sul",
+  Oceania: "Oceania",
+};
+
+
 export const Route = createFileRoute("/viagens")({
   component: Page,
   head: () => ({ meta: [
