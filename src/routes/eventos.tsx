@@ -71,9 +71,6 @@ function Page() {
               image={e.image}
               url={e.url}
               badge={{ label: eventKindLabel[e.kind] ?? e.kind, className: "text-fuchsia-300 border-fuchsia-400/40" }}
-              shareable
-              shareText={`${e.title}${e.subtitle ? ` — ${e.subtitle}` : ""}`}
-
             />
           ))}
         </div>
