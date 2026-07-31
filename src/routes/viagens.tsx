@@ -3,6 +3,16 @@ import { createFileRoute, Link } from "@tanstack/react-router";
 import { travels, stats } from "@/data/activity";
 import { ItemCard } from "@/components/ItemCard";
 
+const CONTINENT_LABEL: Record<string, string> = {
+  Africa: "África",
+  Asia: "Ásia",
+  Europe: "Europa",
+  "North America": "América do Norte",
+  "South America": "América do Sul",
+  Oceania: "Oceania",
+};
+
+
 export const Route = createFileRoute("/viagens")({
   component: Page,
   head: () => ({ meta: [
@@ -50,30 +60,31 @@ function Page() {
         </p>
 
         {/* Estatística por continente */}
-        <section className="mb-10 border border-border rounded-xl p-5 bg-card/40">
-          <h2 className="font-mono text-[10px] uppercase tracking-[0.3em] text-muted-foreground mb-5">
+        <section className="mb-8 border border-border rounded-xl p-4 bg-card/40">
+          <h2 className="font-mono text-[10px] uppercase tracking-[0.3em] text-muted-foreground mb-3">
             Por continente
           </h2>
-          <div className="space-y-4">
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-x-6 gap-y-3">
             {continentStats.map((c) => (
               <div key={c.continent}>
-                <div className="flex items-baseline justify-between gap-4">
-                  <span className="text-sm font-bold">{c.continent}</span>
-                  <span className="font-mono text-[10px] text-primary">{c.countries.length} país(es)</span>
+                <div className="flex items-center justify-between gap-3">
+                  <span className="text-xs font-bold">{CONTINENT_LABEL[c.continent] || c.continent}</span>
+                  <span className="font-mono text-[10px] text-primary shrink-0">{c.countries.length} país(es)</span>
                 </div>
-                <div className="h-2 mt-1.5 rounded bg-white/5 overflow-hidden">
+                <div className="h-1.5 mt-1 rounded bg-white/5 overflow-hidden">
                   <div
                     className="h-full bg-primary/70 rounded"
                     style={{ width: `${(c.countries.length / maxCountries) * 100}%` }}
                   />
                 </div>
-                <p className="text-[11px] text-muted-foreground mt-1.5 font-mono">
+                <p className="text-[10px] text-muted-foreground mt-1 font-mono leading-tight">
                   {c.countries.join(" · ")}
                 </p>
               </div>
             ))}
           </div>
         </section>
+
 
         {/* Year filter */}
         <div className="flex flex-wrap items-center gap-3 mb-6">
