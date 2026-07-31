@@ -1,6 +1,6 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
-import { ExternalLink } from "lucide-react";
 import { books, stats } from "@/data/activity";
+import { ItemCard } from "@/components/ItemCard";
 
 export const Route = createFileRoute("/livros")({
   component: Page,
@@ -32,40 +32,19 @@ function Page() {
           e curiosos.
         </p>
 
-        <div className="border border-border rounded-xl overflow-hidden">
-          <table className="w-full text-sm">
-            <thead className="bg-white/[0.03] font-mono text-[10px] uppercase tracking-widest text-muted-foreground">
-              <tr>
-                <th className="text-left px-4 py-3 w-20">Capa</th>
-                <th className="text-left px-4 py-3 w-20">Ano</th>
-                <th className="text-left px-4 py-3">Título</th>
-                <th className="text-left px-4 py-3 hidden md:table-cell">Editora</th>
-                <th className="text-right px-4 py-3 w-20">Link</th>
-              </tr>
-            </thead>
-            <tbody className="divide-y divide-border">
-              {sorted.map((b) => (
-                <tr key={b.id} className="hover:bg-white/[0.02]">
-                  <td className="px-4 py-3">
-                    <img src={b.image} alt={b.title} loading="lazy"
-                      className="w-12 h-16 object-cover rounded ring-1 ring-white/10" />
-                  </td>
-                  <td className="px-4 py-3 font-mono text-xs text-primary">{new Date(b.date).getFullYear()}</td>
-                  <td className="px-4 py-3 font-medium">
-                    {b.title}
-                    {b.meta && <div className="text-[10px] text-muted-foreground mt-0.5">{b.meta}</div>}
-                  </td>
-                  <td className="px-4 py-3 text-muted-foreground hidden md:table-cell">{b.publisher}</td>
-                  <td className="px-4 py-3 text-right">
-                    <a href={b.url} target="_blank" rel="noopener noreferrer"
-                      className="inline-flex items-center gap-1 text-primary hover:underline font-mono text-[10px] uppercase tracking-widest">
-                      Aceder <ExternalLink className="size-3" />
-                    </a>
-                  </td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
+        <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
+          {sorted.map((b) => (
+            <ItemCard
+              key={b.id}
+              date={b.date}
+              title={b.title}
+              subtitle={b.subtitle}
+              meta={b.meta}
+              image={b.image}
+              url={b.url}
+              badge={b.publisher ? { label: b.publisher, className: "text-amber-300 border-amber-400/40" } : undefined}
+            />
+          ))}
         </div>
       </div>
     </div>
