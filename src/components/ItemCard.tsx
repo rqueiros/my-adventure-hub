@@ -13,6 +13,7 @@ export function ItemCard({
   badge,
   shareable,
   shareText,
+  cover,
 }: {
   date: string;
   title: string;
@@ -24,16 +25,21 @@ export function ItemCard({
   badge?: { label: string; className?: string };
   shareable?: boolean;
   shareText?: string;
+  /** Book-cover mode: portrait frame, whole image visible (no cropping). */
+  cover?: boolean;
 }) {
 
   return (
     <article className="group bg-card/40 border border-border rounded-xl overflow-hidden hover:border-primary/60 transition-colors flex flex-col">
-      <a href={url} target="_blank" rel="noopener noreferrer" className="block aspect-[16/10] overflow-hidden bg-white/5">
+      <a href={url} target="_blank" rel="noopener noreferrer"
+        className={`block overflow-hidden bg-white/5 ${cover ? "aspect-[3/4] p-4 flex items-center justify-center" : "aspect-[16/10]"}`}>
         <img
           src={image}
           alt={title}
           loading="lazy"
-          className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+          className={cover
+            ? "max-w-full max-h-full object-contain shadow-lg group-hover:scale-[1.03] transition-transform duration-500"
+            : "w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"}
         />
       </a>
       <div className="p-5 flex-1 flex flex-col">
