@@ -32,6 +32,7 @@ function Page() {
       <div className="max-w-6xl mx-auto animate-fade-up">
         <Link to="/" className="font-mono text-[10px] tracking-[0.3em] text-muted-foreground hover:text-primary uppercase">← Dashboard</Link>
         <header className="mt-6 border-b border-border pb-8 mb-8">
+          <span className="font-mono text-[10px] text-muted-foreground tracking-[0.3em]">03 // FACET</span>
           <div className="flex flex-wrap items-end justify-between gap-6 mt-3">
             <h1 className="text-4xl md:text-6xl font-extrabold tracking-tight uppercase">Eventos</h1>
             <div className="font-mono text-xs text-muted-foreground">

@@ -1,7 +1,7 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { useQuery } from "@tanstack/react-query";
 import { CalendarClock, ExternalLink, Facebook, Instagram, Linkedin, Github, Mail, Rss, Send } from "lucide-react";
-import { facetMeta, stats, profile, upcoming, opinion, events, fmtDate, type Facet } from "@/data/activity";
+import { facetMeta, stats, profile, upcoming, opinion, events, fmtDate, eventGroupLabel, eventGroupOf, type Facet } from "@/data/activity";
 import { fetchOrcidWorks } from "@/lib/orcid";
 
 
@@ -96,7 +96,7 @@ function Dashboard() {
       subtitle: ev.subtitle,
       image: ev.image,
       date: ev.date,
-      label: `Evento · ${ev.kind}`,
+      label: `Evento · ${eventGroupLabel[eventGroupOf(ev.kind)]}`,
       href: ev.url,
       border: eMeta.border,
       bg: eMeta.bg,
