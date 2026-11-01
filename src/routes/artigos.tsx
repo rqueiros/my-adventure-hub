@@ -2,7 +2,8 @@ import { useState } from "react";
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { useQuery } from "@tanstack/react-query";
 import { ExternalLink, Loader2 } from "lucide-react";
-import { articleKindLabel, profile, fmtDate, type ArticleKind } from "@/data/activity";
+import { articleKindLabel, profile, fmtDate, yearOf, yearsOf, type ArticleKind } from "@/data/activity";
+import { YearFilter, type YearValue } from "@/components/YearFilter";
 import { fetchOrcidWorks, type OrcidWork } from "@/lib/orcid";
 
 export const Route = createFileRoute("/artigos")({
@@ -18,6 +19,7 @@ const kindOrder: ArticleKind[] = ["conference", "journal", "bookchapter", "thesi
 
 function Page() {
   const [filter, setFilter] = useState<Filter>("ALL");
+  const [year, setYear] = useState<YearValue>(new Date().getFullYear());
 
   const { data: works = [], isLoading, error } = useQuery({
     queryKey: ["orcid-works", profile.orcid],
@@ -25,9 +27,14 @@ function Page() {
     staleTime: 1000 * 60 * 60, // 1h
   });
 
-  const sorted: OrcidWork[] = [...works].sort((a, b) => b.date.localeCompare(a.date));
+  const years = Array.from(new Set([new Date().getFullYear(), ...yearsOf(works)])).sort((a, b) => b - a);
+  const byYear = year === "ALL" ? works : works.filter((a) => yearOf(a.date) === year);
+  const sorted: OrcidWork[] = [...byYear].sort((a, b) => b.date.localeCompare(a.date));
   const filtered = filter === "ALL" ? sorted : sorted.filter((a) => a.kind === filter);
-  const countOf = (k: ArticleKind) => works.filter((a) => a.kind === k).length;
+  const countOf = (k: ArticleKind) => byYear.filter((a) => a.kind === k).length;
+  const links = profile.academicLinks?.length
+    ? profile.academicLinks
+    : [{ label: "ORCID", url: `https://orcid.org/${profile.orcid}` }];
 
   return (
     <div className="min-h-screen bg-background text-foreground p-4 sm:p-6 md:p-12 pb-32">
@@ -50,11 +57,25 @@ function Page() {
           Organizada por tipo de publicação: conferências internacionais, revistas indexadas, capítulos de livro e teses.
         </p>
 
+        {/* Academic profiles */}
+        <div className="flex flex-wrap gap-2 mb-6">
+          {links.map((l) => (
+            <a key={l.label} href={l.url} target="_blank" rel="noopener noreferrer"
+              className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg border border-cyan-400/40 bg-cyan-400/10 text-cyan-300 hover:bg-cyan-400/20 font-mono text-[10px] uppercase tracking-widest transition-colors">
+              {l.label} <ExternalLink className="size-3" />
+            </a>
+          ))}
+        </div>
+
+        <div className="mt-6 mb-4">
+          <YearFilter years={years} value={year} onChange={setYear} />
+        </div>
+
         {/* Tabs */}
-        <div className="flex flex-wrap gap-2 mb-6 mt-6 font-mono text-[10px] uppercase tracking-widest">
+        <div className="flex flex-wrap gap-2 mb-6 font-mono text-[10px] uppercase tracking-widest">
           {(["ALL", ...kindOrder] as Filter[]).map((f) => {
             const active = filter === f;
-            const label = f === "ALL" ? `Todos (${works.length})` : `${articleKindLabel[f]} (${countOf(f)})`;
+            const label = f === "ALL" ? `Todos (${byYear.length})` : `${articleKindLabel[f]} (${countOf(f)})`;
             return (
               <button key={f} onClick={() => setFilter(f)}
                 className={`px-3 py-1.5 rounded border transition-colors ${
@@ -109,7 +130,7 @@ function Page() {
                   </tr>
                 ))}
                 {filtered.length === 0 && (
-                  <tr><td colSpan={5} className="text-center text-muted-foreground py-8 font-mono text-xs">Sem publicações nesta categoria.</td></tr>
+                  <tr><td colSpan={5} className="text-center text-muted-foreground py-8 font-mono text-xs">{year === "ALL" ? "Sem publicações nesta categoria." : `Sem publicações em ${year}${filter !== "ALL" ? " nesta categoria" : ""}.`}</td></tr>
                 )}
               </tbody>
             </table>
