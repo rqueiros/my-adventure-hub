@@ -38,7 +38,7 @@ Abre o ficheiro da faceta (ex.: `content/events.md`) e acrescenta um bloco ao ar
 ## Campos por faceta
 
 ### `profile.md`
-`name`, `title`, `bio`, `orcid`, `website`, `avatar`, `socials` (objecto YAML).
+`name`, `title`, `bio`, `orcid`, `website`, `avatar`, `academicLinks` (lista `label`/`url` mostrada no topo da página de artigos), `socials` (objecto YAML).
 
 ### `now.md`
 `updated`, `items` (lista de strings).
@@ -47,7 +47,7 @@ Abre o ficheiro da faceta (ex.: `content/events.md`) e acrescenta um bloco ao ar
 `id`, `title`, `date`, `publisher`, `subtitle`, `meta`, `image`, `url`.
 
 ### `events.md`
-`id`, `title`, `date`, `kind` (`talk|seminar|workshop|conference|podcast|arguencia|hackathon`), `subtitle`, `meta`, `image`, `url`.
+`id`, `title`, `date`, `kind` (`seminar|talk|workshop|conference|training|podcast|contest`), `subtitle`, `meta`, `image`, `url`.
 
 ### `projects.md`
 `id`, `title`, `date`, `subtitle`, `meta`, `image`, `url`.
@@ -62,7 +62,7 @@ Abre o ficheiro da faceta (ex.: `content/events.md`) e acrescenta um bloco ao ar
 `id`, `title`, `date`, `magazine`, `subtitle`, `image`, `url`, **`body: |`** (texto markdown indentado).
 
 ### `others.md`
-`id`, `title`, `date`, `kind` (`supervision|committee|editorial|service`), `role`, `subtitle`, `image`, `url`.
+`id`, `title`, `date`, `kind` (`arguicao|supervision|jury|committee|editorial|organization|other`), `role`, `subtitle`, `image`, `url`.
 
 ### `upcoming.md`
 `id`, `title`, `date` (futuro), `facet` (uma das chaves acima), `meta`, `image`, `url`.

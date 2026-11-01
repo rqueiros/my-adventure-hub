@@ -1,24 +1,25 @@
 import { useState } from "react";
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { ExternalLink } from "lucide-react";
-import { others, otherKindLabel, stats, fmtDate, type OtherKind } from "@/data/activity";
+import { others, otherKindLabel, otherKindOrder, otherKindOf, stats, fmtDate, yearOf } from "@/data/activity";
 
 export const Route = createFileRoute("/outros")({
   component: Page,
   head: () => ({ meta: [
     { title: "Outros — Ricardo Queirós" },
-    { name: "description", content: "Orientações, comissões de programa, conselhos editoriais e serviço científico." },
+    { name: "description", content: "Arguições, orientações, júris, comissões de programa, conselhos editoriais e organização de eventos." },
   ]}),
 });
 
-type Filter = "ALL" | OtherKind;
-const kindOrder: OtherKind[] = ["supervision", "committee", "editorial", "service"];
+type Kind = (typeof otherKindOrder)[number];
+type Filter = "ALL" | Kind;
+const kindOrder = otherKindOrder;
 
 function Page() {
   const [filter, setFilter] = useState<Filter>("ALL");
   const sorted = [...others].sort((a, b) => b.date.localeCompare(a.date));
-  const filtered = filter === "ALL" ? sorted : sorted.filter((o) => o.kind === filter);
-  const countOf = (k: OtherKind) => others.filter((o) => o.kind === k).length;
+  const filtered = filter === "ALL" ? sorted : sorted.filter((o) => otherKindOf(o.kind) === filter);
+  const countOf = (k: Kind) => others.filter((o) => otherKindOf(o.kind) === k).length;
 
   return (
     <div className="min-h-screen bg-background text-foreground p-4 sm:p-6 md:p-12 pb-32">
@@ -35,8 +36,8 @@ function Page() {
         </header>
 
         <p className="text-muted-foreground max-w-3xl mb-8 text-sm md:text-base leading-relaxed">
-          Orientações académicas, comissões de programa, conselhos editoriais e serviço científico —
-          contributos para a comunidade científica em geral.
+          Arguições, orientações, júris, comissões de programa, conselhos editoriais e organização
+          de eventos — contributos para a comunidade científica em geral, organizados por data.
         </p>
 
         <div className="flex flex-wrap gap-2 mb-6 font-mono text-[10px] uppercase tracking-widest">
@@ -59,14 +60,22 @@ function Page() {
             <thead className="bg-white/[0.03] font-mono text-[10px] uppercase tracking-widest text-muted-foreground">
               <tr>
                 <th className="text-left px-4 py-3 w-28">Imagem</th>
-                <th className="text-left px-4 py-3 w-28">Desde</th>
+                <th className="text-left px-4 py-3 w-28">Data</th>
                 <th className="text-left px-4 py-3">Título</th>
                 <th className="text-left px-4 py-3 hidden md:table-cell w-44">Tipo</th>
                 <th className="text-right px-4 py-3 w-20">Link</th>
               </tr>
             </thead>
             <tbody className="divide-y divide-border">
-              {filtered.map((o) => (
+              {filtered.map((o, i) => {
+                const y = yearOf(o.date);
+                const showYear = i === 0 || yearOf(filtered[i - 1].date) !== y;
+                return [
+                showYear && (
+                  <tr key={`y-${y}`} className="bg-white/[0.03]">
+                    <td colSpan={5} className="px-4 py-2 font-mono text-xs font-bold tracking-[0.3em] text-primary">{y ?? "—"}</td>
+                  </tr>
+                ),
                 <tr key={o.id} className="hover:bg-white/[0.02]">
                   <td className="px-4 py-3">
                     <img src={o.image} alt={o.title} loading="lazy"
@@ -82,7 +91,7 @@ function Page() {
                     )}
                   </td>
                   <td className="px-4 py-3 text-muted-foreground hidden md:table-cell text-[11px] uppercase tracking-widest">
-                    {otherKindLabel[o.kind]}
+                    {otherKindLabel[otherKindOf(o.kind)]}
                   </td>
                   <td className="px-4 py-3 text-right">
                     <a href={o.url} target="_blank" rel="noopener noreferrer"
@@ -90,8 +99,12 @@ function Page() {
                       Aceder <ExternalLink className="size-3" />
                     </a>
                   </td>
-                </tr>
-              ))}
+                </tr>,
+                ];
+              })}
+              {filtered.length === 0 && (
+                <tr><td colSpan={5} className="text-center text-muted-foreground py-8 font-mono text-xs">Sem registos nesta categoria.</td></tr>
+              )}
             </tbody>
           </table>
         </div>

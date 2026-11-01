@@ -65,14 +65,14 @@ export type Item = {
 };
 
 export type Book = Item & { publisher?: string };
-export type EventKind = "talk" | "seminar" | "workshop" | "conference" | "podcast" | "arguencia" | "hackathon";
+export type EventKind = "talk" | "seminar" | "workshop" | "conference" | "training" | "podcast" | "contest" | "hackathon";
 export type Event = Item & { kind: EventKind };
 export type Continent = "Europe" | "Asia" | "Africa" | "North America" | "South America" | "Oceania";
 export type Travel = Item & { continent: Continent; country: string; lat: number; lng: number };
 export type Distance = "10K" | "21K" | "42K";
 export type Race = Item & { distance: Distance; year: number; time: string };
 export type Opinion = Item & { magazine: string };
-export type OtherKind = "supervision" | "committee" | "editorial" | "service";
+export type OtherKind = "arguicao" | "supervision" | "jury" | "committee" | "editorial" | "organization" | "other";
 export type Other = Item & { kind: OtherKind; role?: string };
 export type UpcomingItem = Item & { facet: Facet };
 
@@ -83,6 +83,7 @@ export type Profile = {
   orcid: string;
   website: string;
   avatar: string;
+  academicLinks?: { label: string; url: string }[];
   socials: { twitter: string; linkedin: string; github: string; youtube: string; email: string };
 };
 

@@ -1,7 +1,7 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { useQuery } from "@tanstack/react-query";
-import { ExternalLink, Facebook, Instagram, Linkedin, Github, Mail, Rss, Send } from "lucide-react";
-import { facetMeta, stats, profile, upcoming, opinion, events, fmtDate, type Facet } from "@/data/activity";
+import { CalendarClock, ExternalLink, Facebook, Instagram, Linkedin, Github, Mail, Rss, Send } from "lucide-react";
+import { facetMeta, stats, profile, upcoming, opinion, events, fmtDate, eventGroupLabel, eventGroupOf, type Facet } from "@/data/activity";
 import { fetchOrcidWorks } from "@/lib/orcid";
 
 
@@ -96,7 +96,7 @@ function Dashboard() {
       subtitle: ev.subtitle,
       image: ev.image,
       date: ev.date,
-      label: `Evento · ${ev.kind}`,
+      label: `Evento · ${eventGroupLabel[eventGroupOf(ev.kind)]}`,
       href: ev.url,
       border: eMeta.border,
       bg: eMeta.bg,
@@ -105,6 +105,7 @@ function Dashboard() {
   }
 
   const upcomingList = upcomingSorted();
+  const nextUp = upcomingList[0];
 
   return (
     <div className="min-h-screen bg-background text-foreground p-4 sm:p-6 md:p-12 pb-32">
@@ -140,6 +141,23 @@ function Dashboard() {
                 >
                   <Mail className="size-3 shrink-0" /> {CONTACT_EMAIL}
                 </a>
+                {nextUp && (() => {
+                  const m = facetMeta[nextUp.facet];
+                  const NIcon = m.icon;
+                  return (
+                    <a
+                      href={nextUp.url}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="flex flex-wrap items-center gap-x-2 gap-y-1 font-mono text-xs text-muted-foreground hover:text-foreground transition-colors"
+                    >
+                      <CalendarClock className="size-3 shrink-0 text-primary" />
+                      <span className="uppercase tracking-widest text-[10px]">Próxima atividade:</span>
+                      <span className={`inline-flex items-center gap-1 ${m.color}`}><NIcon className="size-3" />{nextUp.title}</span>
+                      <span>· {fmtDate(nextUp.date)}</span>
+                    </a>
+                  );
+                })()}
               </div>
               <Link
                 to="/contacto"
