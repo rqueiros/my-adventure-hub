@@ -1,6 +1,8 @@
+import { useState } from "react";
 import { createFileRoute, Link } from "@tanstack/react-router";
-import { projects, stats } from "@/data/activity";
+import { projects, stats, yearOf, yearsOf } from "@/data/activity";
 import { ItemCard } from "@/components/ItemCard";
+import { YearFilter, YearGroups, type YearValue } from "@/components/YearFilter";
 
 export const Route = createFileRoute("/projetos")({
   component: Page,
@@ -11,7 +13,11 @@ export const Route = createFileRoute("/projetos")({
 });
 
 function Page() {
-  const sorted = [...projects].sort((a, b) => b.date.localeCompare(a.date));
+  const [year, setYear] = useState<YearValue>("ALL");
+  const years = yearsOf(projects);
+  const sorted = [...projects]
+    .filter((x) => year === "ALL" || yearOf(x.date) === year)
+    .sort((a, b) => b.date.localeCompare(a.date));
   return (
     <div className="min-h-screen bg-background text-foreground p-4 sm:p-6 md:p-12 pb-32">
       <div className="max-w-6xl mx-auto animate-fade-up">
@@ -31,9 +37,15 @@ function Page() {
           Um espaço onde as ideias de investigação ganham forma de produto.
         </p>
 
-        <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
-          {sorted.map((p) => <ItemCard key={p.id} {...p} />)}
+        <div className="mb-8">
+          <YearFilter years={years} value={year} onChange={setYear} />
         </div>
+
+        <YearGroups
+          items={sorted}
+          gridClassName="grid sm:grid-cols-2 lg:grid-cols-3 gap-6"
+          render={(p) => <ItemCard key={p.id} {...p} />}
+        />
       </div>
     </div>
   );

@@ -1,6 +1,8 @@
+import { useState } from "react";
 import { createFileRoute, Link } from "@tanstack/react-router";
-import { opinion, stats } from "@/data/activity";
+import { opinion, stats, yearOf, yearsOf } from "@/data/activity";
 import { ItemCard } from "@/components/ItemCard";
+import { YearFilter, YearGroups, type YearValue } from "@/components/YearFilter";
 
 export const Route = createFileRoute("/opiniao")({
   component: Page,
@@ -11,7 +13,11 @@ export const Route = createFileRoute("/opiniao")({
 });
 
 function Page() {
-  const sorted = [...opinion].sort((a, b) => b.date.localeCompare(a.date));
+  const [year, setYear] = useState<YearValue>("ALL");
+  const years = yearsOf(opinion);
+  const sorted = [...opinion]
+    .filter((x) => year === "ALL" || yearOf(x.date) === year)
+    .sort((a, b) => b.date.localeCompare(a.date));
   return (
     <div className="min-h-screen bg-background text-foreground p-4 sm:p-6 md:p-12 pb-32">
       <div className="max-w-6xl mx-auto animate-fade-up">
@@ -31,8 +37,14 @@ function Page() {
           educação digital, tecnologia, cultura e sociedade.
         </p>
 
-        <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
-          {sorted.map((o) => (
+        <div className="mb-8">
+          <YearFilter years={years} value={year} onChange={setYear} />
+        </div>
+
+        <YearGroups
+          items={sorted}
+          gridClassName="grid sm:grid-cols-2 lg:grid-cols-3 gap-6"
+          render={(o) => (
             <ItemCard
               key={o.id}
               date={o.date}
@@ -42,8 +54,8 @@ function Page() {
               url={o.url}
               badge={{ label: o.magazine, className: "text-rose-300 border-rose-400/40" }}
             />
-          ))}
-        </div>
+          )}
+        />
       </div>
     </div>
   );

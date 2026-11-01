@@ -1,7 +1,8 @@
 import { useState } from "react";
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { ExternalLink } from "lucide-react";
-import { others, otherKindLabel, otherKindOrder, otherKindOf, stats, fmtDate, yearOf } from "@/data/activity";
+import { others, otherKindLabel, otherKindOrder, otherKindOf, stats, fmtDate, yearOf, yearsOf } from "@/data/activity";
+import { YearFilter, type YearValue } from "@/components/YearFilter";
 
 export const Route = createFileRoute("/outros")({
   component: Page,
@@ -17,9 +18,12 @@ const kindOrder = otherKindOrder;
 
 function Page() {
   const [filter, setFilter] = useState<Filter>("ALL");
-  const sorted = [...others].sort((a, b) => b.date.localeCompare(a.date));
+  const [year, setYear] = useState<YearValue>("ALL");
+  const years = yearsOf(others);
+  const byYear = year === "ALL" ? others : others.filter((o) => yearOf(o.date) === year);
+  const sorted = [...byYear].sort((a, b) => b.date.localeCompare(a.date));
   const filtered = filter === "ALL" ? sorted : sorted.filter((o) => otherKindOf(o.kind) === filter);
-  const countOf = (k: Kind) => others.filter((o) => otherKindOf(o.kind) === k).length;
+  const countOf = (k: Kind) => byYear.filter((o) => otherKindOf(o.kind) === k).length;
 
   return (
     <div className="min-h-screen bg-background text-foreground p-4 sm:p-6 md:p-12 pb-32">
@@ -40,10 +44,14 @@ function Page() {
           de eventos — contributos para a comunidade científica em geral, organizados por data.
         </p>
 
+        <div className="mb-4">
+          <YearFilter years={years} value={year} onChange={setYear} />
+        </div>
+
         <div className="flex flex-wrap gap-2 mb-6 font-mono text-[10px] uppercase tracking-widest">
           {(["ALL", ...kindOrder] as Filter[]).map((f) => {
             const active = filter === f;
-            const label = f === "ALL" ? `Todos (${others.length})` : `${otherKindLabel[f]} (${countOf(f)})`;
+            const label = f === "ALL" ? `Todos (${byYear.length})` : `${otherKindLabel[f]} (${countOf(f)})`;
             return (
               <button key={f} onClick={() => setFilter(f)}
                 className={`px-3 py-1.5 rounded border transition-colors ${
