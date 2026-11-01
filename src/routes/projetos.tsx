@@ -32,9 +32,7 @@ function Page() {
           Um espaço onde as ideias de investigação ganham forma de produto.
         </p>
 
-        <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
-          {sorted.map((p) => <ItemCard key={p.id} {...p} />)}
-        </div>
+        <YearGroups items={sorted} render={(p) => <ItemCard key={p.id} {...p} />} />
       </div>
     </div>
   );

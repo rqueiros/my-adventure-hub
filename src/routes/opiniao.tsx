@@ -32,8 +32,9 @@ function Page() {
           educação digital, tecnologia, cultura e sociedade.
         </p>
 
-        <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
-          {sorted.map((o) => (
+        <YearGroups
+          items={sorted}
+          render={(o) => (
             <ItemCard
               key={o.id}
               date={o.date}
@@ -43,8 +44,8 @@ function Page() {
               url={o.url}
               badge={{ label: o.magazine, className: "text-rose-300 border-rose-400/40" }}
             />
-          ))}
-        </div>
+          )}
+        />
       </div>
     </div>
   );

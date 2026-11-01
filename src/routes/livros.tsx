@@ -33,10 +33,13 @@ function Page() {
           e curiosos.
         </p>
 
-        <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
-          {sorted.map((b) => (
+        <YearGroups
+          items={sorted}
+          gridClassName="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-5"
+          render={(b) => (
             <ItemCard
               key={b.id}
+              cover
               date={b.date}
               title={b.title}
               subtitle={b.subtitle}
@@ -45,8 +48,8 @@ function Page() {
               url={b.url}
               badge={b.publisher ? { label: b.publisher, className: "text-amber-300 border-amber-400/40" } : undefined}
             />
-          ))}
-        </div>
+          )}
+        />
       </div>
     </div>
   );
