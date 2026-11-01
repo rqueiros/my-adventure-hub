@@ -1,7 +1,6 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { opinion, stats } from "@/data/activity";
 import { ItemCard } from "@/components/ItemCard";
-import { YearGroups } from "@/components/YearFilter";
 
 export const Route = createFileRoute("/opiniao")({
   component: Page,
@@ -32,9 +31,8 @@ function Page() {
           educação digital, tecnologia, cultura e sociedade.
         </p>
 
-        <YearGroups
-          items={sorted}
-          render={(o) => (
+        <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
+          {sorted.map((o) => (
             <ItemCard
               key={o.id}
               date={o.date}
@@ -44,8 +42,8 @@ function Page() {
               url={o.url}
               badge={{ label: o.magazine, className: "text-rose-300 border-rose-400/40" }}
             />
-          )}
-        />
+          ))}
+        </div>
       </div>
     </div>
   );

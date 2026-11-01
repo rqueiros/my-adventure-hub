@@ -1,7 +1,6 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { projects, stats } from "@/data/activity";
 import { ItemCard } from "@/components/ItemCard";
-import { YearGroups } from "@/components/YearFilter";
 
 export const Route = createFileRoute("/projetos")({
   component: Page,
@@ -32,7 +31,9 @@ function Page() {
           Um espaço onde as ideias de investigação ganham forma de produto.
         </p>
 
-        <YearGroups items={sorted} render={(p) => <ItemCard key={p.id} {...p} />} />
+        <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
+          {sorted.map((p) => <ItemCard key={p.id} {...p} />)}
+        </div>
       </div>
     </div>
   );
