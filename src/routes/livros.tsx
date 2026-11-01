@@ -32,7 +32,7 @@ function Page() {
           </div>
         </header>
 
-        <p className="text-muted-foreground max-w-3xl mb-10 text-sm md:text-base leading-relaxed">
+        <p className="text-muted-foreground max-w-3xl mb-8 text-sm md:text-base leading-relaxed">
           Obras originais entre o ensaio técnico e a divulgação científica. Cada livro é o resultado de
           anos de investigação e prática, traduzidos numa linguagem acessível a estudantes, professores
           e curiosos.

@@ -32,7 +32,7 @@ function Page() {
           </div>
         </header>
 
-        <p className="text-muted-foreground max-w-3xl mb-12 text-sm md:text-base leading-relaxed">
+        <p className="text-muted-foreground max-w-3xl mb-8 text-sm md:text-base leading-relaxed">
           Artigos de opinião, crónicas e ensaios publicados em jornais e revistas portuguesas —
           educação digital, tecnologia, cultura e sociedade.
         </p>

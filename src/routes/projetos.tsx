@@ -32,7 +32,7 @@ function Page() {
           </div>
         </header>
 
-        <p className="text-muted-foreground max-w-3xl mb-12 text-sm md:text-base leading-relaxed">
+        <p className="text-muted-foreground max-w-3xl mb-8 text-sm md:text-base leading-relaxed">
           Software, ferramentas e experiências em curso — alguns em código aberto, outros em incubação.
           Um espaço onde as ideias de investigação ganham forma de produto.
         </p>
