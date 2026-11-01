@@ -1,6 +1,8 @@
+import { useState } from "react";
 import { createFileRoute, Link } from "@tanstack/react-router";
-import { books, stats } from "@/data/activity";
+import { books, stats, yearOf, yearsOf } from "@/data/activity";
 import { ItemCard } from "@/components/ItemCard";
+import { YearFilter, YearGroups, type YearValue } from "@/components/YearFilter";
 
 export const Route = createFileRoute("/livros")({
   component: Page,
@@ -11,7 +13,11 @@ export const Route = createFileRoute("/livros")({
 });
 
 function Page() {
-  const sorted = [...books].sort((a, b) => b.date.localeCompare(a.date));
+  const [year, setYear] = useState<YearValue>("ALL");
+  const years = yearsOf(books);
+  const sorted = [...books]
+    .filter((x) => year === "ALL" || yearOf(x.date) === year)
+    .sort((a, b) => b.date.localeCompare(a.date));
   return (
     <div className="min-h-screen bg-background text-foreground p-4 sm:p-6 md:p-12 pb-32">
       <div className="max-w-6xl mx-auto animate-fade-up">
@@ -26,14 +32,20 @@ function Page() {
           </div>
         </header>
 
-        <p className="text-muted-foreground max-w-3xl mb-10 text-sm md:text-base leading-relaxed">
+        <p className="text-muted-foreground max-w-3xl mb-8 text-sm md:text-base leading-relaxed">
           Obras originais entre o ensaio técnico e a divulgação científica. Cada livro é o resultado de
           anos de investigação e prática, traduzidos numa linguagem acessível a estudantes, professores
           e curiosos.
         </p>
 
-        <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-5">
-          {sorted.map((b) => (
+        <div className="mb-8">
+          <YearFilter years={years} value={year} onChange={setYear} />
+        </div>
+
+        <YearGroups
+          items={sorted}
+          gridClassName="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-5"
+          render={(b) => (
             <ItemCard
               key={b.id}
               cover
@@ -45,8 +57,8 @@ function Page() {
               url={b.url}
               badge={b.publisher ? { label: b.publisher, className: "text-amber-300 border-amber-400/40" } : undefined}
             />
-          ))}
-        </div>
+          )}
+        />
       </div>
     </div>
   );
