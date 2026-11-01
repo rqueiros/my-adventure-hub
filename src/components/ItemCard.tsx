@@ -38,7 +38,7 @@ export function ItemCard({
           alt={title}
           loading="lazy"
           className={cover
-            ? "max-w-full max-h-full object-contain shadow-lg group-hover:scale-[1.03] transition-transform duration-500"
+            ? "w-full h-full object-contain drop-shadow-xl group-hover:scale-[1.03] transition-transform duration-500"
             : "w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"}
         />
       </a>

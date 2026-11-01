@@ -1,6 +1,7 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { opinion, stats } from "@/data/activity";
 import { ItemCard } from "@/components/ItemCard";
+import { YearGroups } from "@/components/YearFilter";
 
 export const Route = createFileRoute("/opiniao")({
   component: Page,
