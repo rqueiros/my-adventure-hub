@@ -40,22 +40,8 @@ items:
     meta: 1h12
     image: https://images.unsplash.com/photo-1478737270239-2f02b77fc618?auto=format&fit=crop&w=1200&q=80
     url: https://open.spotify.com/
-  - id: e6
-    kind: arguencia
-    title: PhD Jury — UAlg
-    subtitle: Univ. of Algarve
-    date: "2025-02-18"
-    image: https://images.unsplash.com/photo-1523050854058-8df90110c9f1?auto=format&fit=crop&w=1200&q=80
-    url: https://www.ualg.pt/
-  - id: e7
-    kind: arguencia
-    title: MSc Jury — IPP
-    subtitle: Polytechnic of Porto
-    date: "2024-09-06"
-    image: https://images.unsplash.com/photo-1532012197267-da84d127e765?auto=format&fit=crop&w=1200&q=80
-    url: https://www.ipp.pt/
   - id: e8
-    kind: hackathon
+    kind: contest
     title: Jury — Poliempreende
     subtitle: Polytechnic of Porto
     date: "2025-05-30"
@@ -69,4 +55,12 @@ items:
     meta: 3h
     image: https://images.unsplash.com/photo-1517048676732-d65bc937f952?auto=format&fit=crop&w=1200&q=80
     url: https://inforum.org.pt/
+  - id: e10
+    kind: training
+    title: Formação — Programação Web para Docentes
+    subtitle: CIP · Politécnico do Porto
+    date: "2026-02-14"
+    meta: 12h
+    image: https://images.unsplash.com/photo-1524178232363-1fb2b075b655?auto=format&fit=crop&w=1200&q=80
+    url: https://www.ipp.pt/
 ---

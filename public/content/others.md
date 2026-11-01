@@ -41,7 +41,7 @@ items:
     image: https://images.unsplash.com/photo-1455390582262-044cdead277a?auto=format&fit=crop&w=1200&q=80
     url: https://www.dagstuhl.de/oasics/
   - id: x6
-    kind: service
+    kind: other
     role: Coordinator
     title: Distance Learning Coordination — Polytechnic of Porto (CIP)
     subtitle: Institutional role
@@ -49,11 +49,33 @@ items:
     image: https://images.unsplash.com/photo-1517245386807-bb43f82c33c4?auto=format&fit=crop&w=1200&q=80
     url: https://www.ipp.pt/
   - id: x7
-    kind: service
+    kind: jury
     role: Reviewer
     title: Computers & Education — Elsevier
     subtitle: Regular reviewer
     date: "2021-06-01"
     image: https://images.unsplash.com/photo-1432888622747-4eb9a8efeb07?auto=format&fit=crop&w=1200&q=80
     url: https://www.sciencedirect.com/journal/computers-and-education
+  - id: x8
+    kind: arguicao
+    title: PhD Jury — UAlg
+    subtitle: Univ. of Algarve
+    date: "2025-02-18"
+    image: https://images.unsplash.com/photo-1523050854058-8df90110c9f1?auto=format&fit=crop&w=1200&q=80
+    url: https://www.ualg.pt/
+  - id: x9
+    kind: arguicao
+    title: MSc Jury — IPP
+    subtitle: Polytechnic of Porto
+    date: "2024-09-06"
+    image: https://images.unsplash.com/photo-1532012197267-da84d127e765?auto=format&fit=crop&w=1200&q=80
+    url: https://www.ipp.pt/
+  - id: x10
+    kind: organization
+    role: Organizing chair
+    title: SLATE 2026 — Symposium on Languages, Applications and Technologies
+    subtitle: Porto
+    date: "2026-07-02"
+    image: https://images.unsplash.com/photo-1540575467063-178a50c2df87?auto=format&fit=crop&w=1200&q=80
+    url: https://slate.dcc.fc.up.pt/
 ---
