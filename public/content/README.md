@@ -47,7 +47,18 @@ Abre o ficheiro da faceta (ex.: `content/events.md`) e acrescenta um bloco ao ar
 `id`, `title`, `date`, `publisher`, `subtitle`, `meta`, `image`, `url`.
 
 ### `events.md`
-`id`, `title`, `date`, `kind` (`seminar|talk|workshop|conference|training|podcast|contest`), `subtitle`, `meta`, `image`, `url`.
+`id`, `title`, `date`, `kind`, `subtitle`, `meta`, `image`, `url`.
+
+| `kind` a escrever       | Aparece no site em       |
+|-------------------------|--------------------------|
+| `seminar` ou `talk`     | Seminários / Palestras   |
+| `workshop`              | Workshops                |
+| `conference`            | Conferências             |
+| `training`              | Formações                |
+| `podcast`               | Podcasts                 |
+| `contest` ou `hackathon`| Concursos                |
+
+Um valor desconhecido vai para "Seminários / Palestras".
 
 ### `projects.md`
 `id`, `title`, `date`, `subtitle`, `meta`, `image`, `url`.
@@ -62,7 +73,19 @@ Abre o ficheiro da faceta (ex.: `content/events.md`) e acrescenta um bloco ao ar
 `id`, `title`, `date`, `magazine`, `subtitle`, `image`, `url`, **`body: |`** (texto markdown indentado).
 
 ### `others.md`
-`id`, `title`, `date`, `kind` (`arguicao|supervision|jury|committee|editorial|organization|other`), `role`, `subtitle`, `image`, `url`.
+`id`, `title`, `date`, `kind`, `role`, `subtitle`, `image`, `url`.
+
+| `kind` a escrever | Aparece no site em       |
+|-------------------|--------------------------|
+| `arguicao`        | Arguições                |
+| `supervision`     | Orientações              |
+| `jury`            | Júris                    |
+| `committee`       | Comissões de Programa    |
+| `editorial`       | Conselhos Editoriais     |
+| `organization`    | Organização de Eventos   |
+| `other`           | Outros                   |
+
+Um valor desconhecido vai para "Outros".
 
 ### `upcoming.md`
 `id`, `title`, `date` (futuro), `facet` (uma das chaves acima), `meta`, `image`, `url`.
