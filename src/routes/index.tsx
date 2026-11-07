@@ -125,7 +125,7 @@ function Dashboard() {
           <img
             src={profile.avatar}
             alt={profile.name}
-            className="size-24 sm:size-32 md:size-40 rounded-2xl object-cover ring-1 ring-white/10 shrink-0"
+            className="w-24 sm:w-32 md:w-44 self-stretch rounded-2xl object-cover ring-1 ring-white/10 shrink-0"
           />
           <div className="flex-1 w-full">
             <div className="flex flex-col sm:flex-row items-start sm:justify-between gap-4">
