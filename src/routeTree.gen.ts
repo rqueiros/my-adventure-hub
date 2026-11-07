@@ -14,6 +14,7 @@ import { Route as ProjetosRouteImport } from './routes/projetos'
 import { Route as OutrosRouteImport } from './routes/outros'
 import { Route as OpiniaoRouteImport } from './routes/opiniao'
 import { Route as LivrosRouteImport } from './routes/livros'
+import { Route as FormacoesRouteImport } from './routes/formacoes'
 import { Route as EventosRouteImport } from './routes/eventos'
 import { Route as CorridasRouteImport } from './routes/corridas'
 import { Route as ContactoRouteImport } from './routes/contacto'
@@ -44,6 +45,11 @@ const OpiniaoRoute = OpiniaoRouteImport.update({
 const LivrosRoute = LivrosRouteImport.update({
   id: '/livros',
   path: '/livros',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const FormacoesRoute = FormacoesRouteImport.update({
+  id: '/formacoes',
+  path: '/formacoes',
   getParentRoute: () => rootRouteImport,
 } as any)
 const EventosRoute = EventosRouteImport.update({
@@ -83,6 +89,7 @@ export interface FileRoutesByFullPath {
   '/contacto': typeof ContactoRoute
   '/corridas': typeof CorridasRoute
   '/eventos': typeof EventosRoute
+  '/formacoes': typeof FormacoesRoute
   '/livros': typeof LivrosRoute
   '/opiniao': typeof OpiniaoRouteWithChildren
   '/outros': typeof OutrosRoute
@@ -96,6 +103,7 @@ export interface FileRoutesByTo {
   '/contacto': typeof ContactoRoute
   '/corridas': typeof CorridasRoute
   '/eventos': typeof EventosRoute
+  '/formacoes': typeof FormacoesRoute
   '/livros': typeof LivrosRoute
   '/opiniao': typeof OpiniaoRouteWithChildren
   '/outros': typeof OutrosRoute
@@ -110,6 +118,7 @@ export interface FileRoutesById {
   '/contacto': typeof ContactoRoute
   '/corridas': typeof CorridasRoute
   '/eventos': typeof EventosRoute
+  '/formacoes': typeof FormacoesRoute
   '/livros': typeof LivrosRoute
   '/opiniao': typeof OpiniaoRouteWithChildren
   '/outros': typeof OutrosRoute
@@ -125,6 +134,7 @@ export interface FileRouteTypes {
     | '/contacto'
     | '/corridas'
     | '/eventos'
+    | '/formacoes'
     | '/livros'
     | '/opiniao'
     | '/outros'
@@ -138,6 +148,7 @@ export interface FileRouteTypes {
     | '/contacto'
     | '/corridas'
     | '/eventos'
+    | '/formacoes'
     | '/livros'
     | '/opiniao'
     | '/outros'
@@ -151,6 +162,7 @@ export interface FileRouteTypes {
     | '/contacto'
     | '/corridas'
     | '/eventos'
+    | '/formacoes'
     | '/livros'
     | '/opiniao'
     | '/outros'
@@ -165,6 +177,7 @@ export interface RootRouteChildren {
   ContactoRoute: typeof ContactoRoute
   CorridasRoute: typeof CorridasRoute
   EventosRoute: typeof EventosRoute
+  FormacoesRoute: typeof FormacoesRoute
   LivrosRoute: typeof LivrosRoute
   OpiniaoRoute: typeof OpiniaoRouteWithChildren
   OutrosRoute: typeof OutrosRoute
@@ -207,6 +220,13 @@ declare module '@tanstack/react-router' {
       path: '/livros'
       fullPath: '/livros'
       preLoaderRoute: typeof LivrosRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/formacoes': {
+      id: '/formacoes'
+      path: '/formacoes'
+      fullPath: '/formacoes'
+      preLoaderRoute: typeof FormacoesRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/eventos': {
@@ -271,6 +291,7 @@ const rootRouteChildren: RootRouteChildren = {
   ContactoRoute: ContactoRoute,
   CorridasRoute: CorridasRoute,
   EventosRoute: EventosRoute,
+  FormacoesRoute: FormacoesRoute,
   LivrosRoute: LivrosRoute,
   OpiniaoRoute: OpiniaoRouteWithChildren,
   OutrosRoute: OutrosRoute,

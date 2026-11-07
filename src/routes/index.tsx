@@ -1,6 +1,6 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { useQuery } from "@tanstack/react-query";
-import { CalendarClock, ExternalLink, Facebook, Instagram, Linkedin, Github, Mail, Rss, Send } from "lucide-react";
+import { CalendarClock, ExternalLink, Facebook, Instagram, Linkedin, Github, GraduationCap, Mail, Rss } from "lucide-react";
 import { facetMeta, stats, profile, upcoming, opinion, events, fmtDate, eventGroupLabel, eventGroupOf, type Facet } from "@/data/activity";
 import { fetchOrcidWorks } from "@/lib/orcid";
 
@@ -160,10 +160,10 @@ function Dashboard() {
                 })()}
               </div>
               <Link
-                to="/contacto"
+                to="/formacoes"
                 className="shrink-0 inline-flex items-center gap-2 rounded-lg bg-primary text-primary-foreground px-4 py-2 font-mono text-[11px] uppercase tracking-widest hover:opacity-90 transition-opacity"
               >
-                <Send className="size-3.5" /> Pedir formação/workshop
+                <GraduationCap className="size-3.5" /> Ver principais formações
               </Link>
             </div>
           </div>

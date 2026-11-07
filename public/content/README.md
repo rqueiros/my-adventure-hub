@@ -16,6 +16,7 @@ content/
   opinion.md      # items: [...] (cada item tem campo `body: |` em markdown)
   others.md       # items: [...]
   upcoming.md     # items: [...]
+  formacoes.md    # items: [...] (formações que dás: title, hours, synopsis, topics)
 ```
 
 ## Adicionar um item
@@ -86,6 +87,18 @@ Um valor desconhecido vai para "Seminários / Palestras".
 | `other`           | Outros                   |
 
 Um valor desconhecido vai para "Outros".
+
+### `formacoes.md`
+
+```yaml
+  - id: f8
+    title: Nome da formação
+    hours: 20
+    synopsis: Texto curto de apresentação.
+    topics:
+      - Tópico 1
+      - Tópico 2
+```
 
 ### `upcoming.md`
 `id`, `title`, `date` (futuro), `facet` (uma das chaves acima), `meta`, `image`, `url`.

@@ -75,6 +75,7 @@ export type Opinion = Item & { magazine: string };
 export type OtherKind = "arguicao" | "supervision" | "jury" | "committee" | "editorial" | "organization" | "other";
 export type Other = Item & { kind: OtherKind; role?: string };
 export type UpcomingItem = Item & { facet: Facet };
+export type Training = { id: string; title: string; hours: number; synopsis: string; topics: string[] };
 
 export type Profile = {
   name: string;
@@ -100,6 +101,7 @@ export const running: Race[] = [];
 export const opinion: Opinion[] = [];
 export const others: Other[] = [];
 export const upcoming: UpcomingItem[] = [];
+export const trainings: Training[] = [];
 
 export const profile: Profile = {
   name: "", title: "", bio: "", orcid: "", website: "", avatar: "",
@@ -153,7 +155,7 @@ let initPromise: Promise<void> | null = null;
 
 async function loadAll() {
   const [
-    bks, evs, prj, trv, run, opi, oth, upc, prof, nw,
+    bks, evs, prj, trv, run, opi, oth, upc, trn, prof, nw,
   ] = await Promise.all([
     fetchFacet<Book>("books"),
     fetchFacet<Event>("events"),
@@ -163,6 +165,7 @@ async function loadAll() {
     fetchFacet<Opinion>("opinion"),
     fetchFacet<Other>("others"),
     fetchFacet<UpcomingItem>("upcoming"),
+    fetchFacet<Training>("formacoes"),
     fetchMd("profile").then((m) => m.data as unknown as Profile),
     fetchMd("now").then((m) => m.data as unknown as Now),
   ]);
@@ -174,6 +177,7 @@ async function loadAll() {
   replaceArr(opinion, opi);
   replaceArr(others, oth);
   replaceArr(upcoming, upc);
+  replaceArr(trainings, trn);
   if (prof && typeof prof === "object") {
     Object.assign(profile, prof);
     if ((prof as any).socials) Object.assign(profile.socials, (prof as any).socials);

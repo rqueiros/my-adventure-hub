@@ -8,11 +8,11 @@ import {
 
 export {
   books, events, projects, travels, running, opinion, others, upcoming,
-  profile, now, facetData, useContent, refreshContent, isContentReady,
+  trainings, profile, now, facetData, useContent, refreshContent, isContentReady,
 } from "@/content/loader";
 export type {
   Facet, Item, Book, Event, EventKind, Travel, Continent, Race, Distance,
-  Opinion, Other, OtherKind, UpcomingItem, Profile, Now,
+  Opinion, Other, OtherKind, UpcomingItem, Profile, Now, Training,
 } from "@/content/loader";
 
 import type { Facet } from "@/content/loader";

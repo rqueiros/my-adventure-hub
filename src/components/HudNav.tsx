@@ -10,6 +10,7 @@ const items = [
   { to: "/viagens",  label: "VIAGENS" },
   { to: "/corridas", label: "CORRIDAS" },
   { to: "/outros",   label: "OUTROS" },
+  { to: "/formacoes", label: "FORMAÇÕES" },
 ] as const;
 
 export function HudNav() {
