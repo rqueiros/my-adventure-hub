@@ -7,7 +7,7 @@ bio: >-
   committees, editorial boards and academic juries across Portugal and abroad.
 orcid: 0000-0002-1985-6285
 website: https://www.ricardoqueiros.com
-avatar: https://dashboard.cip.ipp.pt/assets/9adc22ac-485b-4f86-877a-b352b7ff12c2?width=600&height=600&format=webp
+avatar: /images/ricardo-queiros-avatar.jpg
 academicLinks:
   - label: ORCID
     url: https://orcid.org/0000-0002-1985-6285
