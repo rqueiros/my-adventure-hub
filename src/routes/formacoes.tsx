@@ -1,7 +1,11 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { Clock, GraduationCap } from "lucide-react";
+import { useState } from "react";
+import { Clock, GraduationCap, Mail } from "lucide-react";
 import { PageShell } from "@/components/PageShell";
 import { trainings, useContent } from "@/data/activity";
+import { trainingInquiry, type Training } from "@/content/loader";
+import { Button } from "@/components/ui/button";
+import { TrainingInquiryDialog } from "@/components/TrainingInquiryDialog";
 
 export const Route = createFileRoute("/formacoes")({
   component: FormacoesPage,
@@ -15,6 +19,7 @@ export const Route = createFileRoute("/formacoes")({
 
 function FormacoesPage() {
   useContent();
+  const [selected, setSelected] = useState<Training | null>(null);
   return (
     <PageShell
       code="09"
@@ -25,9 +30,11 @@ function FormacoesPage() {
         {trainings.map((t, i) => (
           <div
             key={t.id}
-            className="animate-fade-up rounded-2xl border border-primary/40 bg-primary/10 p-6 flex flex-col"
+            className="animate-fade-up rounded-2xl border border-primary/40 bg-primary/10 overflow-hidden flex flex-col"
             style={{ animationDelay: `${i * 40}ms` }}
           >
+            {t.image && <img src={t.image} alt={t.title} width={1088} height={608} loading={i === 0 ? "eager" : "lazy"} className="aspect-video w-full object-cover" />}
+            <div className="p-5 sm:p-6 flex flex-col flex-1">
             <div className="flex items-start justify-between gap-3 mb-3">
               <GraduationCap className="size-6 text-primary shrink-0" strokeWidth={1.5} />
               <span className="inline-flex items-center gap-1.5 font-mono text-[10px] uppercase tracking-widest text-muted-foreground">
@@ -44,9 +51,12 @@ function FormacoesPage() {
                 </li>
               ))}
             </ul>
+            <div className="mt-auto pt-6"><Button variant="outline" className="w-full" onClick={() => setSelected(t)}><Mail />{trainingInquiry.button}</Button></div>
+            </div>
           </div>
         ))}
       </div>
+      {selected && <TrainingInquiryDialog key={selected.id} training={selected} onClose={() => setSelected(null)} />}
     </PageShell>
   );
 }

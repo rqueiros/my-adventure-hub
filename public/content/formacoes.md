@@ -1,8 +1,24 @@
 ---
 # Formações que dou. Cada item tem:
-#   id, title, hours (nº de horas), synopsis (texto curto), topics (lista de tópicos)
+#   id, title, hours (nº de horas), synopsis, topics, image
+inquiry:
+  button: Pedir mais informações
+  title: Pedir informações
+  name: Nome
+  email: Email
+  message: Mensagem
+  placeholder: "Indique o que gostaria de saber sobre esta formação…"
+  send: Enviar pedido
+  sending: A enviar…
+  success: "Pedido aceite pelo serviço de envio."
+  error: "Não foi possível enviar o pedido. Tente novamente."
+  invalid: "Verifique o nome, o email e a mensagem."
+  privacy: "Os dados deste pedido serão tratados pelo FormSubmit para encaminhamento a Ricardo Queirós."
+  close: Fechar
+  subject: PEDIDO RICARDOQUEIROS.COM
 items:
   - id: f1
+    image: /images/formacoes/training-generative-learning.jpg
     title: IA Generativa no Processo de Ensino e Aprendizagem
     hours: 25
     synopsis: "Como integrar ferramentas de IA generativa na planificação de aulas, criação de recursos e avaliação, com foco em uso crítico e ético."
@@ -13,6 +29,7 @@ items:
       - Avaliação e feedback assistidos por IA
       - Ética, privacidade e literacia em IA
   - id: f2
+    image: /images/formacoes/training-moodle-gamification.jpg
     title: Gamificação no Moodle
     hours: 20
     synopsis: "Estratégias e ferramentas para tornar cursos Moodle mais envolventes através de mecânicas de jogo, pontos, emblemas e narrativas."
@@ -23,6 +40,7 @@ items:
       - Desenho de percursos gamificados
       - Avaliação do impacto na motivação
   - id: f3
+    image: /images/formacoes/training-h5p.jpg
     title: Criação de Atividades Interativas com o H5P
     hours: 15
     synopsis: "Criação prática de conteúdos interativos com H5P — vídeos interativos, questionários, apresentações e jogos — integrados no Moodle."
@@ -32,6 +50,7 @@ items:
       - Questionários e jogos de revisão
       - Integração com o Moodle e relatórios
   - id: f4
+    image: /images/formacoes/training-moodle-platform.jpg
     title: A Plataforma Moodle 5.x
     hours: 25
     synopsis: "Domínio da plataforma Moodle 5.x do ponto de vista do docente: estrutura de cursos, atividades, avaliação e gestão de turmas."
@@ -41,6 +60,7 @@ items:
       - Testes, tarefas e pautas
       - Acompanhamento e relatórios de progresso
   - id: f5
+    image: /images/formacoes/training-ai-research.jpg
     title: Aprender a Investigar com IA
     hours: 20
     synopsis: "Uso de ferramentas de IA ao longo do processo de investigação: revisão de literatura, organização de ideias, escrita e análise crítica de resultados."
@@ -50,6 +70,7 @@ items:
       - Análise e síntese de documentos
       - Limites, verificação e integridade académica
   - id: f6
+    image: /images/formacoes/training-educational-agents.jpg
     title: Criação de Agentes Educacionais
     hours: 25
     synopsis: "Construção de assistentes virtuais educacionais personalizados, capazes de apoiar estudantes com conteúdos e regras definidos pelo docente."
@@ -59,6 +80,7 @@ items:
       - Ligação a conteúdos do curso
       - Teste, avaliação e melhoria do agente
   - id: f7
+    image: /images/formacoes/training-educational-mcp.jpg
     title: Criação de MCPs Educacionais
     hours: 15
     synopsis: "Introdução prática ao Model Context Protocol (MCP) para ligar ferramentas de IA a dados e serviços educacionais, criando integrações à medida."

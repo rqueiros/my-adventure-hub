@@ -93,6 +93,7 @@ Um valor desconhecido vai para "Outros".
 ```yaml
   - id: f8
     title: Nome da formação
+    image: /images/formacoes/foto.jpg
     hours: 20
     synopsis: "Texto curto de apresentação."   # entre aspas se tiver ":"
     topics:
@@ -102,6 +103,10 @@ Um valor desconhecido vai para "Outros".
 
 ### `upcoming.md`
 `id`, `title`, `date` (futuro), `facet` (uma das chaves acima), `meta`, `image`, `url`.
+
+### Pedidos de informação das formações
+
+O bloco `inquiry` em `formacoes.md` contém os textos da janela de pedido. Os pedidos seguem pelo FormSubmit para `ricardo.queiros@gmail.com`, com o assunto `PEDIDO RICARDOQUEIROS.COM` e o título da formação escolhida. É necessário confirmar o email de ativação enviado pelo FormSubmit antes de receber os pedidos. Não existe cópia guardada no site. As imagens ilustrativas das formações estão em `public/images/formacoes/`.
 
 ## Notas
 

@@ -75,7 +75,7 @@ export type Opinion = Item & { magazine: string };
 export type OtherKind = "arguicao" | "supervision" | "jury" | "committee" | "editorial" | "organization" | "other";
 export type Other = Item & { kind: OtherKind; role?: string };
 export type UpcomingItem = Item & { facet: Facet };
-export type Training = { id: string; title: string; hours: number; synopsis: string; topics: string[] };
+export type Training = { id: string; title: string; hours: number; synopsis: string; topics: string[]; image?: string };
 
 export type Profile = {
   name: string;
@@ -102,6 +102,7 @@ export const opinion: Opinion[] = [];
 export const others: Other[] = [];
 export const upcoming: UpcomingItem[] = [];
 export const trainings: Training[] = [];
+export const trainingInquiry: Record<string, string> = {};
 
 export const profile: Profile = {
   name: "", title: "", bio: "", orcid: "", website: "", avatar: "",
@@ -165,7 +166,10 @@ async function loadAll() {
     fetchFacet<Opinion>("opinion"),
     fetchFacet<Other>("others"),
     fetchFacet<UpcomingItem>("upcoming"),
-    fetchMd("formacoes").then((m) => (Array.isArray((m.data as any).items) ? (m.data as any).items : []) as Training[]),
+    fetchMd("formacoes").then((m) => {
+      if (m.data.inquiry && typeof m.data.inquiry === "object") Object.assign(trainingInquiry, m.data.inquiry);
+      return (Array.isArray(m.data.items) ? m.data.items : []) as Training[];
+    }),
     fetchMd("profile").then((m) => m.data as unknown as Profile),
     fetchMd("now").then((m) => m.data as unknown as Now),
   ]);
