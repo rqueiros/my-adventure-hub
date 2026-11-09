@@ -94,7 +94,7 @@ Um valor desconhecido vai para "Outros".
   - id: f8
     title: Nome da formação
     hours: 20
-    synopsis: Texto curto de apresentação.
+    synopsis: "Texto curto de apresentação."   # entre aspas se tiver ":"
     topics:
       - Tópico 1
       - Tópico 2

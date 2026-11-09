@@ -165,7 +165,7 @@ async function loadAll() {
     fetchFacet<Opinion>("opinion"),
     fetchFacet<Other>("others"),
     fetchFacet<UpcomingItem>("upcoming"),
-    fetchFacet<Training>("formacoes"),
+    fetchMd("formacoes").then((m) => (Array.isArray((m.data as any).items) ? (m.data as any).items : []) as Training[]),
     fetchMd("profile").then((m) => m.data as unknown as Profile),
     fetchMd("now").then((m) => m.data as unknown as Now),
   ]);
