@@ -7,3 +7,4 @@
 - [x] Explicar qual o serviço recomendado e como ativar o envio.
 - [x] Substituir as imagens das formações pelas capas reais enviadas pelo utilizador.
 - [ ] Definir a capa da formação "Criação de MCPs Educacionais" — das imagens enviadas, a que falta é uma grelha com as 7 formações.
+- [x] Todas as capas das formações com a mesma altura na página.

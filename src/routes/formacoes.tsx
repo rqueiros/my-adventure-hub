@@ -33,7 +33,7 @@ function FormacoesPage() {
             className="animate-fade-up rounded-2xl border border-primary/40 bg-primary/10 overflow-hidden flex flex-col"
             style={{ animationDelay: `${i * 40}ms` }}
           >
-            {t.image && <img src={t.image} alt={t.title} loading={i === 0 ? "eager" : "lazy"} className="w-full h-auto object-contain" />}
+            {t.image && <img src={t.image} alt={t.title} loading={i === 0 ? "eager" : "lazy"} className="h-[280px] sm:h-[420px] w-full object-contain bg-foreground" />}
             <div className="p-5 sm:p-6 flex flex-col flex-1">
             <div className="flex items-start justify-between gap-3 mb-3">
               <GraduationCap className="size-6 text-primary shrink-0" strokeWidth={1.5} />
