@@ -1,5 +1,6 @@
 # Formações
 - [x] Associar uma imagem a cada formação.
+- [x] Substituir imagens geradas por imagens oficiais das plataformas e verificar carregamento em computador e telemóvel.
 - [x] Acrescentar janela de pedido com nome, email e mensagem.
 - [x] Ligar os pedidos ao FormSubmit e verificar o aviso de falha sem perder os dados.
 - [ ] Confirmar receção do email — bloqueado pela ausência de resposta do FormSubmit no teste; requer teste no site publicado e ativação pelo destinatário.

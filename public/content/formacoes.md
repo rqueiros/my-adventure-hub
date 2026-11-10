@@ -18,7 +18,7 @@ inquiry:
   subject: PEDIDO RICARDOQUEIROS.COM
 items:
   - id: f1
-    image: /images/formacoes/training-generative-learning.jpg
+    image: https://ricardoqueiros.lovable.app/__l5e/assets-v1/7891c82a-8250-4149-9c2f-51bcbfba9e69/openai.png
     title: IA Generativa no Processo de Ensino e Aprendizagem
     hours: 25
     synopsis: "Como integrar ferramentas de IA generativa na planificação de aulas, criação de recursos e avaliação, com foco em uso crítico e ético."
@@ -29,7 +29,7 @@ items:
       - Avaliação e feedback assistidos por IA
       - Ética, privacidade e literacia em IA
   - id: f2
-    image: /images/formacoes/training-moodle-gamification.jpg
+    image: https://ricardoqueiros.lovable.app/__l5e/assets-v1/5d1c37da-2b0c-4c0c-98cb-a60642f44f28/moodle.svg
     title: Gamificação no Moodle
     hours: 20
     synopsis: "Estratégias e ferramentas para tornar cursos Moodle mais envolventes através de mecânicas de jogo, pontos, emblemas e narrativas."
@@ -40,7 +40,7 @@ items:
       - Desenho de percursos gamificados
       - Avaliação do impacto na motivação
   - id: f3
-    image: /images/formacoes/training-h5p.jpg
+    image: https://ricardoqueiros.lovable.app/__l5e/assets-v1/d60cd004-6cc1-4486-a11e-813e3ea7b0ec/h5p.png
     title: Criação de Atividades Interativas com o H5P
     hours: 15
     synopsis: "Criação prática de conteúdos interativos com H5P — vídeos interativos, questionários, apresentações e jogos — integrados no Moodle."
@@ -50,7 +50,7 @@ items:
       - Questionários e jogos de revisão
       - Integração com o Moodle e relatórios
   - id: f4
-    image: /images/formacoes/training-moodle-platform.jpg
+    image: https://ricardoqueiros.lovable.app/__l5e/assets-v1/5d1c37da-2b0c-4c0c-98cb-a60642f44f28/moodle.svg
     title: A Plataforma Moodle 5.x
     hours: 25
     synopsis: "Domínio da plataforma Moodle 5.x do ponto de vista do docente: estrutura de cursos, atividades, avaliação e gestão de turmas."
@@ -60,7 +60,7 @@ items:
       - Testes, tarefas e pautas
       - Acompanhamento e relatórios de progresso
   - id: f5
-    image: /images/formacoes/training-ai-research.jpg
+    image: https://ricardoqueiros.lovable.app/__l5e/assets-v1/1feef469-773b-458d-8cfa-4e67a4f0788f/notebooklm.png
     title: Aprender a Investigar com IA
     hours: 20
     synopsis: "Uso de ferramentas de IA ao longo do processo de investigação: revisão de literatura, organização de ideias, escrita e análise crítica de resultados."
@@ -70,7 +70,7 @@ items:
       - Análise e síntese de documentos
       - Limites, verificação e integridade académica
   - id: f6
-    image: /images/formacoes/training-educational-agents.jpg
+    image: https://ricardoqueiros.lovable.app/__l5e/assets-v1/7891c82a-8250-4149-9c2f-51bcbfba9e69/openai.png
     title: Criação de Agentes Educacionais
     hours: 25
     synopsis: "Construção de assistentes virtuais educacionais personalizados, capazes de apoiar estudantes com conteúdos e regras definidos pelo docente."
@@ -80,7 +80,7 @@ items:
       - Ligação a conteúdos do curso
       - Teste, avaliação e melhoria do agente
   - id: f7
-    image: /images/formacoes/training-educational-mcp.jpg
+    image: https://ricardoqueiros.lovable.app/__l5e/assets-v1/1a2468e7-f7c2-4223-8296-d228c0e20762/mcp.png
     title: Criação de MCPs Educacionais
     hours: 15
     synopsis: "Introdução prática ao Model Context Protocol (MCP) para ligar ferramentas de IA a dados e serviços educacionais, criando integrações à medida."
