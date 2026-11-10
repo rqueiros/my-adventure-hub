@@ -80,7 +80,7 @@ items:
       - Ligação a conteúdos do curso
       - Teste, avaliação e melhoria do agente
   - id: f7
-    image: https://ricardoqueiros.lovable.app/__l5e/assets-v1/1a2468e7-f7c2-4223-8296-d228c0e20762/mcp.png
+    image: https://ricardoqueiros.lovable.app/__l5e/assets-v1/fc5efd1d-9a67-4990-ba46-4ea07a3f2af1/formacao-mcp-educacionais.png
     title: Criação de MCPs Educacionais
     hours: 15
     synopsis: "Introdução prática ao Model Context Protocol (MCP) para ligar ferramentas de IA a dados e serviços educacionais, criando integrações à medida."
