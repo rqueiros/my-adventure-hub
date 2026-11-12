@@ -18,7 +18,7 @@ inquiry:
   subject: PEDIDO RICARDOQUEIROS.COM
 items:
   - id: f1
-    image: https://ricardoqueiros.lovable.app/__l5e/assets-v1/c1402440-251b-40e0-822e-1bc931c8b9d3/formacao-ia-generativa.png
+    image: https://ricardoqueiros.lovable.app/__l5e/assets-v1/653eb0a0-f3ae-4749-aba4-1542db9402dc/formacao-ia-generativa-cor.png
     title: IA Generativa no Processo de Ensino e Aprendizagem
     hours: 25
     synopsis: "Como integrar ferramentas de IA generativa na planificação de aulas, criação de recursos e avaliação, com foco em uso crítico e ético."
@@ -29,7 +29,7 @@ items:
       - Avaliação e feedback assistidos por IA
       - Ética, privacidade e literacia em IA
   - id: f2
-    image: https://ricardoqueiros.lovable.app/__l5e/assets-v1/bc98803c-9d8c-4d7f-8777-0c8e8dae4b6e/formacao-gamificacao-moodle.png
+    image: https://ricardoqueiros.lovable.app/__l5e/assets-v1/48a3d7d4-6c08-467f-b3f2-b7afe0626f25/formacao-gamificacao-moodle-cor.png
     title: Gamificação no Moodle
     hours: 20
     synopsis: "Estratégias e ferramentas para tornar cursos Moodle mais envolventes através de mecânicas de jogo, pontos, emblemas e narrativas."
@@ -40,7 +40,7 @@ items:
       - Desenho de percursos gamificados
       - Avaliação do impacto na motivação
   - id: f3
-    image: https://ricardoqueiros.lovable.app/__l5e/assets-v1/c2fcf742-c0c3-4d18-967e-755b85c62a1d/formacao-h5p-interativas.png
+    image: https://ricardoqueiros.lovable.app/__l5e/assets-v1/2333a8fc-e1c9-4740-bae2-82917d239af1/formacao-h5p-interativas-cor.png
     title: Criação de Atividades Interativas com o H5P
     hours: 15
     synopsis: "Criação prática de conteúdos interativos com H5P — vídeos interativos, questionários, apresentações e jogos — integrados no Moodle."
@@ -50,7 +50,7 @@ items:
       - Questionários e jogos de revisão
       - Integração com o Moodle e relatórios
   - id: f4
-    image: https://ricardoqueiros.lovable.app/__l5e/assets-v1/e0108735-80ec-4671-9bf9-9600df31cd34/formacao-moodle-5x.png
+    image: https://ricardoqueiros.lovable.app/__l5e/assets-v1/e9cd89a7-f695-48a8-a3ed-4f9ac4d6b4f5/formacao-moodle-5x-cor.png
     title: A Plataforma Moodle 5.x
     hours: 25
     synopsis: "Domínio da plataforma Moodle 5.x do ponto de vista do docente: estrutura de cursos, atividades, avaliação e gestão de turmas."
@@ -60,7 +60,7 @@ items:
       - Testes, tarefas e pautas
       - Acompanhamento e relatórios de progresso
   - id: f5
-    image: https://ricardoqueiros.lovable.app/__l5e/assets-v1/a3314dd6-a3aa-423e-b31f-5be575232644/formacao-investigar-ia.png
+    image: https://ricardoqueiros.lovable.app/__l5e/assets-v1/1b95be66-cf71-401a-abe3-c244fc6b86a7/formacao-investigar-ia-cor.png
     title: Aprender a Investigar com IA
     hours: 20
     synopsis: "Uso de ferramentas de IA ao longo do processo de investigação: revisão de literatura, organização de ideias, escrita e análise crítica de resultados."
@@ -70,7 +70,7 @@ items:
       - Análise e síntese de documentos
       - Limites, verificação e integridade académica
   - id: f6
-    image: https://ricardoqueiros.lovable.app/__l5e/assets-v1/2a67464c-2c6b-4543-ae40-c3af8f9112a2/formacao-agentes-educacionais.png
+    image: https://ricardoqueiros.lovable.app/__l5e/assets-v1/73a7254e-402b-4c17-ac19-262bf081dfe6/formacao-agentes-educacionais-cor.png
     title: Criação de Agentes Educacionais
     hours: 25
     synopsis: "Construção de assistentes virtuais educacionais personalizados, capazes de apoiar estudantes com conteúdos e regras definidos pelo docente."
